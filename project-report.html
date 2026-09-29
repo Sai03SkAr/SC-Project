@@ -1,0 +1,461 @@
+<title>Phishing Detection Project Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --ink:    #16181D;
+    --body:   #24272E;
+    --muted:  #5A6070;
+    --rule:   #C8CCD6;
+    --rule-l: #E3E6EC;
+    --accent: #1F3A93;
+    --tint:   #EDF0F8;
+    --warn:   #8A5A12;
+    --warn-t: #FBF3E3;
+  }
+
+  * { box-sizing: border-box; }
+
+  @page { size: A4; margin: 13mm 13mm; }
+
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    color: var(--body);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 12pt;
+    line-height: 1.36;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet { max-width: 760px; margin: 0 auto; padding: 14px 18px 26px; }
+
+  h1, h2, h3, h4, .ui { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: 0.85em; }
+
+  .title { border-bottom: 2px solid var(--ink); padding-bottom: 7px; margin-bottom: 4px; }
+  .course {
+    font-family: Archivo, sans-serif; font-size: 9.4pt; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+    margin: 0 0 4px;
+  }
+  h1 { font-size: 19.5pt; font-weight: 700; letter-spacing: -0.015em; line-height: 1.12; margin: 0 0 4px; }
+  .subtitle { font-size: 12.3pt; color: var(--muted); margin: 0; font-style: italic; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 2px 22px;
+    font-family: Archivo, sans-serif; font-size: 9.4pt; color: var(--muted);
+    padding: 4px 0 0; margin-bottom: 11px;
+  }
+
+  /* ---- objectives block ---- */
+  .objectives {
+    border: 1.5px solid var(--accent);
+    background: var(--tint);
+    padding: 9px 13px 10px;
+    margin: 0 0 13px;
+    break-inside: avoid;
+  }
+  .objectives .lbl {
+    font-family: Archivo, sans-serif; font-size: 9pt; font-weight: 700;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--accent);
+    display: block; margin-bottom: 5px;
+  }
+  .objectives ol { margin: 0; padding-left: 20px; }
+  .objectives li { margin-bottom: 2px; font-weight: 600; color: var(--ink); }
+  .objectives .foot {
+    font-size: 10.4pt; color: var(--muted); margin: 6px 0 0; font-style: italic;
+  }
+
+  h2 {
+    font-size: 14.3pt; font-weight: 700; margin: 15px 0 6px;
+    padding-bottom: 3px; border-bottom: 1px solid var(--rule);
+    break-after: avoid;
+  }
+  h3 { font-size: 11.6pt; font-weight: 600; margin: 10px 0 4px; break-after: avoid; }
+
+  p { margin: 0 0 6px; }
+  ul, ol { margin: 0 0 6px; padding-left: 18px; }
+  li { margin-bottom: 2px; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 600; color: var(--ink); }
+
+  table {
+    border-collapse: collapse; width: 100%;
+    font-family: Archivo, sans-serif; font-size: 10pt;
+    margin: 6px 0 9px; break-inside: avoid;
+  }
+  caption {
+    caption-side: top; text-align: left;
+    font-family: Archivo, sans-serif; font-size: 9pt; font-weight: 600;
+    color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;
+    padding-bottom: 3px;
+  }
+  th {
+    text-align: left; font-weight: 600; color: var(--ink);
+    padding: 4px 7px; border-bottom: 1.3px solid var(--ink);
+    border-top: 1px solid var(--rule); background: var(--tint);
+  }
+  td { padding: 3.6px 7px; border-bottom: 1px solid var(--rule-l); vertical-align: top; }
+  tr:last-child td { border-bottom: 1px solid var(--rule); }
+  td.n { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .why, .note { padding: 6px 11px; margin: 7px 0; break-inside: avoid; }
+  .why { background: var(--tint); border-left: 2.5px solid var(--accent); }
+  .note { background: var(--warn-t); border-left: 2.5px solid var(--warn); }
+  .why .lbl, .note .lbl {
+    font-family: Archivo, sans-serif; font-size: 8.8pt; font-weight: 700;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    display: block; margin-bottom: 2px;
+  }
+  .why .lbl { color: var(--accent); }
+  .note .lbl { color: var(--warn); }
+  .why p:last-child, .note p:last-child { margin-bottom: 0; }
+
+  .eq {
+    background: #F6F8FC; border: 1px solid var(--rule-l);
+    padding: 6px 10px; margin: 6px 0;
+    font-family: "JetBrains Mono", monospace; font-size: 9.6pt;
+    line-height: 1.48; white-space: pre-wrap; break-inside: avoid;
+  }
+
+  .steps { counter-reset: st; margin: 6px 0 8px; padding: 0; list-style: none; }
+  .steps > li {
+    counter-increment: st; position: relative;
+    padding-left: 22px; margin-bottom: 4px; break-inside: avoid;
+  }
+  .steps > li::before {
+    content: counter(st); position: absolute; left: 0; top: 1.5px;
+    font-family: Archivo, sans-serif; font-size: 8.4pt; font-weight: 700;
+    color: #FFFFFF; background: var(--accent);
+    width: 15px; height: 15px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps b { font-family: Archivo, sans-serif; font-size: 10.4pt; }
+
+  footer {
+    margin-top: 13px; padding-top: 7px; border-top: 1px solid var(--rule);
+    font-size: 9.6pt; color: var(--muted);
+  }
+  footer p { margin: 0 0 3px; }
+</style>
+
+<div class="sheet">
+
+  <div class="title">
+    <p class="course">Soft Computing · Project Report</p>
+    <h1>Phishing Website Detection using Multi-Objective Feature Selection</h1>
+    <p class="subtitle">Finding the fewest, fastest checks needed to catch a scam website</p>
+  </div>
+  <div class="meta">
+    <span><strong>Algorithm:</strong> SPEA2</span>
+    <span><strong>Dataset:</strong> Vrbančič Phishing Dataset</span>
+    <span><strong>Status:</strong> Proposal</span>
+  </div>
+
+  <div class="objectives">
+    <span class="lbl">Objectives</span>
+    <ol>
+      <li>To minimise the time required to detect phishing website</li>
+      <li>To maximize recall value</li>
+    </ol>
+    <p class="foot">A third quantity, the false-alarm rate, is optimised alongside these two. It is
+    not a goal in its own right but is required to make objective 2 well-posed — see Section 4.</p>
+  </div>
+
+  <!-- 1 -->
+  <h2>1. Introduction</h2>
+
+  <p>A phishing website is a fake site built to look like a real one — a bank, a college portal, a
+  payment page — so that a visitor types in their password or card details and hands them to an
+  attacker.</p>
+
+  <p>Software that inspects a link and judges whether it is genuine faces a constraint ordinary
+  classification problems do not: <strong>it must decide before the user acts.</strong> A detector
+  taking two seconds is useless, because the password has already been typed. So it must be both
+  <strong>accurate</strong> and <strong>fast</strong>, and these pull against each other, since
+  every extra check adds a little accuracy and a little delay. This project studies that trade-off
+  directly: we build a phishing detector, then use a soft-computing optimisation algorithm to find
+  which of its 111 checks are actually worth performing.</p>
+
+  <!-- 2 -->
+  <h2>2. Dataset</h2>
+
+  <p><strong>Vrbančič Phishing Dataset</strong> — G. Vrbančič, I. Fister Jr., V. Podgorelec,
+  published in <em>Data in Brief</em>, Vol. 33, 2020 (a peer-reviewed data journal).
+  DOI <span class="mono">10.1016/j.dib.2020.106438</span>. Available free as CSV from
+  <span class="mono">github.com/GregaVrbancic/Phishing-Dataset</span>, no account required.</p>
+
+  <table>
+    <caption>Table 1 — Dataset variants</caption>
+    <thead>
+      <tr><th>File</th><th>Rows</th><th>Legitimate (0)</th><th>Phishing (1)</th><th>Features</th><th>Use</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>dataset_small.csv</td><td class="n">58,645</td><td class="n">27,998</td><td class="n">30,647</td><td class="n">111</td><td>Primary — balanced classes</td></tr>
+      <tr><td>dataset_full.csv</td><td class="n">88,647</td><td class="n">58,000</td><td class="n">30,647</td><td class="n">111</td><td>Optional extra test</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>112 columns total</strong> = 111 feature columns + 1 answer column named
+  <code>phishing</code>, where <code>0</code> = legitimate and <code>1</code> = phishing. We use the
+  balanced file so that our error measurements are directly comparable and the algorithm cannot
+  score well simply by favouring the larger class.</p>
+
+  <h3>2.1 What the 111 features measure</h3>
+
+  <p>Crucially, <strong>the dataset never opens the webpage.</strong> Every feature comes from the
+  web address itself or from public records about the domain. The features split into two kinds
+  with vastly different costs.</p>
+
+  <table>
+    <caption>Table 2 — Feature groups and their cost</caption>
+    <thead>
+      <tr><th style="width:27%">Kind</th><th style="width:8%">Count</th><th>What it measures</th><th style="width:16%">Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Read from the URL text</strong><br><span style="color:var(--muted)">whole URL (19), domain (21), directory (18), file (18), parameters (20)</span></td>
+        <td class="n">96</td>
+        <td>Counts of dots, hyphens, <code>@</code>, slashes etc. within each part of the address, plus lengths. The same counts are repeated for five sections</td>
+        <td><strong>≈ 0.01 ms</strong><br>total</td>
+      </tr>
+      <tr>
+        <td><strong>External lookups</strong></td>
+        <td class="n">15</td>
+        <td>Domain age and expiry (WHOIS), DNS records, SSL certificate, Google indexing</td>
+        <td><strong>≈ 1,320 ms</strong><br>each needs a network query</td>
+      </tr>
+      <tr><td><strong>Total</strong></td><td class="n"><strong>111</strong></td><td colspan="2"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="why">
+    <span class="lbl">Why this split is the heart of the project</span>
+    <p>The 15 lookup features cost <strong>over a hundred thousand times</strong> more than the 96
+    text features. So a detector's speed is decided almost entirely by <em>how many network lookups
+    it needs</em>, not by how many features it uses. If our optimisation can discard the lookup
+    features, the detector becomes fast enough to run inside a web browser — which is exactly what
+    Objective 1 asks for.</p>
+  </div>
+
+  <h3>2.2 Why this dataset was chosen</h3>
+
+  <p>It is large enough (58,645 sites), peer-reviewed and citable, free, and needs no page download
+  — so detection can happen before the page loads. Most importantly:</p>
+
+  <div class="note">
+    <span class="lbl">Key justification — expect a question here</span>
+    <p>An older 30-feature phishing dataset (UCI) is the field's traditional benchmark, and we
+    deliberately did <strong>not</strong> use it as our primary data. With 30 features there are
+    about 1 billion possible combinations, which simpler search methods handle adequately — leaving
+    us unable to justify an advanced optimisation algorithm at all.</p>
+    <p>With <strong>111 features there are 2<sup>111</sup> ≈ 2.6 × 10<sup>33</sup></strong>
+    combinations. No computer can test them all, and no simple method searches that space well.
+    <strong>This is what makes an intelligent search algorithm genuinely necessary rather than
+    decorative</strong> — which is the point of a soft computing project.</p>
+  </div>
+
+  <!-- 3 -->
+  <h2>3. Aim</h2>
+
+  <div class="why">
+    <span class="lbl">The research question</span>
+    <p><strong>Out of 111 possible checks, what is the smallest and fastest set that still reliably
+    catches phishing websites — and what exactly does speed cost us in accuracy?</strong></p>
+  </div>
+
+  <p><strong>The classifier is the instrument, not the subject.</strong> We are not inventing a
+  better classification model; we use a standard one (Random Forest) and hold it fixed. What we
+  study is <em>which inputs it needs</em>. Nor are we looking for one answer: because speed and
+  accuracy conflict, there is no single best configuration. We produce the <strong>full set of best
+  possible trade-offs</strong>, so a deployment can pick the point that suits it.</p>
+
+  <!-- 4 -->
+  <h2>4. The Objectives in Measurable Form</h2>
+
+  <p>The two objectives stated on page 1 are expressed below as quantities the algorithm can
+  optimise, together with the third that supports them. All are written so <strong>lower is
+  better</strong>, which keeps the mathematics consistent.</p>
+
+  <table>
+    <caption>Table 3 — The objectives as optimised</caption>
+    <thead>
+      <tr><th style="width:15%">Objective</th><th style="width:20%">Definition</th><th>Why it matters</th><th style="width:17%">Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>f₁ — Detection time</strong><br><span style="color:var(--muted)">Objective 1</span></td>
+        <td>Sum of the <em>distinct</em> network lookups the selected features require</td>
+        <td>Detection must finish before the user enters any information. Range ≈ 0.01 ms (URL text only) to ≈ 1,320 ms (all features)</td>
+        <td>As low as possible</td>
+      </tr>
+      <tr>
+        <td><strong>f₂ — Missed phishing</strong><br><span style="color:var(--muted)">Objective 2</span></td>
+        <td><span class="mono">FNR = FN/(FN+TP)</span><br>= 1 − recall</td>
+        <td>Minimising this is the same as maximising recall. The most damaging error — a missed phishing site can cost a user their password, money or identity</td>
+        <td>FNR ≤ 5%<br>(published work: 4–6%)</td>
+      </tr>
+      <tr>
+        <td><strong>f₃ — False alarms</strong><br><span style="color:var(--muted)">supporting</span></td>
+        <td><span class="mono">FPR = FP/(FP+TN)</span></td>
+        <td>Blocking real websites frustrates users, who then disable the tool — leaving them less protected than before</td>
+        <td>FPR ≤ 2%<br>(best published: 0.1%)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>f₂ and f₃ both come from the same confusion matrix, so measuring them costs nothing extra.</p>
+
+  <div class="note">
+    <span class="lbl">Two questions to be ready for</span>
+    <p><strong>Why is f₃ needed if it is not one of our stated objectives?</strong> Without it the
+    optimiser finds a trivial cheat: label <em>every</em> website as phishing. Recall then reaches
+    100%, Objective 2 scores perfectly, and the detector is useless. f₃ closes that loophole — it is
+    what makes maximising recall a meaningful goal rather than a degenerate one.</p>
+    <p><strong>Why not simply count features for f₁?</strong> Counting would rank a 40-feature
+    URL-only subset (0.01 ms) as worse than a 5-feature subset needing a WHOIS query (200 ms) — when
+    the first is about 20,000 times faster. Because features <em>share</em> lookups, cost must be
+    measured by the lookups required, not the feature count.</p>
+  </div>
+
+  <h3>4.1 Why the objectives conflict</h3>
+
+  <p>Fewer features means faster detection but less information to judge on. Catching more phishing
+  means flagging more sites, which blocks more real ones. <strong>No single configuration is best on
+  all three</strong> — improving one always costs something on another. The correct output is
+  therefore not one answer but a set of best-possible compromises.</p>
+
+  <!-- 5 -->
+  <h2>5. Algorithm — SPEA2</h2>
+
+  <h3>5.1 Why an ordinary optimisation algorithm will not do</h3>
+
+  <p>The obvious approach combines the objectives into one score using weights —
+  <span class="mono">score = w₁·(time) + w₂·(missed) + w₃·(false alarms)</span>. This is called
+  <em>scalarisation</em>, and we rejected it for three reasons:</p>
+
+  <ol>
+    <li><strong>The weights would be arbitrary.</strong> There is no principled way to decide speed
+    is worth 0.6 and recall 0.3; the answer would be driven by our guess.</li>
+    <li><strong>It returns only one answer</strong> — one point on the trade-off curve. Changing
+    priorities means running everything again.</li>
+    <li><strong>It cannot reach some solutions at all.</strong> A weighted sum only finds solutions
+    on outward-curving parts of the trade-off surface; those in an inward-curving region are
+    unreachable <em>for any weights whatsoever</em>. This is a mathematical property of the method,
+    not something better tuning can fix.</li>
+  </ol>
+
+  <h3>5.2 What SPEA2 is and how it works</h3>
+
+  <p><strong>SPEA2 — Strength Pareto Evolutionary Algorithm 2</strong> (Zitzler, Laumanns and
+  Thiele, 2001) is a multi-objective evolutionary algorithm. <em>Evolutionary</em> means it works
+  like natural selection: it holds a population of candidate answers, keeps the better ones,
+  combines and mutates them into a new generation, and repeats. <em>Multi-objective</em> means it
+  optimises several goals at once without merging them into a single score.</p>
+
+  <p><strong>Each candidate is a list of 111 yes/no decisions</strong> — for each feature, keep it
+  or drop it. To judge a candidate we train the classifier using only its selected features and
+  measure the objectives.</p>
+
+  <ul class="steps">
+    <li><b>Dominance.</b> Candidate A <em>dominates</em> B if A is at least as good on all three
+    objectives and strictly better on at least one. Dominated candidates are discarded.</li>
+    <li><b>Strength.</b> Each candidate is given a strength value — the number of others it dominates.</li>
+    <li><b>Raw fitness.</b> A candidate's score is the sum of the strengths of everything that
+    dominates it. Zero means nothing dominates it — it is one of the best found.</li>
+    <li><b>Density.</b> Many candidates score zero, so ties break by how crowded each one's
+    neighbourhood is. Sparse regions are preferred, spreading results evenly instead of clustering.</li>
+    <li><b>Archive.</b> A fixed-size store holds the best candidates found so far. When it overflows,
+    the most crowded entries are removed, keeping the spread wide.</li>
+  </ul>
+
+  <p><strong>The output is a <em>Pareto front</em></strong> — the set of candidates that cannot be
+  improved on one objective without being made worse on another. This set of best possible
+  trade-offs is the project's main result.</p>
+
+  <h3>5.3 Why SPEA2 rather than the alternatives</h3>
+
+  <ol>
+    <li><strong>It handles duplicate solutions consistently, which our data produces constantly.</strong>
+    Our dataset counts the same characters across five sections of the URL, so features are heavily
+    repetitive and many <em>different</em> selections give <em>identical</em> results. SPEA2 gives
+    identical candidates identical scores; NSGA-II can give them different scores. Published research
+    identifies duplicate solutions as a specific cause of poor NSGA-II performance in feature
+    selection.</li>
+    <li><strong>Its usual disadvantage does not apply to us.</strong> SPEA2 is computationally
+    heavier than NSGA-II, but here each candidate requires training a classifier (a few hundred
+    milliseconds) while the algorithm's own bookkeeping takes microseconds — so the difference is
+    invisible.</li>
+    <li><strong>Recent research favours it.</strong> A 2025 IJCAI paper, <em>"Proven Approximation
+    Guarantees in Multi-Objective Optimization: SPEA2 Beats NSGA-II"</em>, demonstrates stronger
+    theoretical guarantees for SPEA2.</li>
+  </ol>
+
+  <p><strong>Rejected alternatives:</strong> single-objective PSO and GA handle one objective only;
+  NSGA-III is built for four or more; MOEA/D uses weight vectors, close to the scalarisation we
+  rejected. <strong>NSGA-II we still run</strong>, as our comparison method, since it is the field's
+  standard reference point.</p>
+
+  <!-- 6 -->
+  <h2>6. Methodology</h2>
+
+  <ul class="steps">
+    <li><b>Load and audit.</b> Verify 58,645 × 112. Investigate the <code>−1</code> values in the
+    lookup columns — these mark <em>failed lookups</em>, not real measurements.</li>
+    <li><b>Split the data.</b> 80% training, 20% testing, stratified. The test set is then sealed.</li>
+    <li><b>Build the cost model.</b> Assign every feature to its lookup type; implement the cost calculation.</li>
+    <li><b>Establish the baseline.</b> Train on all 111 features, record all objectives. Every later
+    result is compared against this.</li>
+    <li><b>Run SPEA2.</b> Population 100, 50 generations, repeated with 5 random seeds.</li>
+    <li><b>Run comparisons.</b> NSGA-II and a weighted-sum PSO under identical conditions, to show
+    what SPEA2 gained us.</li>
+    <li><b>Analyse the front.</b> Which features survive? How many lookup features were dropped?</li>
+    <li><b>Final validation.</b> Evaluate the chosen solutions once on the sealed test set.</li>
+  </ul>
+
+  <h3>6.1 How one candidate is scored</h3>
+
+  <div class="eq">if no features selected  →  return worst possible on all objectives
+
+f₁ = detection cost      (from the selection; no training needed)
+     train classifier on the selected features
+f₂ = FN / (FN + TP)      (from the confusion matrix)
+f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
+
+  <p>Objective f₁ needs no model training at all, and f₂ and f₃ both come from a single confusion
+  matrix. <strong>So evaluating three objectives costs exactly the same as evaluating one</strong> —
+  optimising for all of them is computationally free here.</p>
+
+  <h3>6.2 Preventing data leakage</h3>
+
+  <div class="note">
+    <span class="lbl">The key methodological safeguard</span>
+    <p>Feature selection is a decision learned from data, so it must never see the test set. If we
+    selected features using all the data and only afterwards split it, our results would be invalid.
+    <strong>Our order is: split first, select features using only the training data, and evaluate on
+    the test set exactly once at the end.</strong></p>
+  </div>
+
+  <h3>6.3 How results are measured, and tools</h3>
+
+  <p>Because multi-objective algorithms return a <em>set</em> of answers, comparing them by accuracy
+  is meaningless. The standard measure is <strong>hypervolume</strong> — how much of the objective
+  space a Pareto front covers; larger is better. We also report all objectives for each selected
+  solution, with recall, precision and the confusion matrix.</p>
+
+  <p><strong>Tools:</strong> <span class="mono">Python 3</span> · <span class="mono">pymoo</span>
+  (SPEA2, NSGA-II, hypervolume) · <span class="mono">scikit-learn</span> (Random Forest, metrics,
+  splitting) · <span class="mono">pandas</span>, <span class="mono">numpy</span>,
+  <span class="mono">matplotlib</span>. All of it runs on an ordinary laptop or in Google Colab.
+  <strong>No hardware, no web crawling and no paid services are required.</strong></p>
+
+  <footer>
+    <p><strong>Dataset.</strong> G. Vrbančič, I. Fister Jr., V. Podgorelec. <em>Datasets for
+    Phishing Websites Detection.</em> Data in Brief, Vol. 33, 2020. DOI: 10.1016/j.dib.2020.106438</p>
+    <p><strong>Algorithm.</strong> E. Zitzler, M. Laumanns, L. Thiele. <em>SPEA2: Improving the
+    Strength Pareto Evolutionary Algorithm.</em> TIK Report 103, ETH Zurich, 2001.</p>
+  </footer>
+
+</div>

@@ -1,0 +1,14 @@
+# Python virtual environment - not portable, rebuild with:
+#   python3 -m venv .venv && ./.venv/bin/pip install pandas scikit-learn pymoo matplotlib seaborn
+.venv/
+__pycache__/
+*.pyc
+
+# Dataset CSVs - download instead (see docs/01-dataset.md for URLs), keeps the repo small
+data/*.csv
+
+# OS cruft
+.DS_Store
+
+# Large binary result artifacts - regenerate with src/run_multiseed.py, keep only summaries
+results/fronts/*.npz

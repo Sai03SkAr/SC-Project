@@ -1,0 +1,69 @@
+{
+  "random_forest": {
+    "accuracy": 0.9571148435501747,
+    "precision": 0.9544426494345719,
+    "recall": 0.9639419154837657,
+    "f1": 0.9591687636983521,
+    "roc_auc": 0.9914699583945179,
+    "fnr": 0.036058084516234296,
+    "fpr": 0.05035714285714286,
+    "train_time_s": 1.344862937927246,
+    "prediction_latency_ms_per_sample": 0.004614189220151691,
+    "confusion_matrix": {
+      "tn": 5318,
+      "fp": 282,
+      "fn": 221,
+      "tp": 5908
+    },
+    "scaled": false
+  },
+  "svm": {
+    "accuracy": 0.9161906385881149,
+    "precision": 0.909582935370901,
+    "recall": 0.9322891173111437,
+    "f1": 0.9207960680041898,
+    "roc_auc": 0.9725995122718691,
+    "fnr": 0.06771088268885626,
+    "fpr": 0.10142857142857142,
+    "train_time_s": 489.02053594589233,
+    "prediction_latency_ms_per_sample": 0.7909044136790854,
+    "confusion_matrix": {
+      "tn": 5032,
+      "fp": 568,
+      "fn": 415,
+      "tp": 5714
+    },
+    "scaled": true
+  },
+  "knn": {
+    "accuracy": 0.930940404126524,
+    "precision": 0.9340623469887384,
+    "recall": 0.9337575460923478,
+    "f1": 0.9339099216710183,
+    "roc_auc": 0.9732570711838333,
+    "fnr": 0.06624245390765214,
+    "fpr": 0.07214285714285715,
+    "train_time_s": 0.002248048782348633,
+    "prediction_latency_ms_per_sample": 0.043112803363304066,
+    "confusion_matrix": {
+      "tn": 5196,
+      "fp": 404,
+      "fn": 406,
+      "tp": 5723
+    },
+    "scaled": true
+  },
+  "_meta": {
+    "n_features": 111,
+    "detection_cost_ms": 1320.01111,
+    "random_state": 42,
+    "train_shape": [
+      46916,
+      111
+    ],
+    "test_shape": [
+      11729,
+      111
+    ]
+  }
+}

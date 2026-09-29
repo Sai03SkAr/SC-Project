@@ -1,0 +1,679 @@
+<title>Swarm-Optimized Phishing Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --paper:      #F5F6FA;
+    --surface:    #FFFFFF;
+    --surface-2:  #ECEEF6;
+    --ink:        #171B2C;
+    --slate:      #616B85;
+    --slate-soft: #8A93A8;
+    --rule:       #D8DCE8;
+    --accent:     #3B4BC0;
+    --accent-2:   #6D78D6;
+    --accent-3:   #9FA7E6;
+    --accent-dim: #E6E8F8;
+    --bad:        #B93A2E;
+    --bad-dim:    #F7E7E4;
+    --good:       #16785C;
+    --good-dim:   #E1F0EA;
+    --gold:       #97701F;
+    --gold-dim:   #F6EEDC;
+
+    --measure: 68ch;
+    --step--1: 0.83rem;
+    --step-0:  1.02rem;
+    --step-1:  1.28rem;
+    --step-2:  1.62rem;
+    --step-3:  2.15rem;
+    --step-4:  3.05rem;
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #10131F;
+      --surface:    #171B2B;
+      --surface-2:  #1F2437;
+      --ink:        #E4E7F0;
+      --slate:      #9AA3B9;
+      --slate-soft: #6F7891;
+      --rule:       #2B3145;
+      --accent:     #8B96E8;
+      --accent-2:   #6873C4;
+      --accent-3:   #4A5391;
+      --accent-dim: #232945;
+      --bad:        #E88276;
+      --bad-dim:    #35211F;
+      --good:       #5FC3A2;
+      --good-dim:   #162E28;
+      --gold:       #D6AC5A;
+      --gold-dim:   #2E2717;
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #10131F;
+    --surface:    #171B2B;
+    --surface-2:  #1F2437;
+    --ink:        #E4E7F0;
+    --slate:      #9AA3B9;
+    --slate-soft: #6F7891;
+    --rule:       #2B3145;
+    --accent:     #8B96E8;
+    --accent-2:   #6873C4;
+    --accent-3:   #4A5391;
+    --accent-dim: #232945;
+    --bad:        #E88276;
+    --bad-dim:    #35211F;
+    --good:       #5FC3A2;
+    --good-dim:   #162E28;
+    --gold:       #D6AC5A;
+    --gold-dim:   #2E2717;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: var(--step-0);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(1.1rem, 4vw, 3rem); }
+  .col { max-width: var(--measure); }
+
+  h1, h2, h3, h4, .ui { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; text-wrap: balance; }
+
+  .eyebrow {
+    font-family: Archivo, sans-serif;
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 0.7rem;
+  }
+
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.88em; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead { border-bottom: 1px solid var(--rule); padding: clamp(2.5rem, 6vw, 4rem) 0 0; background: var(--surface); }
+  .masthead h1 { font-size: var(--step-4); font-weight: 700; line-height: 1.02; letter-spacing: -0.022em; margin: 0 0 1rem; max-width: 18ch; }
+  .deck { font-size: var(--step-1); color: var(--slate); max-width: 58ch; margin: 0 0 2rem; }
+
+  .statstrip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); border-top: 1px solid var(--rule); margin-top: 2.2rem; }
+  .stat { padding: 1.15rem 1.3rem 1.35rem 0; border-right: 1px solid var(--rule); }
+  .stat:last-child { border-right: 0; }
+  .stat .k { font-family: Archivo, sans-serif; font-size: var(--step-2); font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.015em; display: block; line-height: 1.1; }
+  .stat .v { font-family: Archivo, sans-serif; font-size: var(--step--1); color: var(--slate); letter-spacing: 0.03em; }
+
+  /* ---------- brief panel ---------- */
+
+  .brief {
+    background: var(--accent-dim);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 1.7rem 1.7rem;
+    margin: 2.5rem 0 0;
+  }
+  .brief h2 { font-size: var(--step-2); margin: 0 0 1rem; }
+  .brief dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.55rem 1.4rem; margin: 0; font-size: 0.97rem; align-items: baseline; }
+  .brief dt { font-family: Archivo, sans-serif; font-size: var(--step--1); font-weight: 600; color: var(--slate); letter-spacing: 0.02em; }
+  .brief dd { margin: 0; }
+  @media (max-width: 560px) { .brief dl { grid-template-columns: 1fr; gap: 0.15rem; } .brief dd { margin-bottom: 0.7rem; } }
+
+  /* ---------- sections ---------- */
+
+  section { padding: clamp(2.6rem, 5vw, 3.6rem) 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+
+  h2 { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; margin: 0 0 1.1rem; }
+  h3 { font-size: var(--step-1); font-weight: 600; letter-spacing: -0.008em; margin: 2rem 0 0.6rem; }
+  p { margin: 0 0 1.05rem; }
+  .lead { font-size: var(--step-1); color: var(--slate); }
+  ul, ol { margin: 0 0 1.05rem; padding-left: 1.2rem; }
+  li { margin-bottom: 0.42rem; }
+  li::marker { color: var(--slate-soft); }
+  strong { font-weight: 600; }
+
+  /* ---------- dataset cards ---------- */
+
+  .datasets { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; margin: 1.8rem 0 0; }
+  .ds { background: var(--surface); border: 1px solid var(--rule); padding: 1.3rem 1.35rem 1.45rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .ds.pick { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .ds .tag { font-family: Archivo, sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-soft); }
+  .ds.pick .tag { color: var(--accent); }
+  .ds h4 { font-size: var(--step-1); font-weight: 600; margin: 0; line-height: 1.2; }
+  .ds dl { margin: 0.3rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0.28rem 0.8rem; font-size: var(--step--1); }
+  .ds dt { color: var(--slate); font-family: Archivo, sans-serif; }
+  .ds dd { margin: 0; font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 0.82rem; }
+  .ds p { font-size: var(--step--1); color: var(--slate); margin: 0.35rem 0 0; }
+  .ds .links { margin-top: auto; padding-top: 0.8rem; font-size: var(--step--1); font-family: Archivo, sans-serif; }
+
+  /* ---------- feature composition ---------- */
+
+  .fviz { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem; margin: 1.6rem 0; }
+  #grid { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 1rem; }
+  .sq { width: 16px; height: 16px; border-radius: 1px; }
+  .g1 { background: var(--accent); }
+  .g2 { background: var(--accent-2); }
+  .g3 { background: var(--accent-3); }
+  .gx { background: var(--gold); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.3rem; font-family: Archivo, sans-serif; font-size: var(--step--1); color: var(--slate); }
+  .legend span { display: flex; align-items: center; gap: 0.45rem; }
+  .swatch { width: 11px; height: 11px; border-radius: 1px; flex: none; }
+  .fviz .cap { font-family: Archivo, sans-serif; font-size: var(--step--1); color: var(--slate); margin: 1rem 0 0; }
+
+  /* ---------- tables ---------- */
+
+  .tablewrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--rule); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-family: Archivo, sans-serif; font-size: var(--step--1); }
+  th { text-align: left; font-weight: 600; padding: 0.75rem 0.95rem; border-bottom: 1px solid var(--rule); color: var(--slate); letter-spacing: 0.03em; white-space: nowrap; }
+  td { padding: 0.72rem 0.95rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .yes { color: var(--good); font-weight: 600; }
+  .no  { color: var(--bad); font-weight: 600; }
+
+  /* ---------- phases ---------- */
+
+  .phases { display: flex; flex-direction: column; margin-top: 1.8rem; border-top: 1px solid var(--rule); }
+  .phase { display: grid; grid-template-columns: 3.4rem 1fr auto; gap: 0 1.1rem; padding: 1.3rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .phase .n { font-family: "JetBrains Mono", monospace; font-size: 0.82rem; font-weight: 600; color: var(--accent); padding-top: 0.28rem; font-variant-numeric: tabular-nums; }
+  .phase h4 { font-size: var(--step-1); font-weight: 600; margin: 0 0 0.35rem; line-height: 1.25; }
+  .phase .body { max-width: 62ch; }
+  .phase p { margin: 0 0 0.5rem; font-size: 0.97rem; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase .time { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--slate); white-space: nowrap; padding-top: 0.42rem; }
+  .phase.core { background: var(--accent-dim); }
+  .who { font-family: Archivo, sans-serif; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate-soft); }
+  @media (max-width: 620px) {
+    .phase { grid-template-columns: 2.4rem 1fr; }
+    .phase .time { grid-column: 2; padding-top: 0.4rem; }
+  }
+
+  /* ---------- callouts ---------- */
+
+  .note { border-left: 3px solid var(--gold); background: var(--gold-dim); padding: 1.05rem 1.25rem; margin: 1.5rem 0; }
+  .note.danger { border-left-color: var(--bad); background: var(--bad-dim); }
+  .note.win { border-left-color: var(--good); background: var(--good-dim); }
+  .note .lbl { font-family: Archivo, sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.4rem; }
+  .note.danger .lbl { color: var(--bad); }
+  .note.win .lbl { color: var(--good); }
+  .note p { margin: 0 0 0.6rem; font-size: 0.97rem; }
+  .note p:last-child { margin-bottom: 0; }
+
+  /* ---------- code ---------- */
+
+  pre { background: var(--surface-2); border: 1px solid var(--rule); padding: 1.05rem 1.2rem; overflow-x: auto; margin: 1.3rem 0; line-height: 1.55; }
+  pre code { font-size: 0.82rem; }
+
+  .formula { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent); padding: 1.2rem 1.35rem; margin: 1.4rem 0; font-family: "JetBrains Mono", monospace; font-size: 0.9rem; overflow-x: auto; }
+  .formula .gloss { font-family: "Source Serif 4", serif; font-size: var(--step--1); color: var(--slate); display: block; margin-top: 0.75rem; line-height: 1.5; }
+
+  /* ---------- objectives ---------- */
+
+  .objs { display: grid; gap: 1rem; margin-top: 1.6rem; }
+  .obj { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; background: var(--surface); border: 1px solid var(--rule); padding: 1.25rem 1.35rem; }
+  .obj .num { font-family: Archivo, sans-serif; font-size: var(--step-2); font-weight: 700; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+  .obj h4 { font-size: var(--step-1); font-weight: 600; margin: 0 0 0.35rem; }
+  .obj p { margin: 0; font-size: 0.97rem; color: var(--slate); }
+  .obj .how { font-family: Archivo, sans-serif; font-size: var(--step--1); color: var(--ink); margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid var(--rule); }
+
+  /* ---------- links list ---------- */
+
+  .linkgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.9rem; margin: 1.6rem 0; }
+  .lk { background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.15rem 1.1rem; }
+  .lk .t { font-family: Archivo, sans-serif; font-weight: 600; font-size: 0.97rem; display: block; margin-bottom: 0.2rem; }
+  .lk .d { font-size: var(--step--1); color: var(--slate); display: block; margin-bottom: 0.5rem; }
+  .lk a { font-family: "JetBrains Mono", monospace; font-size: 0.76rem; word-break: break-all; }
+
+  footer { padding: 2.4rem 0 3.5rem; color: var(--slate); font-size: var(--step--1); border-top: 1px solid var(--rule); }
+  footer h3 { margin-top: 0; color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Soft Computing · Project Brief</p>
+    <h1>Catching phishing sites with fewer clues</h1>
+    <p class="deck">Train a model to tell scam websites from real ones using 111 signals — then use Particle Swarm Optimization to find the ~25 that actually matter, without losing accuracy.</p>
+    <div class="statstrip">
+      <div class="stat"><span class="k">111</span><span class="v">features to start</span></div>
+      <div class="stat"><span class="k">~25</span><span class="v">features after PSO</span></div>
+      <div class="stat"><span class="k">58,645</span><span class="v">websites</span></div>
+      <div class="stat"><span class="k">~96%</span><span class="v">accuracy target</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="brief">
+    <h2>The 30-second version</h2>
+    <dl>
+      <dt>Problem</dt>
+      <dd>Given a website URL, decide: phishing scam, or legitimate?</dd>
+      <dt>Dataset</dt>
+      <dd>Vrbančič Phishing Dataset — 112 columns (111 features + target), 58,645 rows. Free CSV, no signup.</dd>
+      <dt>Core method</dt>
+      <dd>Binary Particle Swarm Optimization (PSO) for feature selection — a wrapper method</dd>
+      <dt>Compared against</dt>
+      <dd>Genetic Algorithm, PCA, and a statistical filter method</dd>
+      <dt>Classifier</dt>
+      <dd>Random Forest (primary), plus SVM and KNN as baselines</dd>
+      <dt>Tools</dt>
+      <dd><span class="mono">Python · pandas · scikit-learn · pyswarms</span> — runs in Google Colab, free</dd>
+      <dt>Hardware</dt>
+      <dd>None. No sensors, no crawling, no live internet data. A laptop or Colab is enough.</dd>
+      <dt>Effort</dt>
+      <dd>~30–40 hours total, splittable between two people</dd>
+    </dl>
+  </div>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 1</p>
+      <h2>What we're building</h2>
+      <p class="lead">A model that looks at a web address and decides whether it's a scam.</p>
+      <p>It never opens the page. It only measures things about the URL — how many dots and hyphens it contains, how long the domain is, whether the domain is disguised as an IP address, how many days until the domain expires, whether Google has indexed it. The dataset has already converted all of that into <strong>111 numeric features</strong>, so there's no crawling or scraping to do.</p>
+      <p>Then comes the part the course actually grades. 111 features is far more than necessary, and every feature costs time to compute. So we use a <strong>swarm optimization algorithm</strong> to search for the smallest set of features that still catches phishing just as well.</p>
+      <p>The finding is the trade-off: <em>we cut roughly 75% of the features and accuracy barely moved.</em> That's the project.</p>
+    </div>
+
+    <div class="fviz">
+      <div id="grid" role="img" aria-label="111 squares grouped by URL section: 19 whole-URL, 21 domain, 18 directory, 18 file, 20 parameter, and 15 external-lookup features."></div>
+      <div class="legend">
+        <span><i class="swatch g1"></i> Whole URL — 19</span>
+        <span><i class="swatch g2"></i> Domain — 21</span>
+        <span><i class="swatch g3"></i> Directory — 18</span>
+        <span><i class="swatch g2"></i> File — 18</span>
+        <span><i class="swatch g1"></i> Parameters — 20</span>
+        <span><i class="swatch gx"></i> External lookups — 15</span>
+      </div>
+      <p class="cap">Every square is one feature. The 96 blue ones are computed instantly from the URL text. The 15 gold ones need network calls — DNS, WHOIS, Google index — and are the slow, expensive ones. <strong>If PSO discards most of the gold squares, the reduced model needs no network at all.</strong> That would be our headline result.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 2</p>
+      <h2>The data — every link you need</h2>
+      <p>Everything is free and needs no account. The two CSVs are the same 111 features; they differ only in size and class balance.</p>
+    </div>
+
+    <div class="linkgrid">
+      <div class="lk">
+        <span class="t">Main repository</span>
+        <span class="d">Start here — has both CSVs and full feature documentation</span>
+        <a href="https://github.com/GregaVrbancic/Phishing-Dataset">github.com/GregaVrbancic/Phishing-Dataset</a>
+      </div>
+      <div class="lk">
+        <span class="t">dataset_small.csv — use this one</span>
+        <span class="d">58,645 rows · balanced classes · direct download</span>
+        <a href="https://raw.githubusercontent.com/GregaVrbancic/Phishing-Dataset/master/dataset_small.csv">raw.githubusercontent.com/…/dataset_small.csv</a>
+      </div>
+      <div class="lk">
+        <span class="t">dataset_full.csv — secondary</span>
+        <span class="d">88,647 rows · imbalanced, mimics the real web</span>
+        <a href="https://raw.githubusercontent.com/GregaVrbancic/Phishing-Dataset/master/dataset_full.csv">raw.githubusercontent.com/…/dataset_full.csv</a>
+      </div>
+      <div class="lk">
+        <span class="t">Interactive preview tool</span>
+        <span class="d">Browse and filter the data in your browser before downloading</span>
+        <a href="https://gregavrbancic.github.io/Phishing-Dataset/">gregavrbancic.github.io/Phishing-Dataset</a>
+      </div>
+      <div class="lk">
+        <span class="t">Comparison dataset (UCI)</span>
+        <span class="d">The older 30-feature benchmark — our secondary dataset</span>
+        <a href="https://archive.ics.uci.edu/dataset/327/phishing+websites">archive.ics.uci.edu/dataset/327/phishing+websites</a>
+      </div>
+      <div class="lk">
+        <span class="t">PySwarms tutorial</span>
+        <span class="d">Official worked example of Binary PSO for feature selection</span>
+        <a href="https://pyswarms.readthedocs.io/en/latest/examples/usecases/feature_subset_selection.html">pyswarms.readthedocs.io/…/feature_subset_selection</a>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>File</th><th>Rows</th><th>Legit (0)</th><th>Phishing (1)</th><th>Features</th><th>Use for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>dataset_small.csv</strong></td><td class="num">58,645</td><td class="num">27,998</td><td class="num">30,647</td><td class="num">111</td><td>Primary — all main experiments</td></tr>
+          <tr><td>dataset_full.csv</td><td class="num">88,647</td><td class="num">58,000</td><td class="num">30,647</td><td class="num">111</td><td>Secondary — class-imbalance study</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="note">
+        <span class="lbl">Three things to know before loading the CSV</span>
+        <p><strong>1.</strong> The target column is named <code>phishing</code>, and the encoding is <code>0</code> = legitimate, <code>1</code> = phishing. Don't assume — it catches people out.</p>
+        <p><strong>2.</strong> There is no index column. All 112 columns are real: 111 features + the target.</p>
+        <p><strong>3.</strong> If you also use the UCI dataset, note its Kaggle version adds an index column — <strong>drop it before training.</strong> If the rows are sorted by class, the row number becomes a perfect predictor and your accuracy will be fake.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 3</p>
+      <h2>The three objectives</h2>
+      <p>Each one is measurable, so we can point at a number and say "achieved".</p>
+    </div>
+
+    <div class="objs">
+      <div class="obj">
+        <span class="num">1</span>
+        <div>
+          <h4>Build a baseline classifier using all 111 features</h4>
+          <p>Establish how well the problem can be solved before any reduction. This is the control group — without it nothing later means anything.</p>
+          <p class="how">Measured by: accuracy, precision, recall, F1, ROC-AUC on a held-out test set.</p>
+        </div>
+      </div>
+      <div class="obj">
+        <span class="num">2</span>
+        <div>
+          <h4>Find the minimal optimal feature subset using Binary PSO</h4>
+          <p>Search for the smallest group of features that still classifies well. This is the soft-computing core of the project.</p>
+          <p class="how">Measured by: features selected, % reduction, and which ones survived.</p>
+        </div>
+      </div>
+      <div class="obj">
+        <span class="num">3</span>
+        <div>
+          <h4>Prove the reduced model is faster without being worse</h4>
+          <p>Compare full vs. reduced on accuracy <em>and</em> speed, and benchmark PSO against a Genetic Algorithm, PCA, and a filter method.</p>
+          <p class="how">Measured by: accuracy delta, training time, prediction latency per URL in milliseconds.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="note win">
+        <span class="lbl">Why objective 3 is the strongest card</span>
+        <p>Phishing detection has to run <em>before the user types their password</em>. A detector that takes 300ms is useless. So "we cut features by 77% and prediction time by more than half, losing 0.4% accuracy" isn't a nice-to-have — it's the difference between a deployable system and a lab toy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 4</p>
+      <h2>The method: Binary PSO</h2>
+      <p>PSO is modelled on a flock of birds searching for food. Each bird remembers the best spot it personally found, and knows the best spot any bird found. It moves based on both. Over time the flock converges.</p>
+      <p>For feature selection you use the <strong>binary</strong> version:</p>
+      <ul>
+        <li>Each particle is a list of 111 ones and zeros — <code>1</code> = keep this feature, <code>0</code> = drop it.</li>
+        <li>To score a particle, train a classifier using only its selected features and see how well it does.</li>
+        <li>Particles drift toward combinations that score well, flipping bits as they go.</li>
+        <li>After N iterations, the best particle found is the answer.</li>
+      </ul>
+
+      <h3>Why a swarm algorithm is genuinely necessary here</h3>
+      <p>With 111 features, the number of possible subsets is <strong>2<sup>111</sup> ≈ 2.6 × 10<sup>33</sup></strong>. You cannot test them all, and you can't greedily search that space well either. Accepting a very good answer instead of a provably perfect one, because perfect is computationally out of reach — that is the definition of soft computing. This one sentence justifies the entire method.</p>
+
+      <h3>The fitness function</h3>
+      <p>This single equation is what makes the swarm prefer <em>small and accurate</em> over just <em>accurate</em>.</p>
+    </div>
+
+    <div class="formula">
+      fitness = α × (1 − accuracy) &nbsp;+&nbsp; β × (features_kept / 111)
+      <span class="gloss">Lower is better. Use <strong>α = 0.9</strong>, <strong>β = 0.1</strong>. Without the second term PSO keeps all 111 features forever, because extra features never hurt training accuracy — that term is the entire reason reduction happens. Tuning α and β and plotting the trade-off is an easy bonus section.</span>
+    </div>
+
+    <div class="col">
+      <h3>Why PSO rather than the alternatives</h3>
+      <p>We need to justify this choice in the report. The honest summary: PSO and GA land in similar accuracy ranges, but PSO gets there with fewer parameters and less runtime.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>How it works</th><th>Keeps real features?</th><th>Role in our project</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Binary PSO</strong></td><td>Swarm searches subsets via personal + global best</td><td class="yes">Yes</td><td><strong>Primary method.</strong> Few parameters, converges fast</td></tr>
+          <tr><td><strong>Genetic Algorithm</strong></td><td>Subsets breed, mutate, compete over generations</td><td class="yes">Yes</td><td>Comparison. More parameters, slower, similar results</td></tr>
+          <tr><td><strong>PCA</strong></td><td>Compresses features into new blended ones</td><td class="no">No</td><td>Classical baseline. Output isn't interpretable</td></tr>
+          <tr><td><strong>Filter methods</strong><br><span class="mono">chi², mutual info</span></td><td>Scores each feature alone, drops low scorers</td><td class="yes">Yes</td><td>Cheap baseline. Blind to feature interactions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="note">
+        <span class="lbl">The argument that wins marks</span>
+        <p>PCA can compress 111 features into 25 numbers, but those are blends — "0.3 × domain length + 0.2 × dot count + …". Nobody can act on that. PSO returns <em>actual named features</em>, so the result is a deployable shortlist: these 25 checks are worth computing, these 86 aren't. Interpretability is a real advantage, not a consolation prize.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 5</p>
+      <h2>The runtime problem — and the fix</h2>
+      <p>Worth knowing up front, because it's the one thing that can stall the project. Every PSO fitness evaluation trains a model. At 30 particles × 50 iterations that's 1,500 trainings. Done naively on 58,000 rows, one run takes hours — and we need 5–10 runs.</p>
+      <p><strong>The fix (standard practice, and worth writing up):</strong></p>
+      <ul>
+        <li><strong>Subsample to ~15,000 rows</strong> during the PSO search only</li>
+        <li>Use <strong>3-fold</strong> cross-validation, not 5-fold</li>
+        <li>Use a lighter classifier while searching — <code>RandomForestClassifier(n_estimators=50, n_jobs=-1)</code></li>
+        <li>Then <strong>validate the final chosen subset</strong> on the full dataset with the full model</li>
+      </ul>
+      <p>That takes a run from hours down to roughly 15–20 minutes. Describing this in the report is itself a contribution — it shows we thought about computational cost, which is squarely on-topic.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 6</p>
+      <h2>The build plan</h2>
+      <p>Roughly 30–40 hours total. Phases are ordered by dependency. Phase 04 is where the actual project lives — everything before is setup, everything after is evidence. The <span class="who">A</span> / <span class="who">B</span> markers are a suggested split between two people.</p>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <span class="n">00</span>
+        <div class="body">
+          <h4>Setup <span class="who">· both</span></h4>
+          <p>Google Colab (nothing to install) or local Jupyter. Install <code>pandas</code>, <code>numpy</code>, <code>scikit-learn</code>, <code>matplotlib</code>, <code>seaborn</code>, <code>pyswarms</code>. Set up a shared GitHub repo or Drive folder.</p>
+        </div>
+        <span class="time">~30 min</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">01</span>
+        <div class="body">
+          <h4>Load and explore the data <span class="who">· A</span></h4>
+          <p>Read the CSV, confirm 58,645 rows × 112 columns, check class balance, look for outliers. Produce a correlation heatmap and class-distribution plot — both go straight into the report.</p>
+        </div>
+        <span class="time">3–4 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">02</span>
+        <div class="body">
+          <h4>Baseline models, all 111 features <span class="who">· A</span></h4>
+          <p>Stratified 80/20 split with a fixed <code>random_state</code>. Train Random Forest, SVM, and KNN. Record accuracy, precision, recall, F1, ROC-AUC and training time for each. Best performer carries forward — Random Forest usually wins.</p>
+        </div>
+        <span class="time">3–4 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">03</span>
+        <div class="body">
+          <h4>Classical reduction baselines <span class="who">· B</span></h4>
+          <p>Run PCA (components covering ~95% variance) and a filter method (mutual information, top 25). Same metrics. These are what PSO has to beat.</p>
+        </div>
+        <span class="time">2–3 hrs</span>
+      </div>
+
+      <div class="phase core">
+        <span class="n">04</span>
+        <div class="body">
+          <h4>Binary PSO feature selection — the core <span class="who">· both</span></h4>
+          <p>Write the fitness function, wire it to <code>pyswarms.discrete.BinaryPSO</code>, apply the runtime fixes from Section 5. Start with 30 particles, 50 iterations.</p>
+          <p>Plot the convergence curve (fitness vs. iteration) — the single most important figure in the report. Then run 5–10 times with different seeds and report mean ± standard deviation, because PSO is stochastic and one run proves nothing.</p>
+        </div>
+        <span class="time">6–8 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">05</span>
+        <div class="body">
+          <h4>Genetic Algorithm comparison <span class="who">· B</span></h4>
+          <p>Same fitness function, different search strategy. Use <code>DEAP</code> or <code>sklearn-genetic-opt</code>. Record features selected, accuracy, and wall-clock time to compare convergence speed against PSO.</p>
+        </div>
+        <span class="time">3–4 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">06</span>
+        <div class="body">
+          <h4>Final evaluation and analysis <span class="who">· both</span></h4>
+          <p>One master table: every method × every metric, including prediction latency. Confusion matrices and ROC curves for full vs. reduced. Then analyse <em>which</em> features survived — especially how many of the 15 expensive external-lookup features got dropped.</p>
+        </div>
+        <span class="time">4–5 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">07</span>
+        <div class="body">
+          <h4>Second-dataset validation <span class="who">· A</span> <span style="color:var(--slate); font-weight:500;">(optional)</span></h4>
+          <p>Run the same pipeline on the UCI 30-feature dataset, or on <code>dataset_full.csv</code> to study class imbalance. Proves the method generalizes rather than fitting one dataset.</p>
+        </div>
+        <span class="time">3–4 hrs</span>
+      </div>
+
+      <div class="phase">
+        <span class="n">08</span>
+        <div class="body">
+          <h4>Report and presentation <span class="who">· both</span></h4>
+          <p>Structure: Introduction → Literature review → Dataset → Methodology → Results → Discussion → Conclusion.</p>
+        </div>
+        <span class="time">6–8 hrs</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 7</p>
+      <h2>Mistakes that would sink this</h2>
+
+      <div class="note danger">
+        <span class="lbl">1 · Data leakage — the project killer</span>
+        <p>If we run PSO on the whole dataset and <em>then</em> split into train and test, the feature selection has already seen the test data. Every reported number becomes meaningless, and an examiner who knows what to look for will spot it.</p>
+        <p><strong>Correct order:</strong> split into train and test first → run PSO with cross-validation <em>inside the training set only</em> → evaluate the chosen subset once on the untouched test set.</p>
+      </div>
+    </div>
+
+    <pre><code>from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+
+X = df.drop(columns=['phishing'])
+y = df['phishing']                      # 0 = legitimate, 1 = phishing
+
+# 1. Split FIRST — the test set is now sealed.
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42)
+
+# 2. Fitness uses cross-validation on the TRAINING set only.
+def fitness(mask):
+    if mask.sum() == 0:          # a particle selecting nothing
+        return 1.0               # is the worst possible answer
+    cols = X_train.columns[mask.astype(bool)]
+    acc  = cross_val_score(
+        RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=42),
+        X_train[cols], y_train, cv=3).mean()
+    return 0.9 * (1 - acc) + 0.1 * (mask.sum() / len(mask))
+
+# 3. Only after PSO finishes do we touch X_test. Once.</code></pre>
+
+    <div class="col">
+      <div class="note">
+        <span class="lbl">2 · Reporting a single PSO run</span>
+        <p>PSO is random. One run reports luck. Run 5–10 seeds and report mean ± standard deviation for both accuracy and features selected.</p>
+      </div>
+
+      <div class="note">
+        <span class="lbl">3 · Judging phishing detection by accuracy alone</span>
+        <p>The two errors aren't equal. A false positive blocks a real site — annoying. A false negative lets someone hand their password to a scammer — serious. Lead with <strong>recall on the phishing class</strong> and F1, and show the confusion matrix.</p>
+      </div>
+
+      <div class="note">
+        <span class="lbl">4 · A particle that selects zero features</span>
+        <p>PSO will eventually try an all-zeros particle and crash the classifier on an empty feature set. Guard for it in the fitness function, as in the snippet above.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="eyebrow">Section 8</p>
+      <h2>Targets and limitations</h2>
+      <h3>What good results look like</h3>
+      <p>Published work on phishing feature selection reports roughly <strong>97% accuracy with around half the features removed</strong>. A realistic, defensible outcome for us: <strong>95–97% accuracy keeping 20–30 of the 111 features.</strong></p>
+      <p>If accuracy comes out at 99.9%, don't celebrate — check for leakage first.</p>
+
+      <h3>Limitations to state before anyone asks</h3>
+      <p>Volunteering these reads as rigour rather than carelessness:</p>
+      <ul>
+        <li><strong>PSO gives no optimality guarantee.</strong> We found a good subset, not provably the best one.</li>
+        <li><strong>Results are dataset-specific.</strong> The features that work here may not transfer — which is exactly why Phase 07 is worth doing.</li>
+        <li><strong>The data has a fixed collection date.</strong> Phishing tactics evolve, so a deployed model would need periodic retraining.</li>
+        <li><strong>URL-only detection has a ceiling.</strong> We never look at page content, so a phishing page on a compromised legitimate domain is invisible to this approach.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="col">
+      <h3>Citation for the report</h3>
+      <p>G. Vrbančič, I. Fister Jr., V. Podgorelec. <em>Datasets for Phishing Websites Detection.</em> Data in Brief, Vol. 33, 2020. <span class="mono">DOI: 10.1016/j.dib.2020.106438</span></p>
+      <p>Peer-reviewed in a data journal — exactly what a references section wants.</p>
+      <p style="margin-top:1.4rem;">Everything in this project runs on a laptop, or free in Google Colab. No hardware, no web crawler, no live internet data, no paid accounts.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // 111 feature squares, grouped by which part of the URL they measure.
+  var groups = [
+    { n: 19, c: 'g1' },  // whole URL
+    { n: 21, c: 'g2' },  // domain
+    { n: 18, c: 'g3' },  // directory
+    { n: 18, c: 'g2' },  // file
+    { n: 20, c: 'g1' },  // parameters
+    { n: 15, c: 'gx' }   // external lookups
+  ];
+  var grid = document.getElementById('grid');
+  if (grid) {
+    groups.forEach(function (g) {
+      for (var i = 0; i < g.n; i++) {
+        var d = document.createElement('div');
+        d.className = 'sq ' + g.c;
+        grid.appendChild(d);
+      }
+    });
+  }
+</script>

@@ -1,0 +1,217 @@
+<title>Phishing Project Cheat Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --paper:   #F5F6FA;
+    --surface: #FFFFFF;
+    --ink:     #171B2C;
+    --slate:   #616B85;
+    --rule:    #D8DCE8;
+    --accent:  #3B4BC0;
+    --accent-dim: #E6E8F8;
+    --bad:     #B93A2E;
+    --bad-dim: #F9EAE7;
+    --good:    #16785C;
+    --good-dim:#E1F0EA;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:   #10131F;
+      --surface: #171B2B;
+      --ink:     #E4E7F0;
+      --slate:   #9AA3B9;
+      --rule:    #2B3145;
+      --accent:  #8B96E8;
+      --accent-dim: #232945;
+      --bad:     #E88276;
+      --bad-dim: #33201E;
+      --good:    #5FC3A2;
+      --good-dim:#162E28;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:   #10131F;
+    --surface: #171B2B;
+    --ink:     #E4E7F0;
+    --slate:   #9AA3B9;
+    --rule:    #2B3145;
+    --accent:  #8B96E8;
+    --accent-dim: #232945;
+    --bad:     #E88276;
+    --bad-dim: #33201E;
+    --good:    #5FC3A2;
+    --good-dim:#162E28;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.97rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 940px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 2.4rem) clamp(1rem, 3vw, 2rem) 3rem; }
+
+  h1, h2, .ui { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: 0.85em; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .head { border-bottom: 2px solid var(--ink); padding-bottom: 0.9rem; margin-bottom: 1.3rem; }
+  .kick { font-family: Archivo, sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.35rem; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0.85rem; align-items: start; }
+
+  .card { background: var(--surface); border: 1px solid var(--rule); padding: 0.95rem 1.05rem 1.05rem; }
+  .card.wide { grid-column: 1 / -1; }
+  .card h2 {
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 0.6rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--rule);
+  }
+  .card p { margin: 0 0 0.55rem; }
+  .card > :last-child { margin-bottom: 0; }
+  .card ol, .card ul { margin: 0; padding-left: 1.1rem; }
+  .card li { margin-bottom: 0.3rem; }
+  .card li:last-child { margin-bottom: 0; }
+  li::marker { color: var(--slate); }
+  strong { font-weight: 600; }
+
+  dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 0.9rem; margin: 0; align-items: baseline; }
+  dl.facts dt { font-family: Archivo, sans-serif; font-size: 0.72rem; font-weight: 600; color: var(--slate); text-transform: uppercase; letter-spacing: 0.04em; }
+  dl.facts dd { margin: 0; font-size: 0.93rem; }
+
+  .fx {
+    background: var(--accent-dim); border-left: 3px solid var(--accent);
+    padding: 0.6rem 0.8rem; margin: 0.6rem 0;
+    font-family: "JetBrains Mono", monospace; font-size: 0.78rem;
+    overflow-x: auto; white-space: nowrap;
+  }
+
+  .verdict { display: grid; gap: 0.55rem; }
+  .v { padding: 0.7rem 0.85rem; border-left: 3px solid; }
+  .v.no  { background: var(--bad-dim);  border-color: var(--bad); }
+  .v.yes { background: var(--good-dim); border-color: var(--good); }
+  .v b { font-family: Archivo, sans-serif; font-size: 0.88rem; display: block; margin-bottom: 0.15rem; }
+  .v.no b  { color: var(--bad); }
+  .v.yes b { color: var(--good); }
+  .v p { font-size: 0.9rem; margin: 0; }
+
+  .links { display: grid; gap: 0.4rem; margin: 0; }
+  .links div { font-size: 0.88rem; }
+  .links b { font-family: Archivo, sans-serif; font-weight: 600; }
+  .links a { font-family: "JetBrains Mono", monospace; font-size: 0.74rem; word-break: break-all; }
+
+  .foot { margin-top: 1.1rem; padding-top: 0.8rem; border-top: 1px solid var(--rule); font-size: 0.83rem; color: var(--slate); }
+
+  .warn { color: var(--bad); font-weight: 600; }
+</style>
+
+<div class="page">
+
+  <div class="head">
+    <p class="kick">Soft Computing Project · Summary</p>
+    <h1>Phishing detection with fewer clues</h1>
+  </div>
+
+  <div class="grid">
+
+    <div class="card wide">
+      <h2>What we are making</h2>
+      <p>A program that looks at a website link and says whether it is a <strong>scam or safe</strong>. It never opens the page — it only measures things about the link, like how many dots it has, how long the domain is, and when the domain expires.</p>
+      <p>The data gives us <strong>111 things to check</strong>. That is far more than needed, and each one costs time. So we use a swarm algorithm to find the <strong>~25 checks that actually matter</strong>, and show the smaller version still works just as well.</p>
+    </div>
+
+    <div class="card">
+      <h2>The data</h2>
+      <dl class="facts">
+        <dt>File</dt><dd><code>dataset_small.csv</code></dd>
+        <dt>Rows</dt><dd>58,645 websites</dd>
+        <dt>Columns</dt><dd>112 (111 features + 1 answer)</dd>
+        <dt>Answer</dt><dd><code>phishing</code> — <code>0</code> = safe, <code>1</code> = scam</dd>
+        <dt>Cost</dt><dd>Free, no login</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2>Our 3 objectives</h2>
+      <ol>
+        <li>Build the model using <strong>all 111 features</strong> — our starting point.</li>
+        <li>Use <strong>PSO</strong> to find the smallest set of features that still works.</li>
+        <li>Show the smaller model is <strong>faster and just as accurate</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="card wide">
+      <h2>How PSO works</h2>
+      <p>Like a flock of birds looking for food. Each bird remembers its own best spot, and knows the flock's best spot, and moves towards both. Slowly they all gather somewhere good.</p>
+      <p>Here each <strong>bird = 111 on/off switches</strong>, one per feature. We score a bird by training the model with only its switched-on features.</p>
+      <div class="fx">score = 0.9 × (1 − accuracy) + 0.1 × (features kept ÷ 111)</div>
+      <p>Lower is better. The first half punishes being wrong, the second half punishes keeping too many. <strong>Without that second half, PSO would keep all 111 forever.</strong></p>
+      <p>Why not just test every combination? There are 2<sup>111</sup> of them — about 2.6 followed by 33 zeros. No computer can. Settling for a very good answer because a perfect one is impossible <em>is</em> soft computing.</p>
+    </div>
+
+    <div class="card">
+      <h2>Why PSO, not PCA</h2>
+      <p>PCA blends features into new numbers nobody can read.</p>
+      <p>PSO gives back <strong>real feature names</strong> — an actual list of checks a security team could use. That is a real advantage, not a consolation prize.</p>
+      <p>We still run PCA, a filter method, and a Genetic Algorithm just to compare against.</p>
+    </div>
+
+    <div class="card">
+      <h2>4 rules we must not break</h2>
+      <ol>
+        <li><span class="warn">Split train/test BEFORE running PSO.</span> If PSO sees the test data, every result is fake.</li>
+        <li>Run PSO <strong>5–10 times</strong> and report the average. One run is just luck.</li>
+        <li>Report <strong>recall</strong>, not only accuracy. Missing a scam is worse than a false alarm.</li>
+        <li>Handle the case where PSO picks <strong>zero features</strong>, or it crashes.</li>
+      </ol>
+    </div>
+
+    <div class="card wide">
+      <h2>Optional — only if we want more</h2>
+      <div class="verdict">
+        <div class="v no">
+          <b>✗ Merging two datasets — bad idea</b>
+          <p>The columns don't match, and the two sets measure things differently. Worse, the model can secretly learn <em>"which dataset is this from?"</em> instead of <em>"is this a scam?"</em> — that looks like great accuracy but is fake, and examiners check for it.</p>
+        </div>
+        <div class="v yes">
+          <b>✓ Cross-dataset validation — good option</b>
+          <p>Run the same method on <strong>both datasets separately</strong>, then compare. No merging. It answers a real question — does our method work everywhere, or did it just fit one dataset? This is what real research papers do.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Target result</h2>
+      <p><strong>95–97% accuracy</strong> while keeping only <strong>20–30 of the 111 features</strong>.</p>
+      <p>If we somehow get 99.9%, something is wrong — check rule 1 first.</p>
+      <p style="color:var(--slate);">Tools: <span class="mono">Python · pandas · scikit-learn · pyswarms</span>. Runs free in Google Colab. <strong>No hardware needed.</strong></p>
+    </div>
+
+    <div class="card">
+      <h2>Links</h2>
+      <div class="links">
+        <div><b>Dataset — start here</b><br><a href="https://github.com/GregaVrbancic/Phishing-Dataset">github.com/GregaVrbancic/Phishing-Dataset</a></div>
+        <div><b>The file we use</b><br><a href="https://raw.githubusercontent.com/GregaVrbancic/Phishing-Dataset/master/dataset_small.csv">raw.githubusercontent.com/…/dataset_small.csv</a></div>
+        <div><b>Second dataset (for comparison)</b><br><a href="https://archive.ics.uci.edu/dataset/327/phishing+websites">archive.ics.uci.edu/dataset/327/phishing+websites</a></div>
+        <div><b>PSO tutorial</b><br><a href="https://pyswarms.readthedocs.io/en/latest/examples/usecases/feature_subset_selection.html">pyswarms.readthedocs.io/…/feature_subset_selection</a></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="foot">Cite as: G. Vrbančič, I. Fister Jr., V. Podgorelec. <em>Datasets for Phishing Websites Detection.</em> Data in Brief, Vol. 33, 2020. DOI: 10.1016/j.dib.2020.106438</p>
+
+</div>

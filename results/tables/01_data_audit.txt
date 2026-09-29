@@ -1,0 +1,125 @@
+
+==========================================================================
+1. SHAPE AND TARGET
+==========================================================================
+rows                 : 58,645
+columns              : 112
+expected             : 58,645 rows x 112 columns
+match                : YES
+
+last column name     : 'phishing'
+target values        : [0.0, 1.0]
+legitimate (0)       : 27,998  (47.7%)
+phishing   (1)       : 30,647  (52.3%)
+expected             : 27,998 legitimate / 30,647 phishing
+
+==========================================================================
+2. THE -1 SENTINEL INVESTIGATION
+==========================================================================
+`-1` marks a FAILED lookup, not a measurement. A domain cannot be
+-1 days old. These are missing values that isnull() will not report.
+
+feature                   tier    -1 count  -1 rate  P(phish|fail)    lift
+--------------------------------------------------------------------------
+qty_ip_resolved           T1         3,645    6.2%         25.9%    0.50
+time_response             T1         4,925    8.4%         28.3%    0.54
+ttl_hostname              T1         3,648    6.2%         25.8%    0.49
+qty_nameservers           T2             0     0.0%              -       -
+qty_mx_servers            T3             0     0.0%              -       -
+domain_spf                T4        11,153   19.0%         61.8%    1.18
+time_domain_activation    T5        18,910   32.2%         57.4%    1.10
+time_domain_expiration    T5        20,698   35.3%         54.5%    1.04
+tls_ssl_certificate       T6             0     0.0%              -       -
+qty_redirects             T7         5,519    9.4%         28.2%    0.54
+url_google_index          T8             4    0.0%          0.0%    0.00
+domain_google_index       T8             2    0.0%          0.0%    0.00
+asn_ip                    T9         4,767    8.1%         32.5%    0.62
+
+baseline P(phishing) : 52.3%
+lift = P(phishing | lookup failed) / baseline.  1.00 means uninformative.
+
+FAILED LOOKUPS CARRY SIGNAL in these columns:
+  ttl_hostname                 6.2% of rows fail, and those rows are 0.49x more likely to be legitimate
+  qty_ip_resolved              6.2% of rows fail, and those rows are 0.50x more likely to be legitimate
+  qty_redirects                9.4% of rows fail, and those rows are 0.54x more likely to be legitimate
+  time_response                8.4% of rows fail, and those rows are 0.54x more likely to be legitimate
+  asn_ip                       8.1% of rows fail, and those rows are 0.62x more likely to be legitimate
+
+  => `-1` is informative, not just noise. Tree models will exploit
+     this correctly. Distance-based models (SVM, KNN) will NOT: they
+     read -1 as 'slightly less than zero days old', placing failed
+     lookups next to brand-new domains. Handle before using those.
+
+==========================================================================
+3. CONSTANT AND NEAR-CONSTANT COLUMNS
+==========================================================================
+Free wins for any reduction method - they carry no information.
+
+constant columns      : 13
+    qty_slash_domain
+    qty_questionmark_domain
+    qty_equal_domain
+    qty_and_domain
+    qty_exclamation_domain
+    qty_space_domain
+    qty_tilde_domain
+    qty_comma_domain
+    qty_plus_domain
+    qty_asterisk_domain
+    qty_hashtag_domain
+    qty_dollar_domain
+    qty_percent_domain
+
+near-constant (>99.9%): 5
+    qty_at_domain                99.998% identical
+    qty_hashtag_url              99.981% identical
+    qty_underline_domain         99.976% identical
+    qty_space_url                99.942% identical
+    qty_dollar_url               99.908% identical
+
+=> 18 of 111 features are effectively dead weight (16%).
+   SPEA2 should discard these immediately; if it does not, that is a bug.
+
+==========================================================================
+4. COST MODEL CROSS-CHECK
+==========================================================================
+cost model validates against the real header: OK
+
+tier    features  description
+--------------------------------------------------------
+T0            98  URL string parsing
+T1             3  DNS A record
+T2             1  DNS NS record
+T3             1  DNS MX record
+T4             1  DNS TXT / SPF record
+T5             2  WHOIS registry query
+T6             1  TLS handshake
+T7             1  HTTP fetch / redirects
+T8             2  Search-index API
+T9             1  IP to ASN lookup
+
+URL-text features    : 98   (cost ~0.01 ms in total)
+network features     : 13   (each needs a lookup)
+reclassified to T0   : ['email_in_url', 'url_shortened']
+all-features cost    : 1,320.01 ms
+
+==========================================================================
+5. CALIBRATION - time_response DISTRIBUTION
+==========================================================================
+The one tier latency measurable directly from the data.
+
+valid measurements   : 53,720 of 58,645
+median               : 0.477 s   (477 ms)
+mean                 : 0.939 s
+p95                  : 3.309 s   (3,309 ms)
+max                  : 38.402 s
+
+Our T1 (DNS) estimate: 30 ms
+The measured values are far higher because the dataset was built by
+bulk extraction with cold caches. State in the report which regime
+is being modelled - see docs/02-cost-model.md section 4.
+
+==========================================================================
+AUDIT COMPLETE
+==========================================================================
+Next: install pandas / scikit-learn / pymoo, then Phase 03 baselines.

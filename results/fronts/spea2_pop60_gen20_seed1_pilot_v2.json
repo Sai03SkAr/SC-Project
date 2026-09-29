@@ -1,0 +1,21 @@
+{
+  "algorithm": "spea2",
+  "pop_size": 60,
+  "n_gen": 20,
+  "seed": 1,
+  "subsample": 15000,
+  "n_estimators": 30,
+  "random_state": 42,
+  "hypervolume": 1.1533932536640903,
+  "hv_ref_point": [
+    1.1,
+    1.1,
+    1.1
+  ],
+  "front_size": 54,
+  "elapsed_sec": 86.13405323028564,
+  "n_evaluations": 1200,
+  "n_cache_hits": 0,
+  "cache_hit_rate": 0.0,
+  "n_network_free": 0
+}
