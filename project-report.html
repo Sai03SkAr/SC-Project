@@ -161,7 +161,7 @@
   <div class="meta">
     <span><strong>Algorithm:</strong> SPEA2</span>
     <span><strong>Dataset:</strong> Vrbančič Phishing Dataset</span>
-    <span><strong>Status:</strong> Proposal</span>
+    <span><strong>Status:</strong> Complete</span>
   </div>
 
   <div class="objectives">
@@ -305,13 +305,13 @@
         <td><strong>f₂ — Missed phishing</strong><br><span style="color:var(--muted)">Objective 2</span></td>
         <td><span class="mono">FNR = FN/(FN+TP)</span><br>= 1 − recall</td>
         <td>Minimising this is the same as maximising recall. The most damaging error — a missed phishing site can cost a user their password, money or identity</td>
-        <td>FNR ≤ 5%<br>(published work: 4–6%)</td>
+        <td>FNR ≤ 5%<br>(email-phishing studies: 4–6%)</td>
       </tr>
       <tr>
         <td><strong>f₃ — False alarms</strong><br><span style="color:var(--muted)">supporting</span></td>
         <td><span class="mono">FPR = FP/(FP+TN)</span></td>
         <td>Blocking real websites frustrates users, who then disable the tool — leaving them less protected than before</td>
-        <td>FPR ≤ 2%<br>(best published: 0.1%)</td>
+        <td>FPR ≤ 2%<br>(best email-phishing result: 0.1%)</td>
       </tr>
     </tbody>
   </table>
@@ -527,8 +527,9 @@ f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
     the best recall found stayed between 95.6% and 95.8%.</li>
   </ul>
 
-  <p><strong>Limitations:</strong> one dataset, subsets tuned for a Random Forest, and failed DNS
-  lookups showed an unexpected link to legitimate sites worth checking on a second dataset.</p>
+  <p><strong>Limitations:</strong> the false-alarm rate (4.89%) stays above the 2% target; results come
+  from one dataset with subsets tuned for a Random Forest; and failed DNS lookups showed an unexpected
+  link to legitimate sites worth checking on a second dataset.</p>
 
   </div>
 

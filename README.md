@@ -1,8 +1,9 @@
 # Phishing Detection via Multi-Objective Feature Selection with SPEA2
 
 **Course:** Soft Computing
-**Status:** Planning / research complete — nothing implemented yet
-**Last updated:** 7 September 2026
+**Status:** Complete — all experiments run, report written
+**Last updated:** 30 September 2026
+**Report:** [`project-report.pdf`](project-report.pdf) (6 pages)
 
 ---
 
@@ -15,6 +16,27 @@ legitimate one**.
 
 The output is not one model. It is a **Pareto front** of best trade-offs, from which concrete
 deployment configurations are extracted.
+
+---
+
+## Headline result
+
+Measured once on the sealed 20% test set (11,729 websites), Random Forest classifier:
+
+| | Features | Detection cost | Recall | FPR |
+|---|---|---|---|---|
+| All features (baseline) | 111 | 1,320 ms | 96.39% | 5.04% |
+| **SPEA2 — email-gateway point** | **37** | **490 ms** | **96.52%** | **4.89%** |
+| SPEA2 — no network lookups | 48 | 0.01 ms | 89.75% | 8.66% |
+
+SPEA2 matched the full-feature detector with **67% fewer features and 63% lower detection
+cost**. Detecting with no network lookups at all is possible but costs about 6.6 points of recall.
+
+Other findings: NSGA-II reached a higher and more consistent hypervolume than SPEA2 (1.186 ± 0.008
+vs 1.155 ± 0.067), contradicting our pre-registered hypothesis, though the deployable solutions
+differ by under 0.3 points. The best achievable recall was stable (95.6–95.8%) when all network
+latencies were scaled ÷3 or ×3. The false-alarm rate (4.89%) did not reach the 2% target. Full
+results: [`results/tables/README.md`](results/tables/README.md).
 
 ---
 
@@ -38,14 +60,14 @@ All minimised. These map directly onto the project's stated goals.
 | **Size** | 58,645 rows × 112 columns (111 features + target) |
 | **Target** | `phishing` — `0` = legitimate, `1` = phishing |
 | **Primary algorithm** | **SPEA2** (Strength Pareto Evolutionary Algorithm 2) |
-| **Compared against** | NSGA-II, MOPSO, single-objective PSO (weighted sum) |
+| **Compared against** | NSGA-II, single-objective PSO (weighted sum), PCA, mutual-information filter |
 | **Framework** | `pymoo` |
 | **Classifier** | Random Forest (SVM and KNN as baselines) |
 | **Search space** | 2¹¹¹ ≈ 2.6 × 10³³ subsets |
 | **Cost range** | ~0.01 ms (URL-only) to ~1,320 ms (all features) |
 | **Comparison metric** | Hypervolume |
 | **Hardware** | None — laptop or free Google Colab |
-| **Estimated effort** | 42–51 hours across two people |
+
 
 ---
 
@@ -64,9 +86,35 @@ Read in order.
 | [`docs/07-pitfalls-and-risks.md`](docs/07-pitfalls-and-risks.md) | Everything that can invalidate the project, including multi-objective-specific traps |
 | [`docs/08-objective-benchmarks.md`](docs/08-objective-benchmarks.md) | **Published numbers for each of the three objectives** — target latency, recall and FPR values, and the precision-vs-recall priority tension with commercial practice |
 
-**Also in this folder:** `phishing-summary.html` / `.pdf` and `phishing-detection-plan.html` —
-earlier summaries written for the single-objective PSO version. **These are now out of date**
-and need regenerating.
+**Also in this folder:** [`archive/`](archive/) holds early summaries written for the
+superseded single-objective PSO plan. They are kept for the record only.
+
+---
+
+## How to reproduce
+
+```bash
+python3 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+
+# datasets are not committed - download them into data/
+curl -L -o data/dataset_small.csv https://raw.githubusercontent.com/GregaVrbancic/Phishing-Dataset/master/dataset_small.csv
+curl -L -o data/dataset_full.csv  https://raw.githubusercontent.com/GregaVrbancic/Phishing-Dataset/master/dataset_full.csv
+
+./.venv/bin/python src/audit_data.py                 # Phase 01 data audit
+./.venv/bin/python src/run_baselines.py              # all-111-feature baselines
+./.venv/bin/python src/run_classical_baselines.py    # PCA + mutual-information filter
+./.venv/bin/python src/run_multiseed.py --algorithm spea2   # ~30 min
+./.venv/bin/python src/run_multiseed.py --algorithm nsga2   # ~30 min
+./.venv/bin/python src/run_pso_weighted.py           # weighted-sum PSO baseline
+./.venv/bin/python src/analyze_fronts.py --algorithm spea2
+./.venv/bin/python src/analyze_fronts.py --algorithm nsga2
+./.venv/bin/python src/final_validation.py           # every subset, once, on the test set
+./.venv/bin/python src/make_figures.py               # figures into results/figures/
+./.venv/bin/python src/run_sensitivity.py            # ~55 min
+```
+
+On a Mac, prefix long runs with `caffeinate -i` so the machine does not sleep mid-run.
 
 ---
 
@@ -146,11 +194,19 @@ is reserved for an optional imbalance study.
 - [x] Added a per-feature tiebreak cost (`PER_FEATURE_EPSILON_MS`) after a pilot run showed the
       tier-only cost model gave no incentive to drop redundant same-tier features — see
       `docs/02-cost-model.md` §6.1
-- [ ] Full 5-seed SPEA2 + NSGA-II + baseline run — **in progress**
-- [ ] Classical baselines (PCA, mutual-information filter)
-- [ ] Cost sensitivity analysis (optimistic/baseline/pessimistic scenarios)
-- [ ] Verify every literature citation against its primary source before the report
-- [ ] Regenerate the HTML/PDF summaries, which still describe the single-objective plan
+- [x] Full 5-seed SPEA2 and NSGA-II runs, all-feature baselines
+- [x] Classical baselines (PCA, mutual-information filter)
+- [x] Weighted-sum PSO baseline (4 weight settings)
+- [x] Final validation of every chosen subset on the sealed test set
+- [x] Cost sensitivity analysis (÷3 / ×1 / ×3 latencies)
+- [x] Report citations checked. **Correction made:** the "4–6% FNR" and "0.1% FPR" benchmarks come
+      from PILFER (Fette, Sadeh & Tomasic, WWW 2007), an *email* phishing classifier; the report now
+      labels them as email-phishing results
+- [x] Outdated early summaries moved to `archive/`
+- [ ] **Not done, by decision:** MOPSO was planned as a second swarm comparison but not run — the
+      weighted-sum PSO already demonstrates the swarm/scalarisation comparison
+- [ ] **Not done, optional:** cross-dataset validation on the UCI dataset, which would test whether
+      the failed-DNS-lookup signal is a collection artifact
 
 ---
 
@@ -173,7 +229,8 @@ is reserved for an optional imbalance study.
 
 ---
 
-## What is deliberately NOT here
+## What is not in the repository
 
-No code. No notebooks, no scripts, no environment. These are research and planning artefacts
-only — implementation is a separate, later step.
+The datasets (`data/*.csv`), the virtual environment (`.venv/`) and the raw Pareto-front arrays
+(`results/fronts/*.npz`) are excluded by `.gitignore` to keep the repository small. See
+*How to reproduce* above to regenerate them.

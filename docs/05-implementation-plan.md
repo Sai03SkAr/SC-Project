@@ -1,8 +1,13 @@
 # 05 — Implementation Plan
 
+> **As built (30 Sep 2026).** This document is the pre-implementation plan and is kept as written.
+> Deviations from it: **MOPSO was not run** — the weighted-sum PSO baseline
+> (`src/run_pso_weighted.py`) covers the swarm/scalarisation comparison instead. Everything else
+> described here was implemented; results are in `results/tables/README.md` and the report.
+
 The full build sequence for SPEA2-based multi-objective feature selection.
 
-**Nothing is implemented yet. This is the specification.**
+**Implemented — see the note above for deviations. Kept as the original specification.**
 
 ---
 

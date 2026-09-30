@@ -1,5 +1,10 @@
 # 03 — Methodology
 
+> **As built (30 Sep 2026).** This document is the pre-implementation plan and is kept as written.
+> Deviations from it: **MOPSO was not run** — the weighted-sum PSO baseline
+> (`src/run_pso_weighted.py`) covers the swarm/scalarisation comparison instead. Everything else
+> described here was implemented; results are in `results/tables/README.md` and the report.
+
 Multi-objective feature selection with SPEA2. The algorithms, their mechanics, and the
 justification for each choice.
 
@@ -188,7 +193,7 @@ that has no library implementation.
 |------|-----------|---------|
 | **Primary** | **SPEA2** | The project's result |
 | Co-primary | **NSGA-II** | The field's reference point. Same operators, one-line swap |
-| Comparison | **MOPSO** | Swarm-based multi-objective — evolutionary vs swarm |
+| Comparison | **MOPSO** *(planned, not run)* | Swarm-based multi-objective — replaced by the weighted-sum PSO baseline |
 | Baseline | **PSO (weighted sum)** | Demonstrates the scalarisation limitation |
 | Control | All 111 features | No selection at all |
 

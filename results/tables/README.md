@@ -261,11 +261,10 @@ SPEA2/NSGA-II seed.)*
 (both overlaid), `f6_feature_frequency_spea2.png`, `f6_feature_frequency_nsga2.png`,
 `f7_cost_recall_tradeoff.png` (both overlaid)
 
-## Still running / not yet done
+## Status
 
-- [ ] Cost sensitivity analysis (optimistic/baseline/pessimistic) — launching next
-- [ ] Final report update with these results
-- [ ] Git commit + push
+All planned experiments are complete; the sensitivity analysis and final test-set validation
+follow below. MOPSO was planned but not run (see the as-built notes in `docs/`).
 
 ## Final validation on the sealed test set (COMPLETE)
 

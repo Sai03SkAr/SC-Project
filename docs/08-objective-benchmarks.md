@@ -86,6 +86,15 @@ itself a finding: using all 111 features is not deployable in real time at all.
 
 ---
 
+> ## ⚠ Correction (30 Sep 2026) — these benchmarks are from EMAIL phishing
+>
+> The "Random Forest (PILFER)" figures (≈96% recall, 4% FNR, 0.1% FPR) come from
+> Fette, Sadeh & Tomasic, *Learning to Detect Phishing Emails*, WWW 2007 — an **email**
+> classifier, not website/URL detection. The RL/Deep Q-Network and 2025 Scientific Reports
+> figures below were also measured on phishing **emails**. They are still useful as rough
+> reference points, but they are not like-for-like with this project. The report now labels
+> them as email-phishing results.
+
 ## Objective 2 — Recall / false negatives (minimise f₂)
 
 ### Published recall and FNR
