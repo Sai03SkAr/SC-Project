@@ -139,6 +139,16 @@
     font-size: 9.6pt; color: var(--muted);
   }
   footer p { margin: 0 0 3px; }
+
+  /* ---- page 6: comparison + conclusion ---- */
+  .newpage { break-before: page; page-break-before: always; }
+  .newpage h2:first-child { margin-top: 0; }
+  table.cmp { font-size: 9.2pt; }
+  table.cmp th { padding: 3.5px 5px; }
+  table.cmp td { padding: 3px 5px; }
+  table.cmp tr.hl td { background: var(--tint); }
+  .newpage ul { margin-bottom: 5px; }
+  .newpage li { margin-bottom: 3px; }
 </style>
 
 <div class="sheet">
@@ -457,5 +467,69 @@ f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
     <p><strong>Algorithm.</strong> E. Zitzler, M. Laumanns, L. Thiele. <em>SPEA2: Improving the
     Strength Pareto Evolutionary Algorithm.</em> TIK Report 103, ETH Zurich, 2001.</p>
   </footer>
+
+  <div class="newpage">
+
+  <h2>7. Comparison of Algorithms</h2>
+
+  <p>Each method's feature subset retrains the same Random Forest as the baseline. Every row is
+  measured <strong>once, on the sealed 20% test set (11,729 websites)</strong>.</p>
+
+  <table class="cmp">
+    <caption>Table 4 — Comparison of methods on the sealed test set</caption>
+    <thead>
+      <tr><th style="width:21%">Method</th><th>Features</th><th>Cost</th><th>Accuracy</th><th>Recall</th><th>FPR</th><th style="width:27%">Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>All features (baseline)</td><td class="n">111</td><td class="n">1,320 ms</td><td class="n">95.71%</td><td class="n">96.39%</td><td class="n">5.04%</td><td>Reference point</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> (gateway)</td><td class="n"><strong>37</strong></td><td class="n"><strong>490 ms</strong></td><td class="n"><strong>95.85%</strong></td><td class="n"><strong>96.52%</strong></td><td class="n"><strong>4.89%</strong></td><td>Primary; full Pareto front</td></tr>
+      <tr><td>SPEA2 (no lookups)</td><td class="n">48</td><td class="n">0.01 ms</td><td class="n">90.51%</td><td class="n">89.75%</td><td class="n">8.66%</td><td>Browser-deployable</td></tr>
+      <tr><td>NSGA-II (gateway)</td><td class="n">46</td><td class="n">290 ms</td><td class="n">95.61%</td><td class="n">96.26%</td><td class="n">5.11%</td><td>Comparison; full Pareto front</td></tr>
+      <tr><td>NSGA-II (no lookups)</td><td class="n">53</td><td class="n">0.01 ms</td><td class="n">90.73%</td><td class="n">90.23%</td><td class="n">8.71%</td><td>Browser-deployable</td></tr>
+      <tr><td>PSO weighted (recall)</td><td class="n">60</td><td class="n">260 ms</td><td class="n">95.37%</td><td class="n">95.86%</td><td class="n">5.16%</td><td>1 point/run; weights guessed</td></tr>
+      <tr><td>PSO weighted (cost)</td><td class="n">50</td><td class="n">0.01 ms</td><td class="n">90.59%</td><td class="n">89.98%</td><td class="n">8.75%</td><td>Separate run needed</td></tr>
+      <tr><td>PCA (95% var.)</td><td class="n">40 comp.</td><td class="n">1,320 ms</td><td class="n">94.47%</td><td class="n">95.25%</td><td class="n">6.39%</td><td>Blended; needs all 111 inputs</td></tr>
+      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">0.01 ms</td><td class="n">87.93%</td><td class="n">85.90%</td><td class="n">9.86%</td><td>Ignores interactions</td></tr>
+    </tbody>
+  </table>
+
+  <table class="cmp">
+    <caption>Table 5 — Search quality across 5 independent runs</caption>
+    <thead>
+      <tr><th style="width:21%">Algorithm</th><th>Hypervolume (mean ± std)</th><th>Pareto solutions</th><th>Network-free solutions</th><th>Output per run</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SPEA2</td><td class="n">1.155 ± 0.067</td><td class="n">201</td><td class="n">27</td><td>Whole trade-off curve</td></tr>
+      <tr><td>NSGA-II</td><td class="n">1.186 ± 0.008</td><td class="n">241</td><td class="n">32</td><td>Whole trade-off curve</td></tr>
+      <tr><td>PSO weighted</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td>A single point</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. Conclusion</h2>
+
+  <p>SPEA2 reduced the detector from <strong>111 features to 37</strong> and its detection cost from
+  <strong>1,320 ms to 490 ms (−63%)</strong>, while matching the full-feature baseline on unseen data
+  — recall 96.52% against 96.39%, and fewer false alarms (4.89% against 5.04%). Both stated
+  objectives are therefore met at this point: detection is substantially faster, and recall is
+  not reduced.</p>
+
+  <ul>
+    <li><strong>Instant detection has a measurable price.</strong> A solution using only the URL
+    text (0.01 ms, no network lookups) exists, but recall falls to about 90%. DNS lookups were the
+    most valuable network check; TLS, redirect and Google-index lookups were almost never selected.</li>
+    <li><strong>Multi-objective search was the right approach.</strong> SPEA2 and NSGA-II returned
+    the whole trade-off curve per run; weighted-sum PSO returned one point. The filter method did
+    worst (85.90% recall).</li>
+    <li><strong>Algorithm comparison, reported honestly.</strong> NSGA-II achieved a higher and far
+    more consistent hypervolume than SPEA2, so our prediction that SPEA2 would search better was not
+    supported. At the deployable points, however, the two differ by under 0.3 percentage points.</li>
+    <li><strong>The result is robust.</strong> When all network latencies were scaled by ÷3 and ×3,
+    the best recall found stayed between 95.6% and 95.8%.</li>
+  </ul>
+
+  <p><strong>Limitations:</strong> one dataset, subsets tuned for a Random Forest, and failed DNS
+  lookups showed an unexpected link to legitimate sites worth checking on a second dataset.</p>
+
+  </div>
 
 </div>

@@ -266,3 +266,37 @@ SPEA2/NSGA-II seed.)*
 - [ ] Cost sensitivity analysis (optimistic/baseline/pessimistic) — launching next
 - [ ] Final report update with these results
 - [ ] Git commit + push
+
+## Final validation on the sealed test set (COMPLETE)
+
+`final_validation_test_set.json` — every method's chosen subset, retrained with a
+200-tree Random Forest on the full training split and evaluated once on the sealed
+20% test set (11,729 websites). This is the table used in the report (§7).
+
+| Method | Features | Cost | Accuracy | Recall | FPR |
+|---|---|---|---|---|---|
+| All features | 111 | 1,320 ms | 95.71% | 96.39% | 5.04% |
+| **SPEA2 (email gateway)** | **37** | **490 ms** | **95.85%** | **96.52%** | **4.89%** |
+| SPEA2 (no lookups) | 48 | 0.01 ms | 90.51% | 89.75% | 8.66% |
+| NSGA-II (email gateway) | 46 | 290 ms | 95.61% | 96.26% | 5.11% |
+| NSGA-II (no lookups) | 53 | 0.01 ms | 90.73% | 90.23% | 8.71% |
+| PSO weighted (recall) | 60 | 260 ms | 95.37% | 95.86% | 5.16% |
+| PSO weighted (cost) | 50 | 0.01 ms | 90.59% | 89.98% | 8.75% |
+| PCA (95% variance) | 40 comp. | 1,320 ms | 94.47% | 95.25% | 6.39% |
+| MI filter (top 25) | 25 | 0.01 ms | 87.93% | 85.90% | 9.86% |
+
+**Headline:** SPEA2's gateway subset matches the full-feature baseline on unseen data
+(recall 96.52% vs 96.39%, FPR 4.89% vs 5.04%) with 67% fewer features and 63% lower
+detection cost.
+
+## Cost sensitivity analysis (COMPLETE)
+
+`sensitivity_analysis.json` — SPEA2, 3 seeds per scenario, network latencies scaled ÷3 / ×1 / ×3.
+
+Best recall found: optimistic 95.7–95.8%, baseline 95.6–95.7%, pessimistic 95.6–95.8%.
+**The achievable recall is stable across a 9× range of latency assumptions** — the result
+does not depend on the exact tier latencies chosen.
+
+Exact feature sets vary a lot between seeds (within-scenario Jaccard ≈ 0.15), because the
+dataset's redundant features allow many near-equivalent subsets. The union of features
+chosen under optimistic vs pessimistic costs overlaps at Jaccard 0.73.

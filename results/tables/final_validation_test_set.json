@@ -1,0 +1,92 @@
+{
+  "all_features": {
+    "n_features": 111,
+    "cost_ms": 1320.01111,
+    "accuracy": 0.9571148435501747,
+    "recall": 0.9639419154837657,
+    "precision": 0.9544426494345719,
+    "fpr": 0.05035714285714286,
+    "train_time_s": 1.1758410930633545
+  },
+  "spea2_email_gateway": {
+    "n_features": 37,
+    "cost_ms": 490.01036999999997,
+    "accuracy": 0.9584789837155768,
+    "recall": 0.9652471855115027,
+    "precision": 0.955735056542811,
+    "fpr": 0.048928571428571425,
+    "train_time_s": 1.1095619201660156
+  },
+  "spea2_browser_extension": {
+    "n_features": 48,
+    "cost_ms": 0.01048,
+    "accuracy": 0.9051069997442237,
+    "recall": 0.8975363028226464,
+    "precision": 0.9189776144336785,
+    "fpr": 0.08660714285714285,
+    "train_time_s": 0.7030739784240723
+  },
+  "nsga2_email_gateway": {
+    "n_features": 46,
+    "cost_ms": 290.01045999999997,
+    "accuracy": 0.9560917384261233,
+    "recall": 0.9626366454560287,
+    "precision": 0.9537665696734562,
+    "fpr": 0.05107142857142857,
+    "train_time_s": 0.8662278652191162
+  },
+  "nsga2_browser_extension": {
+    "n_features": 53,
+    "cost_ms": 0.010530000000000001,
+    "accuracy": 0.9073237275130019,
+    "recall": 0.902267906673193,
+    "precision": 0.9189099368560983,
+    "fpr": 0.08714285714285715,
+    "train_time_s": 0.7474651336669922
+  },
+  "pso_balanced": {
+    "n_features": 51,
+    "cost_ms": 30.01051,
+    "accuracy": 0.9255691022252537,
+    "recall": 0.9303312122695383,
+    "precision": 0.9274560832791151,
+    "fpr": 0.07964285714285714,
+    "train_time_s": 0.8608129024505615
+  },
+  "pso_cost_dominant": {
+    "n_features": 50,
+    "cost_ms": 0.0105,
+    "accuracy": 0.9058743285872624,
+    "recall": 0.8998205253711862,
+    "precision": 0.9184013322231473,
+    "fpr": 0.0875,
+    "train_time_s": 0.7856638431549072
+  },
+  "pso_recall_dominant": {
+    "n_features": 60,
+    "cost_ms": 260.0106,
+    "accuracy": 0.9537044931366698,
+    "recall": 0.9585576766193507,
+    "precision": 0.9531148604802077,
+    "fpr": 0.05160714285714286,
+    "train_time_s": 0.9380590915679932
+  },
+  "pso_fpr_dominant": {
+    "n_features": 54,
+    "cost_ms": 280.01054,
+    "accuracy": 0.9537897518970074,
+    "recall": 0.9593734703866863,
+    "precision": 0.9525352340839138,
+    "fpr": 0.052321428571428574,
+    "train_time_s": 0.8786330223083496
+  },
+  "mi_filter_top25": {
+    "n_features": 25,
+    "cost_ms": 0.01025,
+    "accuracy": 0.8792735953619234,
+    "recall": 0.8590308370044053,
+    "precision": 0.9051057246003095,
+    "fpr": 0.09857142857142857,
+    "train_time_s": 0.6054999828338623
+  }
+}
