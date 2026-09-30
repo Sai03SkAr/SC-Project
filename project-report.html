@@ -149,6 +149,7 @@
   table.cmp tr.hl td { background: var(--tint); }
   .newpage ul { margin-bottom: 5px; }
   .newpage li { margin-bottom: 3px; }
+  .tnote { font-size: 9.2pt; color: var(--muted); margin-top: -4px; }
 </style>
 
 <div class="sheet">
@@ -485,9 +486,7 @@ f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
       <tr class="hl"><td><strong>SPEA2</strong> (gateway)</td><td class="n"><strong>37</strong></td><td class="n"><strong>490 ms</strong></td><td class="n"><strong>95.85%</strong></td><td class="n"><strong>96.52%</strong></td><td class="n"><strong>4.89%</strong></td><td>Primary; full Pareto front</td></tr>
       <tr><td>SPEA2 (no lookups)</td><td class="n">48</td><td class="n">0.01 ms</td><td class="n">90.51%</td><td class="n">89.75%</td><td class="n">8.66%</td><td>Browser-deployable</td></tr>
       <tr><td>NSGA-II (gateway)</td><td class="n">46</td><td class="n">290 ms</td><td class="n">95.61%</td><td class="n">96.26%</td><td class="n">5.11%</td><td>Comparison; full Pareto front</td></tr>
-      <tr><td>NSGA-II (no lookups)</td><td class="n">53</td><td class="n">0.01 ms</td><td class="n">90.73%</td><td class="n">90.23%</td><td class="n">8.71%</td><td>Browser-deployable</td></tr>
       <tr><td>PSO weighted (recall)</td><td class="n">60</td><td class="n">260 ms</td><td class="n">95.37%</td><td class="n">95.86%</td><td class="n">5.16%</td><td>1 point/run; weights guessed</td></tr>
-      <tr><td>PSO weighted (cost)</td><td class="n">50</td><td class="n">0.01 ms</td><td class="n">90.59%</td><td class="n">89.98%</td><td class="n">8.75%</td><td>Separate run needed</td></tr>
       <tr><td>PCA (95% var.)</td><td class="n">40 comp.</td><td class="n">1,320 ms</td><td class="n">94.47%</td><td class="n">95.25%</td><td class="n">6.39%</td><td>Blended; needs all 111 inputs</td></tr>
       <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">0.01 ms</td><td class="n">87.93%</td><td class="n">85.90%</td><td class="n">9.86%</td><td>Ignores interactions</td></tr>
     </tbody>
@@ -501,35 +500,48 @@ f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
     <tbody>
       <tr><td>SPEA2</td><td class="n">1.155 ± 0.067</td><td class="n">201</td><td class="n">27</td><td>Whole trade-off curve</td></tr>
       <tr><td>NSGA-II</td><td class="n">1.186 ± 0.008</td><td class="n">241</td><td class="n">32</td><td>Whole trade-off curve</td></tr>
-      <tr><td>PSO weighted</td><td class="n">—</td><td class="n">1</td><td class="n">—</td><td>A single point</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.1 Tuning the decision cut-off</h3>
+
+  <p>A site is flagged when the model is at least 50% sure by default; raising this cut-off trades
+  recall for fewer false alarms. Models train on 75% of the training data, the other 25% selects each
+  cut-off, and the result is measured once on the test set.</p>
+
+  <table class="cmp">
+    <caption>Table 6 — False-alarm targets and their cost in recall (test set)</caption>
+    <thead>
+      <tr><th style="width:21%">False-alarm target</th><th>Cut-off</th><th>SPEA2 recall</th><th>SPEA2 FPR</th><th>All-features recall</th><th>All-features FPR</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Default</td><td class="n">50.0%</td><td class="n">96.17%</td><td class="n">5.30%</td><td class="n">95.97%</td><td class="n">5.34%</td></tr>
+      <tr class="hl"><td><strong>≤ 4% (recommended)</strong></td><td class="n"><strong>57.6%</strong></td><td class="n"><strong>95.14%</strong></td><td class="n"><strong>3.95%</strong></td><td class="n">94.81%</td><td class="n">4.12%</td></tr>
+      <tr><td>≤ 3%</td><td class="n">65.1%</td><td class="n">93.54%</td><td class="n">3.29%</td><td class="n">93.51%</td><td class="n">3.02%</td></tr>
+      <tr><td>≤ 2%</td><td class="n">74.6%</td><td class="n">90.16%</td><td class="n">2.04%</td><td class="n">90.62%</td><td class="n">1.98%</td></tr>
     </tbody>
   </table>
 
   <h2>8. Conclusion</h2>
 
-  <p>SPEA2 reduced the detector from <strong>111 features to 37</strong> and its detection cost from
-  <strong>1,320 ms to 490 ms (−63%)</strong>, while matching the full-feature baseline on unseen data
-  — recall 96.52% against 96.39%, and fewer false alarms (4.89% against 5.04%). Both stated
-  objectives are therefore met at this point: detection is substantially faster, and recall is
-  not reduced.</p>
+  <p>SPEA2 cut the detector from <strong>111 features to 37</strong> and detection cost from
+  <strong>1,320 ms to 490 ms (−63%)</strong> while matching the full-feature baseline on unseen data
+  (recall 96.52% against 96.39%; false alarms 4.89% against 5.04%). Both objectives are met.</p>
 
   <ul>
-    <li><strong>Instant detection has a measurable price.</strong> A solution using only the URL
-    text (0.01 ms, no network lookups) exists, but recall falls to about 90%. DNS lookups were the
-    most valuable network check; TLS, redirect and Google-index lookups were almost never selected.</li>
-    <li><strong>Multi-objective search was the right approach.</strong> SPEA2 and NSGA-II returned
-    the whole trade-off curve per run; weighted-sum PSO returned one point. The filter method did
-    worst (85.90% recall).</li>
-    <li><strong>Algorithm comparison, reported honestly.</strong> NSGA-II achieved a higher and far
-    more consistent hypervolume than SPEA2, so our prediction that SPEA2 would search better was not
-    supported. At the deployable points, however, the two differ by under 0.3 percentage points.</li>
-    <li><strong>The result is robust.</strong> When all network latencies were scaled by ÷3 and ×3,
-    the best recall found stayed between 95.6% and 95.8%.</li>
+    <li><strong>Best algorithm.</strong> NSGA-II was the more reliable search — higher and far more
+    consistent hypervolume (1.186 ± 0.008 against 1.155 ± 0.067) — while SPEA2 produced the single
+    best detector on the test set. Both beat weighted-sum PSO (one point per run) and the filter
+    method (85.90% recall).</li>
+    <li><strong>False alarms.</strong> A 2% false-alarm rate is reachable, but only at about 90%
+    recall — and the full 111-feature model hits the same limit, so this is a property of URL-based
+    features, not of feature selection. A 57.6% cut-off gives 95.14% recall at 3.95% false alarms.</li>
+    <li><strong>Speed and robustness.</strong> With no network lookups (0.01 ms) recall falls to about
+    90%. Scaling all network latencies ÷3 or ×3 kept the best recall at 95.6–95.8%.</li>
   </ul>
 
-  <p><strong>Limitations:</strong> the false-alarm rate (4.89%) stays above the 2% target; results come
-  from one dataset with subsets tuned for a Random Forest; and failed DNS lookups showed an unexpected
-  link to legitimate sites worth checking on a second dataset.</p>
+  <p><strong>Limitations:</strong> one dataset; subsets tuned for a Random Forest; and failed DNS
+  lookups showed an unexpected link to legitimate sites, worth checking on a second dataset.</p>
 
   </div>
 

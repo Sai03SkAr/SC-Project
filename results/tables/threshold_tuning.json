@@ -1,0 +1,110 @@
+{
+  "all_features": {
+    "n_features": 111,
+    "test_auc": 0.9905928489849195,
+    "operating_points": [
+      {
+        "target_fpr": null,
+        "threshold": 0.5,
+        "test_recall": 0.9596997878936205,
+        "test_fpr": 0.053392857142857145
+      },
+      {
+        "target_fpr": 0.04,
+        "threshold": 0.5700000000000001,
+        "test_recall": 0.9481155163974547,
+        "test_fpr": 0.04125
+      },
+      {
+        "target_fpr": 0.03,
+        "threshold": 0.636,
+        "test_recall": 0.9350628161200848,
+        "test_fpr": 0.03017857142857143
+      },
+      {
+        "target_fpr": 0.02,
+        "threshold": 0.726,
+        "test_recall": 0.906183716756404,
+        "test_fpr": 0.01982142857142857
+      },
+      {
+        "target_fpr": 0.01,
+        "threshold": 0.8300000000000001,
+        "test_recall": 0.846630771740904,
+        "test_fpr": 0.009821428571428571
+      }
+    ]
+  },
+  "spea2_gateway": {
+    "n_features": 37,
+    "test_auc": 0.9903508058877002,
+    "operating_points": [
+      {
+        "target_fpr": null,
+        "threshold": 0.5,
+        "test_recall": 0.961657692935226,
+        "test_fpr": 0.05303571428571428
+      },
+      {
+        "target_fpr": 0.04,
+        "threshold": 0.5760000000000001,
+        "test_recall": 0.9513786914667972,
+        "test_fpr": 0.039464285714285716
+      },
+      {
+        "target_fpr": 0.03,
+        "threshold": 0.651,
+        "test_recall": 0.9353891336270191,
+        "test_fpr": 0.032857142857142856
+      },
+      {
+        "target_fpr": 0.02,
+        "threshold": 0.746,
+        "test_recall": 0.9016152716593245,
+        "test_fpr": 0.02035714285714286
+      },
+      {
+        "target_fpr": 0.01,
+        "threshold": 0.8460000000000001,
+        "test_recall": 0.8451623429596998,
+        "test_fpr": 0.010535714285714285
+      }
+    ]
+  },
+  "nsga2_gateway": {
+    "n_features": 46,
+    "test_auc": 0.9899067227233527,
+    "operating_points": [
+      {
+        "target_fpr": null,
+        "threshold": 0.5,
+        "test_recall": 0.9619840104421602,
+        "test_fpr": 0.05482142857142857
+      },
+      {
+        "target_fpr": 0.04,
+        "threshold": 0.591,
+        "test_recall": 0.9450155000815794,
+        "test_fpr": 0.040535714285714286
+      },
+      {
+        "target_fpr": 0.03,
+        "threshold": 0.6559999999999999,
+        "test_recall": 0.9288627834883342,
+        "test_fpr": 0.0325
+      },
+      {
+        "target_fpr": 0.02,
+        "threshold": 0.761,
+        "test_recall": 0.8939468102463697,
+        "test_fpr": 0.020714285714285713
+      },
+      {
+        "target_fpr": 0.01,
+        "threshold": 0.8700000000000001,
+        "test_recall": 0.8143253385544135,
+        "test_fpr": 0.008928571428571428
+      }
+    ]
+  }
+}

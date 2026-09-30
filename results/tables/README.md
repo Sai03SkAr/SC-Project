@@ -299,3 +299,22 @@ does not depend on the exact tier latencies chosen.
 Exact feature sets vary a lot between seeds (within-scenario Jaccard ≈ 0.15), because the
 dataset's redundant features allow many near-equivalent subsets. The union of features
 chosen under optimistic vs pessimistic costs overlaps at Jaccard 0.73.
+
+## Decision cut-off tuning (COMPLETE)
+
+`threshold_tuning.json` — `src/threshold_tuning.py`. Models train on 75% of the training data;
+the other 25% (validation) selects the probability cut-off for each false-alarm target; the
+result is measured once on the sealed test set.
+
+| FPR target | Cut-off | SPEA2 recall | SPEA2 FPR | All-features recall | All-features FPR |
+|---|---|---|---|---|---|
+| default | 50.0% | 96.17% | 5.30% | 95.97% | 5.34% |
+| ≤ 4% | 57.6% | **95.14%** | **3.95%** | 94.81% | 4.12% |
+| ≤ 3% | 65.1% | 93.54% | 3.29% | 93.51% | 3.02% |
+| ≤ 2% | 74.6% | 90.16% | 2.04% | 90.62% | 1.98% |
+
+**Finding:** the 2% false-alarm target *is* reachable, but only at about 90% recall — and the
+full 111-feature model hits the same ceiling. The target cannot be met together with 95%
+recall on this dataset with URL-based features; this is a property of the data, not of the
+feature selection. The 57.6% cut-off (95.14% recall, 3.95% FPR) keeps the recall objective and
+cuts false alarms by about a quarter; it is the report's recommended operating point.

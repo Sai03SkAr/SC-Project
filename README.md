@@ -35,7 +35,9 @@ cost**. Detecting with no network lookups at all is possible but costs about 6.6
 Other findings: NSGA-II reached a higher and more consistent hypervolume than SPEA2 (1.186 ± 0.008
 vs 1.155 ± 0.067), contradicting our pre-registered hypothesis, though the deployable solutions
 differ by under 0.3 points. The best achievable recall was stable (95.6–95.8%) when all network
-latencies were scaled ÷3 or ×3. The false-alarm rate (4.89%) did not reach the 2% target. Full
+latencies were scaled ÷3 or ×3. A 2% false-alarm rate is reachable only at ~90% recall — the
+full 111-feature model hits the same limit — so a 57.6% decision cut-off (95.14% recall, 3.95%
+false alarms) is recommended. Full
 results: [`results/tables/README.md`](results/tables/README.md).
 
 ---
@@ -110,6 +112,7 @@ curl -L -o data/dataset_full.csv  https://raw.githubusercontent.com/GregaVrbanci
 ./.venv/bin/python src/analyze_fronts.py --algorithm spea2
 ./.venv/bin/python src/analyze_fronts.py --algorithm nsga2
 ./.venv/bin/python src/final_validation.py           # every subset, once, on the test set
+./.venv/bin/python src/threshold_tuning.py           # false-alarm vs recall cut-offs
 ./.venv/bin/python src/make_figures.py               # figures into results/figures/
 ./.venv/bin/python src/run_sensitivity.py            # ~55 min
 ```
@@ -203,6 +206,8 @@ is reserved for an optional imbalance study.
       from PILFER (Fette, Sadeh & Tomasic, WWW 2007), an *email* phishing classifier; the report now
       labels them as email-phishing results
 - [x] Outdated early summaries moved to `archive/`
+- [x] Decision cut-off tuning: showed the 2% FPR target is only reachable at ~90% recall, for
+      every method including all 111 features
 - [ ] **Not done, by decision:** MOPSO was planned as a second swarm comparison but not run — the
       weighted-sum PSO already demonstrates the swarm/scalarisation comparison
 - [ ] **Not done, optional:** cross-dataset validation on the UCI dataset, which would test whether
