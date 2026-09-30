@@ -326,3 +326,24 @@ settings to seeds 1–5 (pop 100, 50 generations, same operators and data splits
 hypervolume comparison will be reported **whatever it shows**. No seed will be excluded, and
 neither algorithm's settings will be changed. Purpose: check whether SPEA2's lower 5-seed
 result was driven by one poor run (seed 3), not to search for a preferred outcome.
+
+## Classifier ceiling test (COMPLETE)
+
+`classifier_ceiling.json` — `src/classifier_ceiling.py`. Can a stronger classifier reach
+recall ≥ 95% **and** FPR ≤ 2% together? Cut-offs chosen on validation, measured once on test.
+
+| Features | Classifier | Test AUC | Recall @ FPR ≤ 2% | FPR @ recall ≥ 95% | Both targets? |
+|---|---|---|---|---|---|
+| all 111 | Random Forest 200 | 0.9906 | 90.62% | 4.45% | no |
+| all 111 | Random Forest 500 | 0.9907 | 91.08% | 4.41% | no |
+| all 111 | Extra Trees 500 | 0.9906 | 90.93% | 4.55% | no |
+| all 111 | Hist. Gradient Boosting | 0.9901 | 89.41% | 4.70% | no |
+| SPEA2 37 | Random Forest 200 | 0.9904 | 90.16% | 4.09% | no |
+| SPEA2 37 | Random Forest 500 | 0.9906 | 90.57% | 4.09% | no |
+| SPEA2 37 | Extra Trees 500 | 0.9910 | 91.24% | 4.30% | no |
+| SPEA2 37 | Hist. Gradient Boosting | 0.9897 | 88.89% | 4.80% | no |
+
+**No classifier, on either feature set, meets both targets.** All four reach essentially the
+same ceiling (AUC ≈ 0.990): about 90% recall at 2% false alarms, or about 4–5% false alarms at
+95% recall. The 2% target is a limit of this dataset's URL-based features, not of the
+classifier or the feature selection.
