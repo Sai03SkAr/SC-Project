@@ -318,3 +318,11 @@ full 111-feature model hits the same ceiling. The target cannot be met together 
 recall on this dataset with URL-based features; this is a property of the data, not of the
 feature selection. The 57.6% cut-off (95.14% recall, 3.95% FPR) keeps the recall objective and
 cuts false alarms by about a quarter; it is the report's recommended operating point.
+
+## Pre-registration — seeds 6–10 (written 30 Sep 2026, BEFORE running)
+
+Both SPEA2 and NSGA-II are being extended from 5 to 10 seeds (seeds 6–10), with identical
+settings to seeds 1–5 (pop 100, 50 generations, same operators and data splits). The 10-seed
+hypervolume comparison will be reported **whatever it shows**. No seed will be excluded, and
+neither algorithm's settings will be changed. Purpose: check whether SPEA2's lower 5-seed
+result was driven by one poor run (seed 3), not to search for a preferred outcome.
