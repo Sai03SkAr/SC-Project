@@ -1,0 +1,29 @@
+{
+  "algorithm": "spea2",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 6,
+  "subsample": 15000,
+  "n_estimators": 30,
+  "hypervolume": 1.1803438958970056,
+  "hv_ref_point": [
+    1.1,
+    1.1,
+    1.1
+  ],
+  "front_size": 100,
+  "elapsed_sec": 347.07937383651733,
+  "n_evaluations": 4971,
+  "n_cache_hits": 29,
+  "cache_hit_rate": 0.0058,
+  "n_network_free": 0,
+  "features_min": 24,
+  "features_max": 62,
+  "features_median": 39.0,
+  "fnr_min": 0.0437265459291891,
+  "fnr_max": 0.09251101321585903,
+  "fpr_min": 0.053392857142857145,
+  "fpr_max": 0.10892857142857143,
+  "cost_min": 30.010240000000003,
+  "cost_max": 1290.01062
+}

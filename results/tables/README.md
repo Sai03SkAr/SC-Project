@@ -347,3 +347,30 @@ recall ≥ 95% **and** FPR ≤ 2% together? Cut-offs chosen on validation, measu
 same ceiling (AUC ≈ 0.990): about 90% recall at 2% false alarms, or about 4–5% false alarms at
 95% recall. The 2% target is a limit of this dataset's URL-based features, not of the
 classifier or the feature selection.
+
+## 10-seed result — as pre-registered (COMPLETE)
+
+Seeds 6–10 run with identical settings; all 10 seeds per algorithm reported, none excluded.
+
+| | SPEA2 | NSGA-II |
+|---|---|---|
+| Hypervolume per seed | 1.1827, 1.1823, **1.0225**, 1.1825, 1.2032, 1.1803, 1.1821, 1.1834, 1.1827, 1.1820 | 1.1813, 1.1815, 1.1831, 1.1833, 1.2021, 1.1806, 1.1813, 1.2053, 1.1820, 1.1825 |
+| **Median** | **1.1824** | **1.1822** |
+| Mean ± std | 1.1684 ± 0.0490 | 1.1863 ± 0.0088 |
+| Worst run | 1.0225 (seed 3) | 1.1806 |
+| Pooled Pareto front | 276 solutions | 329 solutions |
+| Network-free solutions | 27 | 49 |
+
+**Mann–Whitney U = 49.0, p = 0.97 — no significant difference.**
+
+**Revised conclusion.** With 10 runs each, the two algorithms are tied in a typical run: 9 of
+SPEA2's 10 runs land at 1.180 or above, exactly like NSGA-II. The 5-seed gap in the *mean* came
+entirely from one poorly-converged SPEA2 run (seed 3) plus NSGA-II reaching the network-free
+region in two runs (seeds 5, 8) against SPEA2's one (seed 5). NSGA-II is the more *reliable*
+algorithm (no failed run); SPEA2's chosen gateway subset is the best single detector on the
+test set (recall 96.52% / FPR 4.89% vs NSGA-II's 96.20% / 5.20%). The original hypothesis —
+that SPEA2 would search *better* — is still not supported; the data shows a tie.
+
+With the 10-seed pooled front, SPEA2's deployment points are unchanged (same 37- and 48-feature
+subsets). NSGA-II's email-gateway point moved to 44 features / 440 ms (test: 95.53% accuracy,
+96.20% recall, 5.20% FPR); `final_validation_test_set.json` and the report's Table 4 are updated.

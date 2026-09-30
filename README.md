@@ -32,9 +32,9 @@ Measured once on the sealed 20% test set (11,729 websites), Random Forest classi
 SPEA2 matched the full-feature detector with **67% fewer features and 63% lower detection
 cost**. Detecting with no network lookups at all is possible but costs about 6.6 points of recall.
 
-Other findings: NSGA-II reached a higher and more consistent hypervolume than SPEA2 (1.186 ± 0.008
-vs 1.155 ± 0.067), contradicting our pre-registered hypothesis, though the deployable solutions
-differ by under 0.3 points. The best achievable recall was stable (95.6–95.8%) when all network
+Other findings: over 10 runs each, SPEA2 and NSGA-II are tied in a typical run (median
+hypervolume 1.182 for both; Mann–Whitney p = 0.97). NSGA-II is more reliable — one of SPEA2's ten
+runs converged poorly — while SPEA2 produced the best single detector on the test set. The best achievable recall was stable (95.6–95.8%) when all network
 latencies were scaled ÷3 or ×3. A 2% false-alarm rate is reachable only at ~90% recall — the
 full 111-feature model hits the same limit — so a 57.6% decision cut-off (95.14% recall, 3.95%
 false alarms) is recommended. Full
@@ -106,14 +106,15 @@ curl -L -o data/dataset_full.csv  https://raw.githubusercontent.com/GregaVrbanci
 ./.venv/bin/python src/audit_data.py                 # Phase 01 data audit
 ./.venv/bin/python src/run_baselines.py              # all-111-feature baselines
 ./.venv/bin/python src/run_classical_baselines.py    # PCA + mutual-information filter
-./.venv/bin/python src/run_multiseed.py --algorithm spea2   # ~30 min
-./.venv/bin/python src/run_multiseed.py --algorithm nsga2   # ~30 min
+./.venv/bin/python src/run_multiseed.py --algorithm spea2 --seeds 1 2 3 4 5 6 7 8 9 10   # ~60 min
+./.venv/bin/python src/run_multiseed.py --algorithm nsga2 --seeds 1 2 3 4 5 6 7 8 9 10   # ~60 min
 ./.venv/bin/python src/run_pso_weighted.py           # weighted-sum PSO baseline
-./.venv/bin/python src/analyze_fronts.py --algorithm spea2
-./.venv/bin/python src/analyze_fronts.py --algorithm nsga2
+./.venv/bin/python src/analyze_fronts.py --algorithm spea2 --seeds 1 2 3 4 5 6 7 8 9 10
+./.venv/bin/python src/analyze_fronts.py --algorithm nsga2 --seeds 1 2 3 4 5 6 7 8 9 10
 ./.venv/bin/python src/final_validation.py           # every subset, once, on the test set
 ./.venv/bin/python src/threshold_tuning.py           # false-alarm vs recall cut-offs
-./.venv/bin/python src/make_figures.py               # figures into results/figures/
+./.venv/bin/python src/classifier_ceiling.py         # can other classifiers beat the FPR ceiling?
+./.venv/bin/python src/make_figures.py --seeds 1 2 3 4 5 6 7 8 9 10   # figures
 ./.venv/bin/python src/run_sensitivity.py            # ~55 min
 ```
 
@@ -208,6 +209,8 @@ is reserved for an optional imbalance study.
 - [x] Outdated early summaries moved to `archive/`
 - [x] Decision cut-off tuning: showed the 2% FPR target is only reachable at ~90% recall, for
       every method including all 111 features
+- [x] Classifier ceiling test: four classifiers, none meets recall ≥ 95% and FPR ≤ 2% together
+- [x] SPEA2 and NSGA-II extended to 10 seeds each (pre-registered): tied in a typical run
 - [ ] **Not done, by decision:** MOPSO was planned as a second swarm comparison but not run — the
       weighted-sum PSO already demonstrates the swarm/scalarisation comparison
 - [ ] **Not done, optional:** cross-dataset validation on the UCI dataset, which would test whether

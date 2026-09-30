@@ -72,38 +72,38 @@
     ]
   },
   "nsga2_gateway": {
-    "n_features": 46,
-    "test_auc": 0.9899067227233527,
+    "n_features": 44,
+    "test_auc": 0.9897053527725335,
     "operating_points": [
       {
         "target_fpr": null,
         "threshold": 0.5,
-        "test_recall": 0.9619840104421602,
-        "test_fpr": 0.05482142857142857
+        "test_recall": 0.9611682166748245,
+        "test_fpr": 0.0575
       },
       {
         "target_fpr": 0.04,
-        "threshold": 0.591,
-        "test_recall": 0.9450155000815794,
-        "test_fpr": 0.040535714285714286
+        "threshold": 0.611,
+        "test_recall": 0.9412628487518355,
+        "test_fpr": 0.038035714285714284
       },
       {
         "target_fpr": 0.03,
-        "threshold": 0.6559999999999999,
-        "test_recall": 0.9288627834883342,
-        "test_fpr": 0.0325
+        "threshold": 0.6859999999999999,
+        "test_recall": 0.9211943220753793,
+        "test_fpr": 0.030357142857142857
       },
       {
         "target_fpr": 0.02,
-        "threshold": 0.761,
-        "test_recall": 0.8939468102463697,
-        "test_fpr": 0.020714285714285713
+        "threshold": 0.751,
+        "test_recall": 0.8959047152879752,
+        "test_fpr": 0.022857142857142857
       },
       {
         "target_fpr": 0.01,
-        "threshold": 0.8700000000000001,
-        "test_recall": 0.8143253385544135,
-        "test_fpr": 0.008928571428571428
+        "threshold": 0.8600000000000001,
+        "test_recall": 0.8218306412139011,
+        "test_fpr": 0.01107142857142857
       }
     ]
   }

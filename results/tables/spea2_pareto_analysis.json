@@ -2,86 +2,86 @@
   "algorithm": "spea2",
   "stability": {
     "algorithm": "spea2",
-    "n_seeds": 5,
-    "hypervolume_mean": 1.1546467270724,
-    "hypervolume_std": 0.06654224390908213,
+    "n_seeds": 10,
+    "hypervolume_mean": 1.1683693947024127,
+    "hypervolume_std": 0.04901789391403672,
     "hypervolume_min": 1.0225379831113923,
     "hypervolume_max": 1.2032471224675658,
-    "features_median_mean": 39.8,
-    "runtime_mean_s": 355.9336170196533,
-    "cache_hit_rate_mean": 0.0064
+    "features_median_mean": 41.0,
+    "runtime_mean_s": 350.9012578964233,
+    "cache_hit_rate_mean": 0.00566
   },
-  "pooled_front_size": 201,
+  "pooled_front_size": 276,
   "tier_composition": [
     {
       "tier": "T0",
       "description": "URL string parsing",
       "available": 98,
-      "avg_selected": 34.09452736318408,
-      "pct_kept": 0.34790334044065385
+      "avg_selected": 35.2463768115942,
+      "pct_kept": 0.3596569062407572
     },
     {
       "tier": "T1",
       "description": "DNS A record",
       "available": 3,
-      "avg_selected": 2.3333333333333335,
-      "pct_kept": 0.7777777777777778
+      "avg_selected": 2.528985507246377,
+      "pct_kept": 0.8429951690821257
     },
     {
       "tier": "T2",
       "description": "DNS NS record",
       "available": 1,
-      "avg_selected": 0.44776119402985076,
-      "pct_kept": 0.44776119402985076
+      "avg_selected": 0.463768115942029,
+      "pct_kept": 0.463768115942029
     },
     {
       "tier": "T3",
       "description": "DNS MX record",
       "available": 1,
-      "avg_selected": 0.46766169154228854,
-      "pct_kept": 0.46766169154228854
+      "avg_selected": 0.4927536231884058,
+      "pct_kept": 0.4927536231884058
     },
     {
       "tier": "T4",
       "description": "DNS TXT / SPF record",
       "available": 1,
-      "avg_selected": 0.029850746268656716,
-      "pct_kept": 0.029850746268656716
+      "avg_selected": 0.05434782608695652,
+      "pct_kept": 0.05434782608695652
     },
     {
       "tier": "T5",
       "description": "WHOIS registry query",
       "available": 2,
-      "avg_selected": 0.7562189054726368,
-      "pct_kept": 0.3781094527363184
+      "avg_selected": 0.6594202898550725,
+      "pct_kept": 0.32971014492753625
     },
     {
       "tier": "T6",
       "description": "TLS handshake",
       "available": 1,
-      "avg_selected": 0.07462686567164178,
-      "pct_kept": 0.07462686567164178
+      "avg_selected": 0.07608695652173914,
+      "pct_kept": 0.07608695652173914
     },
     {
       "tier": "T7",
       "description": "HTTP fetch / redirects",
       "available": 1,
-      "avg_selected": 0.04975124378109453,
-      "pct_kept": 0.04975124378109453
+      "avg_selected": 0.03985507246376811,
+      "pct_kept": 0.03985507246376811
     },
     {
       "tier": "T8",
       "description": "Search-index API",
       "available": 2,
-      "avg_selected": 0.004975124378109453,
-      "pct_kept": 0.0024875621890547263
+      "avg_selected": 0.018115942028985508,
+      "pct_kept": 0.009057971014492754
     },
     {
       "tier": "T9",
       "description": "IP to ASN lookup",
       "available": 1,
-      "avg_selected": 0.25870646766169153,
-      "pct_kept": 0.25870646766169153
+      "avg_selected": 0.2644927536231884,
+      "pct_kept": 0.2644927536231884
     }
   ],
   "n_network_free_solutions": 27,
@@ -89,152 +89,152 @@
     {
       "feature": "directory_length",
       "tier": "T0",
-      "count": 189,
-      "pct": 0.9402985074626866
-    },
-    {
-      "feature": "domain_length",
-      "tier": "T0",
-      "count": 171,
-      "pct": 0.8507462686567164
-    },
-    {
-      "feature": "qty_dot_domain",
-      "tier": "T0",
-      "count": 169,
-      "pct": 0.8407960199004975
+      "count": 254,
+      "pct": 0.9202898550724637
     },
     {
       "feature": "qty_ip_resolved",
       "tier": "T1",
-      "count": 168,
-      "pct": 0.835820895522388
+      "count": 245,
+      "pct": 0.8876811594202898
+    },
+    {
+      "feature": "domain_length",
+      "tier": "T0",
+      "count": 244,
+      "pct": 0.8840579710144928
     },
     {
       "feature": "ttl_hostname",
       "tier": "T1",
-      "count": 166,
-      "pct": 0.8258706467661692
-    },
-    {
-      "feature": "qty_hyphen_directory",
-      "tier": "T0",
-      "count": 147,
-      "pct": 0.7313432835820896
-    },
-    {
-      "feature": "qty_percent_url",
-      "tier": "T0",
-      "count": 141,
-      "pct": 0.7014925373134329
+      "count": 242,
+      "pct": 0.8768115942028986
     },
     {
       "feature": "qty_vowels_domain",
       "tier": "T0",
-      "count": 139,
-      "pct": 0.6915422885572139
-    },
-    {
-      "feature": "qty_hyphen_url",
-      "tier": "T0",
-      "count": 138,
-      "pct": 0.6865671641791045
-    },
-    {
-      "feature": "qty_dollar_file",
-      "tier": "T0",
-      "count": 137,
-      "pct": 0.681592039800995
+      "count": 211,
+      "pct": 0.7644927536231884
     },
     {
       "feature": "time_response",
       "tier": "T1",
-      "count": 135,
-      "pct": 0.6716417910447762
+      "count": 211,
+      "pct": 0.7644927536231884
     },
     {
-      "feature": "qty_hyphen_file",
+      "feature": "qty_hyphen_directory",
       "tier": "T0",
-      "count": 130,
-      "pct": 0.6467661691542289
+      "count": 202,
+      "pct": 0.7318840579710145
     },
     {
-      "feature": "url_shortened",
+      "feature": "qty_dot_domain",
       "tier": "T0",
-      "count": 127,
-      "pct": 0.6318407960199005
-    },
-    {
-      "feature": "qty_comma_directory",
-      "tier": "T0",
-      "count": 126,
-      "pct": 0.6268656716417911
-    },
-    {
-      "feature": "qty_equal_url",
-      "tier": "T0",
-      "count": 110,
-      "pct": 0.5472636815920398
-    },
-    {
-      "feature": "server_client_domain",
-      "tier": "T0",
-      "count": 110,
-      "pct": 0.5472636815920398
-    },
-    {
-      "feature": "qty_exclamation_file",
-      "tier": "T0",
-      "count": 108,
-      "pct": 0.5373134328358209
-    },
-    {
-      "feature": "qty_dot_directory",
-      "tier": "T0",
-      "count": 106,
-      "pct": 0.527363184079602
-    },
-    {
-      "feature": "qty_at_directory",
-      "tier": "T0",
-      "count": 104,
-      "pct": 0.5174129353233831
-    },
-    {
-      "feature": "qty_comma_params",
-      "tier": "T0",
-      "count": 104,
-      "pct": 0.5174129353233831
-    },
-    {
-      "feature": "qty_at_domain",
-      "tier": "T0",
-      "count": 101,
-      "pct": 0.5024875621890548
+      "count": 202,
+      "pct": 0.7318840579710145
     },
     {
       "feature": "qty_space_domain",
       "tier": "T0",
-      "count": 100,
-      "pct": 0.4975124378109453
+      "count": 162,
+      "pct": 0.5869565217391305
     },
     {
-      "feature": "qty_dollar_params",
+      "feature": "qty_hyphen_domain",
       "tier": "T0",
-      "count": 98,
-      "pct": 0.48756218905472637
+      "count": 157,
+      "pct": 0.5688405797101449
     },
     {
-      "feature": "qty_tilde_directory",
+      "feature": "qty_slash_url",
       "tier": "T0",
-      "count": 97,
-      "pct": 0.48258706467661694
+      "count": 149,
+      "pct": 0.5398550724637681
     },
     {
-      "feature": "qty_and_url",
+      "feature": "qty_comma_url",
       "tier": "T0",
-      "count": 94,
-      "pct": 0.46766169154228854
+      "count": 148,
+      "pct": 0.5362318840579711
+    },
+    {
+      "feature": "qty_comma_params",
+      "tier": "T0",
+      "count": 144,
+      "pct": 0.5217391304347826
+    },
+    {
+      "feature": "qty_hyphen_file",
+      "tier": "T0",
+      "count": 143,
+      "pct": 0.5181159420289855
+    },
+    {
+      "feature": "server_client_domain",
+      "tier": "T0",
+      "count": 142,
+      "pct": 0.5144927536231884
+    },
+    {
+      "feature": "qty_comma_directory",
+      "tier": "T0",
+      "count": 138,
+      "pct": 0.5
+    },
+    {
+      "feature": "qty_mx_servers",
+      "tier": "T3",
+      "count": 136,
+      "pct": 0.4927536231884058
+    },
+    {
+      "feature": "qty_hyphen_url",
+      "tier": "T0",
+      "count": 134,
+      "pct": 0.4855072463768116
+    },
+    {
+      "feature": "qty_slash_domain",
+      "tier": "T0",
+      "count": 133,
+      "pct": 0.48188405797101447
+    },
+    {
+      "feature": "qty_dot_file",
+      "tier": "T0",
+      "count": 132,
+      "pct": 0.4782608695652174
+    },
+    {
+      "feature": "qty_percent_url",
+      "tier": "T0",
+      "count": 131,
+      "pct": 0.4746376811594203
+    },
+    {
+      "feature": "qty_hashtag_url",
+      "tier": "T0",
+      "count": 131,
+      "pct": 0.4746376811594203
+    },
+    {
+      "feature": "qty_at_url",
+      "tier": "T0",
+      "count": 129,
+      "pct": 0.4673913043478261
+    },
+    {
+      "feature": "qty_at_domain",
+      "tier": "T0",
+      "count": 128,
+      "pct": 0.463768115942029
+    },
+    {
+      "feature": "qty_nameservers",
+      "tier": "T2",
+      "count": 128,
+      "pct": 0.463768115942029
     }
   ],
   "deployment_profiles": {

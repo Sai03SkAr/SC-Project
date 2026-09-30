@@ -233,6 +233,12 @@ structure better.**
 > algorithms find essentially the same trade-off surface; NSGA-II simply finds it more
 > *reliably* on a per-run basis.
 >
+> **Update — 10 seeds each (pre-registered in `results/tables/README.md`).** Extending both
+> algorithms to 10 seeds shows they are **tied in a typical run**: median hypervolume 1.1824
+> (SPEA2) vs 1.1822 (NSGA-II), Mann–Whitney p = 0.97. The 5-seed gap in the mean was driven by
+> one poorly-converged SPEA2 run (seed 3). NSGA-II remains the more reliable algorithm; the
+> hypothesis that SPEA2 searches *better* is still not supported — the data shows a tie.
+>
 > **This is reported as a negative result, not adjusted after the fact.** A
 > mechanistically-motivated hypothesis that fails, and is reported as such, is stronger
 > evidence of rigour than a hypothesis quietly tuned until it succeeds — see
