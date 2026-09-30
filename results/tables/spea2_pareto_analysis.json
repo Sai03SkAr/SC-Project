@@ -2,353 +2,410 @@
   "algorithm": "spea2",
   "stability": {
     "algorithm": "spea2",
-    "n_seeds": 1,
-    "hypervolume_mean": 1.1826727461789015,
-    "hypervolume_std": 0.0,
-    "hypervolume_min": 1.1826727461789015,
-    "hypervolume_max": 1.1826727461789015,
-    "features_median_mean": 36.0,
-    "runtime_mean_s": 375.5115089416504,
-    "cache_hit_rate_mean": 0.009
+    "n_seeds": 5,
+    "hypervolume_mean": 1.1546467270724,
+    "hypervolume_std": 0.06654224390908213,
+    "hypervolume_min": 1.0225379831113923,
+    "hypervolume_max": 1.2032471224675658,
+    "features_median_mean": 39.8,
+    "runtime_mean_s": 355.9336170196533,
+    "cache_hit_rate_mean": 0.0064
   },
-  "pooled_front_size": 100,
+  "pooled_front_size": 201,
   "tier_composition": [
     {
       "tier": "T0",
       "description": "URL string parsing",
       "available": 98,
-      "avg_selected": 31.09,
-      "pct_kept": 0.31724489795918365
+      "avg_selected": 34.09452736318408,
+      "pct_kept": 0.34790334044065385
     },
     {
       "tier": "T1",
       "description": "DNS A record",
       "available": 3,
-      "avg_selected": 2.88,
-      "pct_kept": 0.96
+      "avg_selected": 2.3333333333333335,
+      "pct_kept": 0.7777777777777778
     },
     {
       "tier": "T2",
       "description": "DNS NS record",
       "available": 1,
-      "avg_selected": 0.49,
-      "pct_kept": 0.49
+      "avg_selected": 0.44776119402985076,
+      "pct_kept": 0.44776119402985076
     },
     {
       "tier": "T3",
       "description": "DNS MX record",
       "available": 1,
-      "avg_selected": 0.58,
-      "pct_kept": 0.58
+      "avg_selected": 0.46766169154228854,
+      "pct_kept": 0.46766169154228854
     },
     {
       "tier": "T4",
       "description": "DNS TXT / SPF record",
       "available": 1,
-      "avg_selected": 0.05,
-      "pct_kept": 0.05
+      "avg_selected": 0.029850746268656716,
+      "pct_kept": 0.029850746268656716
     },
     {
       "tier": "T5",
       "description": "WHOIS registry query",
       "available": 2,
-      "avg_selected": 0.63,
-      "pct_kept": 0.315
+      "avg_selected": 0.7562189054726368,
+      "pct_kept": 0.3781094527363184
     },
     {
       "tier": "T6",
       "description": "TLS handshake",
       "available": 1,
-      "avg_selected": 0.0,
-      "pct_kept": 0.0
+      "avg_selected": 0.07462686567164178,
+      "pct_kept": 0.07462686567164178
     },
     {
       "tier": "T7",
       "description": "HTTP fetch / redirects",
       "available": 1,
-      "avg_selected": 0.0,
-      "pct_kept": 0.0
+      "avg_selected": 0.04975124378109453,
+      "pct_kept": 0.04975124378109453
     },
     {
       "tier": "T8",
       "description": "Search-index API",
       "available": 2,
-      "avg_selected": 0.0,
-      "pct_kept": 0.0
+      "avg_selected": 0.004975124378109453,
+      "pct_kept": 0.0024875621890547263
     },
     {
       "tier": "T9",
       "description": "IP to ASN lookup",
       "available": 1,
-      "avg_selected": 0.29,
-      "pct_kept": 0.29
+      "avg_selected": 0.25870646766169153,
+      "pct_kept": 0.25870646766169153
     }
   ],
-  "n_network_free_solutions": 0,
+  "n_network_free_solutions": 27,
   "feature_frequency_top25": [
     {
-      "feature": "ttl_hostname",
-      "tier": "T1",
-      "count": 100,
-      "pct": 1.0
-    },
-    {
-      "feature": "qty_dollar_params",
+      "feature": "directory_length",
       "tier": "T0",
-      "count": 100,
-      "pct": 1.0
+      "count": 189,
+      "pct": 0.9402985074626866
     },
     {
       "feature": "domain_length",
       "tier": "T0",
-      "count": 100,
-      "pct": 1.0
-    },
-    {
-      "feature": "qty_comma_params",
-      "tier": "T0",
-      "count": 99,
-      "pct": 0.99
-    },
-    {
-      "feature": "qty_comma_directory",
-      "tier": "T0",
-      "count": 99,
-      "pct": 0.99
-    },
-    {
-      "feature": "time_response",
-      "tier": "T1",
-      "count": 95,
-      "pct": 0.95
-    },
-    {
-      "feature": "qty_dot_directory",
-      "tier": "T0",
-      "count": 94,
-      "pct": 0.94
-    },
-    {
-      "feature": "qty_dollar_directory",
-      "tier": "T0",
-      "count": 93,
-      "pct": 0.93
-    },
-    {
-      "feature": "directory_length",
-      "tier": "T0",
-      "count": 93,
-      "pct": 0.93
-    },
-    {
-      "feature": "qty_ip_resolved",
-      "tier": "T1",
-      "count": 93,
-      "pct": 0.93
-    },
-    {
-      "feature": "qty_hyphen_file",
-      "tier": "T0",
-      "count": 91,
-      "pct": 0.91
-    },
-    {
-      "feature": "qty_at_domain",
-      "tier": "T0",
-      "count": 91,
-      "pct": 0.91
-    },
-    {
-      "feature": "qty_underline_params",
-      "tier": "T0",
-      "count": 85,
-      "pct": 0.85
+      "count": 171,
+      "pct": 0.8507462686567164
     },
     {
       "feature": "qty_dot_domain",
       "tier": "T0",
-      "count": 83,
-      "pct": 0.83
+      "count": 169,
+      "pct": 0.8407960199004975
     },
     {
-      "feature": "qty_tilde_directory",
-      "tier": "T0",
-      "count": 82,
-      "pct": 0.82
+      "feature": "qty_ip_resolved",
+      "tier": "T1",
+      "count": 168,
+      "pct": 0.835820895522388
     },
     {
-      "feature": "qty_equal_url",
-      "tier": "T0",
-      "count": 82,
-      "pct": 0.82
+      "feature": "ttl_hostname",
+      "tier": "T1",
+      "count": 166,
+      "pct": 0.8258706467661692
     },
     {
-      "feature": "qty_at_url",
+      "feature": "qty_hyphen_directory",
       "tier": "T0",
-      "count": 79,
-      "pct": 0.79
-    },
-    {
-      "feature": "qty_dollar_file",
-      "tier": "T0",
-      "count": 78,
-      "pct": 0.78
-    },
-    {
-      "feature": "qty_tld_url",
-      "tier": "T0",
-      "count": 75,
-      "pct": 0.75
+      "count": 147,
+      "pct": 0.7313432835820896
     },
     {
       "feature": "qty_percent_url",
       "tier": "T0",
-      "count": 72,
-      "pct": 0.72
+      "count": 141,
+      "pct": 0.7014925373134329
+    },
+    {
+      "feature": "qty_vowels_domain",
+      "tier": "T0",
+      "count": 139,
+      "pct": 0.6915422885572139
     },
     {
       "feature": "qty_hyphen_url",
       "tier": "T0",
-      "count": 69,
-      "pct": 0.69
+      "count": 138,
+      "pct": 0.6865671641791045
     },
     {
-      "feature": "qty_and_url",
+      "feature": "qty_dollar_file",
       "tier": "T0",
-      "count": 67,
-      "pct": 0.67
+      "count": 137,
+      "pct": 0.681592039800995
+    },
+    {
+      "feature": "time_response",
+      "tier": "T1",
+      "count": 135,
+      "pct": 0.6716417910447762
+    },
+    {
+      "feature": "qty_hyphen_file",
+      "tier": "T0",
+      "count": 130,
+      "pct": 0.6467661691542289
+    },
+    {
+      "feature": "url_shortened",
+      "tier": "T0",
+      "count": 127,
+      "pct": 0.6318407960199005
+    },
+    {
+      "feature": "qty_comma_directory",
+      "tier": "T0",
+      "count": 126,
+      "pct": 0.6268656716417911
+    },
+    {
+      "feature": "qty_equal_url",
+      "tier": "T0",
+      "count": 110,
+      "pct": 0.5472636815920398
+    },
+    {
+      "feature": "server_client_domain",
+      "tier": "T0",
+      "count": 110,
+      "pct": 0.5472636815920398
     },
     {
       "feature": "qty_exclamation_file",
       "tier": "T0",
-      "count": 67,
-      "pct": 0.67
+      "count": 108,
+      "pct": 0.5373134328358209
     },
     {
-      "feature": "qty_equal_directory",
+      "feature": "qty_dot_directory",
       "tier": "T0",
-      "count": 61,
-      "pct": 0.61
+      "count": 106,
+      "pct": 0.527363184079602
     },
     {
-      "feature": "qty_questionmark_url",
+      "feature": "qty_at_directory",
       "tier": "T0",
-      "count": 61,
-      "pct": 0.61
+      "count": 104,
+      "pct": 0.5174129353233831
+    },
+    {
+      "feature": "qty_comma_params",
+      "tier": "T0",
+      "count": 104,
+      "pct": 0.5174129353233831
+    },
+    {
+      "feature": "qty_at_domain",
+      "tier": "T0",
+      "count": 101,
+      "pct": 0.5024875621890548
+    },
+    {
+      "feature": "qty_space_domain",
+      "tier": "T0",
+      "count": 100,
+      "pct": 0.4975124378109453
+    },
+    {
+      "feature": "qty_dollar_params",
+      "tier": "T0",
+      "count": 98,
+      "pct": 0.48756218905472637
+    },
+    {
+      "feature": "qty_tilde_directory",
+      "tier": "T0",
+      "count": 97,
+      "pct": 0.48258706467661694
+    },
+    {
+      "feature": "qty_and_url",
+      "tier": "T0",
+      "count": 94,
+      "pct": 0.46766169154228854
     }
   ],
   "deployment_profiles": {
-    "browser_extension": null,
+    "browser_extension": {
+      "n_features": 48,
+      "cost_ms": 0.01048,
+      "recall": 0.8970468265622451,
+      "fpr": 0.10035714285714285,
+      "meets_targets": false,
+      "tiers_used": [
+        "T0"
+      ],
+      "selected_features": [
+        "qty_dot_url",
+        "qty_hyphen_url",
+        "qty_slash_url",
+        "qty_questionmark_url",
+        "qty_equal_url",
+        "qty_and_url",
+        "qty_tilde_url",
+        "qty_comma_url",
+        "qty_plus_url",
+        "qty_asterisk_url",
+        "qty_percent_url",
+        "qty_tld_url",
+        "qty_hyphen_domain",
+        "qty_slash_domain",
+        "qty_at_domain",
+        "qty_and_domain",
+        "qty_space_domain",
+        "qty_tilde_domain",
+        "qty_hashtag_domain",
+        "qty_dollar_domain",
+        "qty_vowels_domain",
+        "domain_length",
+        "domain_in_ip",
+        "server_client_domain",
+        "qty_equal_directory",
+        "qty_hashtag_directory",
+        "qty_percent_directory",
+        "directory_length",
+        "qty_dot_file",
+        "qty_hyphen_file",
+        "qty_underline_file",
+        "qty_exclamation_file",
+        "qty_space_file",
+        "qty_plus_file",
+        "qty_dollar_file",
+        "qty_percent_file",
+        "file_length",
+        "qty_dot_params",
+        "qty_hyphen_params",
+        "qty_questionmark_params",
+        "qty_at_params",
+        "qty_and_params",
+        "qty_tilde_params",
+        "qty_plus_params",
+        "qty_hashtag_params",
+        "params_length",
+        "email_in_url",
+        "url_shortened"
+      ]
+    },
     "email_gateway": {
-      "n_features": 41,
-      "cost_ms": 260.01041,
-      "recall": 0.9557839778104096,
-      "fpr": 0.06857142857142857,
+      "n_features": 37,
+      "cost_ms": 490.01036999999997,
+      "recall": 0.9575787240985478,
+      "fpr": 0.06142857142857143,
       "meets_targets": false,
       "tiers_used": [
         "T0",
         "T1",
+        "T2",
         "T3",
-        "T5"
+        "T5",
+        "T6",
+        "T9"
       ],
       "selected_features": [
-        "qty_hyphen_url",
-        "qty_underline_url",
-        "qty_questionmark_url",
-        "qty_equal_url",
-        "qty_at_url",
-        "qty_and_url",
-        "qty_tilde_url",
+        "qty_slash_url",
+        "qty_exclamation_url",
+        "qty_space_url",
+        "qty_hashtag_url",
         "qty_percent_url",
-        "qty_tld_url",
         "qty_dot_domain",
-        "qty_at_domain",
-        "qty_percent_domain",
+        "qty_slash_domain",
+        "qty_questionmark_domain",
+        "qty_and_domain",
+        "qty_space_domain",
+        "qty_plus_domain",
+        "qty_vowels_domain",
         "domain_length",
-        "qty_dot_directory",
+        "server_client_domain",
         "qty_hyphen_directory",
-        "qty_underline_directory",
-        "qty_equal_directory",
+        "qty_questionmark_directory",
+        "qty_and_directory",
+        "qty_exclamation_directory",
         "qty_space_directory",
-        "qty_comma_directory",
-        "qty_dollar_directory",
         "directory_length",
         "qty_dot_file",
-        "qty_hyphen_file",
-        "qty_slash_file",
-        "qty_at_file",
-        "qty_exclamation_file",
-        "qty_space_file",
-        "qty_plus_file",
+        "qty_questionmark_file",
+        "qty_tilde_file",
+        "qty_hashtag_file",
         "file_length",
-        "qty_dot_params",
         "qty_underline_params",
-        "qty_equal_params",
-        "qty_at_params",
         "qty_comma_params",
-        "qty_dollar_params",
         "time_response",
+        "asn_ip",
         "time_domain_activation",
         "time_domain_expiration",
         "qty_ip_resolved",
+        "qty_nameservers",
         "qty_mx_servers",
-        "ttl_hostname"
+        "ttl_hostname",
+        "tls_ssl_certificate",
+        "url_shortened"
       ]
     },
     "offline_audit": {
-      "n_features": 41,
-      "cost_ms": 260.01041,
-      "recall": 0.9557839778104096,
-      "fpr": 0.06857142857142857,
+      "n_features": 37,
+      "cost_ms": 490.01036999999997,
+      "recall": 0.9575787240985478,
+      "fpr": 0.06142857142857143,
       "meets_targets": false,
       "tiers_used": [
         "T0",
         "T1",
+        "T2",
         "T3",
-        "T5"
+        "T5",
+        "T6",
+        "T9"
       ],
       "selected_features": [
-        "qty_hyphen_url",
-        "qty_underline_url",
-        "qty_questionmark_url",
-        "qty_equal_url",
-        "qty_at_url",
-        "qty_and_url",
-        "qty_tilde_url",
+        "qty_slash_url",
+        "qty_exclamation_url",
+        "qty_space_url",
+        "qty_hashtag_url",
         "qty_percent_url",
-        "qty_tld_url",
         "qty_dot_domain",
-        "qty_at_domain",
-        "qty_percent_domain",
+        "qty_slash_domain",
+        "qty_questionmark_domain",
+        "qty_and_domain",
+        "qty_space_domain",
+        "qty_plus_domain",
+        "qty_vowels_domain",
         "domain_length",
-        "qty_dot_directory",
+        "server_client_domain",
         "qty_hyphen_directory",
-        "qty_underline_directory",
-        "qty_equal_directory",
+        "qty_questionmark_directory",
+        "qty_and_directory",
+        "qty_exclamation_directory",
         "qty_space_directory",
-        "qty_comma_directory",
-        "qty_dollar_directory",
         "directory_length",
         "qty_dot_file",
-        "qty_hyphen_file",
-        "qty_slash_file",
-        "qty_at_file",
-        "qty_exclamation_file",
-        "qty_space_file",
-        "qty_plus_file",
+        "qty_questionmark_file",
+        "qty_tilde_file",
+        "qty_hashtag_file",
         "file_length",
-        "qty_dot_params",
         "qty_underline_params",
-        "qty_equal_params",
-        "qty_at_params",
         "qty_comma_params",
-        "qty_dollar_params",
         "time_response",
+        "asn_ip",
         "time_domain_activation",
         "time_domain_expiration",
         "qty_ip_resolved",
+        "qty_nameservers",
         "qty_mx_servers",
-        "ttl_hostname"
+        "ttl_hostname",
+        "tls_ssl_certificate",
+        "url_shortened"
       ]
     }
   }

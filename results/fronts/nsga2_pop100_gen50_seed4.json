@@ -1,0 +1,29 @@
+{
+  "algorithm": "nsga2",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 4,
+  "subsample": 15000,
+  "n_estimators": 30,
+  "hypervolume": 1.1833056121695897,
+  "hv_ref_point": [
+    1.1,
+    1.1,
+    1.1
+  ],
+  "front_size": 100,
+  "elapsed_sec": 354.35823798179626,
+  "n_evaluations": 4988,
+  "n_cache_hits": 12,
+  "cache_hit_rate": 0.0024,
+  "n_network_free": 0,
+  "features_min": 29,
+  "features_max": 74,
+  "features_median": 44.0,
+  "fnr_min": 0.04225811714798499,
+  "fnr_max": 0.08843204437918094,
+  "fpr_min": 0.054464285714285715,
+  "fpr_max": 0.09589285714285714,
+  "cost_min": 30.01029,
+  "cost_max": 1290.01074
+}

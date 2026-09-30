@@ -111,11 +111,158 @@ qty_dot_file, qty_hyphen_directory, length_url, qty_underline_file, qty_space_fi
 — entirely T0 (URL-text) features. The filter never gets the chance to consider that
 T1 (DNS) is worth its cost, because mutual information doesn't know what anything costs.
 
+## SPEA2 — full 5-seed results (COMPLETE)
+
+`spea2_pareto_analysis.json`, `spea2_summary.json`, figures in `../figures/`
+
+**Stability across seeds:**
+
+| | Mean | Std | Min | Max |
+|---|---|---|---|---|
+| Hypervolume | 1.1546 | 0.0665 | 1.0225 (seed 3) | 1.2032 (seed 5) |
+| Median features/solution | 39.8 | 3.5 | — | — |
+| Runtime per seed | 355.9s | 18.0s | — | — |
+
+Seed 3 is a mild outlier (smaller front, 87 vs ~100). Normal stochastic variation for a
+population-based search — report honestly rather than cherry-picking the best seed.
+
+**Pooled non-dominated front (5 seeds combined, re-filtered):** 201 solutions from 487 raw.
+
+**Tier composition (pooled, 201 solutions):**
+
+| Tier | What | % kept |
+|---|---|---|
+| T1 (DNS A record) | 77.8% | Near-essential |
+| T3 (DNS MX) | 46.8% | Moderate value |
+| T5 (WHOIS) | 37.8% | Moderate, despite 32–35% missingness |
+| T2 (DNS NS) | 44.8% | Moderate |
+| T9 (ASN) | 25.9% | Some value |
+| T6 (TLS) | 7.5% | Low value |
+| T7 (redirects) | 5.0% | Low value |
+| T4 (SPF) | 3.0% | Negligible |
+| **T8 (Google index)** | **0.2%** | **Essentially never worth it** |
+
+**Most robust features** (present in most of the 201 solutions): `directory_length`
+(94.0%), `domain_length` (85.1%), `qty_dot_domain` (84.1%), `qty_ip_resolved` (83.6%,
+tier T1), `ttl_hostname` (82.6%, tier T1). Both of the top-5 network features are T1 —
+DNS resolution info is clearly the highest-value lookup in the dataset.
+
+**Deployment profiles (pooled front):**
+
+| Profile | Features | Cost | Recall | FPR | Meets both targets? |
+|---|---|---|---|---|---|
+| **browser_extension** (≤1ms) | 48 | 0.01 ms | 89.70% | 10.04% | No — recall target ≥92%, FPR target ≤5% |
+| **email_gateway** (≤500ms) | 37 | 490.01 ms | 95.76% | 6.14% | Recall met (≥95%); FPR missed (≤2%) |
+| **offline_audit** (unlimited) | 37 | 490.01 ms | 95.76% | 6.14% | Recall close (target ≥96%); FPR missed (≤1%) |
+
+**Honest finding — the FPR targets from published literature are not met at any
+budget on this front.** Recall targets are achievable (and exceeded at the email-gateway
+tier), but FPR stays around 6–10% rather than the 0.1–2% range reported by some cited
+papers. Two plausible explanations to discuss in the report: (1) those papers may use
+different classifiers/datasets not directly comparable, or (2) an unweighted Pareto
+search naturally lands where FNR and FPR are jointly minimised, not where FPR
+specifically is minimised — a solution further down the front trades some recall for
+much lower FPR, and that trade is available on request (see feature-frequency table)
+even though it isn't the "best recall" profile picked by default.
+
+**Network-free (browser-deployable) solutions: 27 of 201 (13.4%).** Best one: 48
+features, 89.70% recall, 10.04% FPR, effectively 0ms cost. This is the ceiling for
+detection using only URL text with zero network calls — falls short of the browser
+target but is a genuine, reportable number, not a failure.
+
+## Required figures — all 4 generated
+
+`../figures/`: `f1_hypervolume_convergence.png`, `f2_pareto_projections.png`,
+`f6_feature_frequency_spea2.png`, `f7_cost_recall_tradeoff.png`
+
+- **F1** shows convergence plateauing around generation 25–30 — confirms 50 generations
+  was a sufficient budget, not wasted compute.
+- **F2** shows three visually distinct cost clusters (≈0.01ms / ≈30ms / ≈200–1300ms),
+  a direct visual consequence of the tier structure.
+- **F7** shows recall plateauing right around the email-gateway budget line — paying
+  more than ~500ms buys almost nothing further.
+
+## NSGA-II — full 5-seed results (COMPLETE)
+
+`nsga2_pareto_analysis.json`, `nsga2_summary.json`
+
+### ⚠ Pre-registered hypothesis NOT confirmed — reported honestly
+
+`docs/03-methodology.md` §4.4 predicted SPEA2 would outperform NSGA-II here because its
+consistent treatment of duplicate individuals should suit this dataset's redundant
+feature structure. **The data does not support this.**
+
+| | SPEA2 | NSGA-II | 
+|---|---|---|
+| Hypervolume (mean) | 1.1546 | **1.1863** |
+| Hypervolume (std) | 0.0665 | **0.0080** — ~8× tighter |
+| Worst seed HV | 1.0225 | 1.1813 |
+| Pooled front size | 201 | 241 |
+| Network-free solutions | 27 (13.4%) | 32 (13.3%) |
+| Browser-ext. recall / FPR | 89.70% / 10.04% | 89.77% / 10.21% |
+| Email-gateway recall / FPR | 95.76% / 6.14% (37 feat., 490ms) | 95.77% / 6.43% (46 feat., 290ms) |
+
+**NSGA-II wins on hypervolume and is dramatically more consistent across seeds.**
+`f1_hypervolume_convergence.png` shows this clearly: NSGA-II (red) converges faster,
+plateaus higher, and its std band is visibly tighter than SPEA2's (blue) throughout
+all 50 generations.
+
+**At the level that matters for deployment, though, the two are nearly identical** —
+`f2_pareto_projections.png` shows their pooled fronts overlapping almost completely,
+and the deployment-profile numbers above differ by around 0.1–0.3 percentage points.
+Both algorithms independently discover essentially the same underlying trade-off
+surface; NSGA-II just does so more *reliably* run-to-run.
+
+**Why the hypothesis likely failed:** both algorithms already use
+`eliminate_duplicates=True` at the population level, which removes exact duplicate
+*individuals* before they reach the fitness function. That may already capture most of
+the benefit the duplicate-handling argument was pointing at, leaving little room for
+SPEA2's finer-grained strength/density mechanism to add further advantage — and
+possibly costing it some stability, since seed 3 was a clear underperformer
+(HV=1.0225, front size only 87) pulling down SPEA2's mean and inflating its std.
+
+**This is being reported as a negative result, not adjusted or hidden.** Per
+`docs/06-evaluation-protocol.md` §8: "a pre-registered hypothesis that fails, reported
+honestly with analysis, is worth more than a tuned result." The methodology doc has
+been updated to reflect this outcome rather than the untested prediction.
+
+**Tier composition and feature frequency are consistent with SPEA2's findings** — T1
+(DNS) kept ~78%, T8 (Google index) kept <2%, `domain_length`/`ttl_hostname`/
+`qty_ip_resolved` all appear in >75% of NSGA-II's front too. The trade-off structure
+itself is robust across algorithms; only the search reliability differs.
+
+## Weighted-sum PSO baseline (COMPLETE) — demonstrates the scalarisation limitation
+
+`pso_weighted_baseline.json` — 4 weight settings, each a single isolated point:
+
+| Weighting | Features | Cost | Recall | FPR |
+|---|---|---|---|---|
+| balanced (1/3, 1/3, 1/3) | 51 | 30.01 ms | 91.76% | 8.55% |
+| cost_dominant | 50 | 0.01 ms | 89.54% | 9.95% |
+| recall_dominant | 60 | 260.01 ms | 95.12% | 6.39% |
+| fpr_dominant | 54 | 280.01 ms | 95.04% | 5.91% |
+
+**The argument, made concrete:** 4 separate optimisation runs (each requiring the
+weights to be guessed in advance) produced 4 isolated points. SPEA2/NSGA-II's pooled
+fronts produced 201–241 non-dominated solutions **in a single run each**, spanning the
+same cost range these 4 points only sample sparsely. Every one of the 4 weighted points
+lands on or very near the SPEA2/NSGA-II front (compare to `f2_pareto_projections.png`)
+— they are valid solutions, just an impractically sparse way to map the trade-off
+compared to letting a multi-objective algorithm return the whole curve at once.
+
+*(Note: this run's wall-clock time in the raw log is inflated — the machine slept
+partway through, and `time.time()` counted the sleep duration. The actual computational
+cost is consistent with ~1,500 evaluations per weight setting, same order as one
+SPEA2/NSGA-II seed.)*
+
+## Required figures — all done, now with both algorithms overlaid
+
+`../figures/`: `f1_hypervolume_convergence.png` (SPEA2 vs NSGA-II), `f2_pareto_projections.png`
+(both overlaid), `f6_feature_frequency_spea2.png`, `f6_feature_frequency_nsga2.png`,
+`f7_cost_recall_tradeoff.png` (both overlaid)
+
 ## Still running / not yet done
 
-- [ ] SPEA2 seeds 2–5 (in progress)
-- [ ] NSGA-II, 5 seeds — comparison algorithm
-- [ ] Multi-seed Pareto analysis (pooled front, stability table)
-- [ ] Required figures (F1 hypervolume convergence, F2 projections, F6 feature
-      frequency, F7 cost/recall trade-off)
-- [ ] Cost sensitivity analysis (optimistic/baseline/pessimistic)
+- [ ] Cost sensitivity analysis (optimistic/baseline/pessimistic) — launching next
+- [ ] Final report update with these results
+- [ ] Git commit + push

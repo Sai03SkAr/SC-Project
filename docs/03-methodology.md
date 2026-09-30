@@ -203,9 +203,38 @@ NSGA-II differs from SPEA2 in exactly two mechanisms:
 | Elitism | Combined parent+offspring (μ+λ) | Fixed-size external archive with truncation |
 
 Because both use identical sampling, crossover and mutation operators in `pymoo`, the comparison
-isolates precisely these mechanisms. That is a clean experiment, and the hypothesis is
-pre-registered: **SPEA2 should handle this dataset's duplicate-heavy structure better.** If the
-data confirms it, the explanation is mechanistic rather than empirical hand-waving.
+isolates precisely these mechanisms. That is a clean experiment, and the hypothesis was
+pre-registered *before running it*: **SPEA2 should handle this dataset's duplicate-heavy
+structure better.**
+
+> ### ⚠ Result — the hypothesis was NOT confirmed
+>
+> Across 5 seeds each (pop=100, gen=50): **NSGA-II achieved a higher mean hypervolume
+> (1.1863 vs 1.1546) and was roughly 8× more consistent across seeds** (std 0.0080 vs
+> 0.0665). Full data in `results/tables/README.md`.
+>
+> **The likely reason:** both algorithms already run with `eliminate_duplicates=True` at
+> the *population* level, which removes exact duplicate individuals before they ever
+> reach the fitness function. That may already capture most of the benefit this
+> hypothesis was pointing at, leaving little room for SPEA2's finer-grained
+> strength/density mechanism to add further value — and one SPEA2 seed (seed 3)
+> converged to a visibly worse front (HV 1.0225, vs 1.18+ for every NSGA-II seed),
+> which drags down SPEA2's mean and inflates its variance.
+>
+> **At the level that actually matters — the deployable solutions — the two are nearly
+> identical.** Their pooled Pareto fronts overlap almost completely
+> (`results/figures/f2_pareto_projections.png`), and the deployment-profile numbers
+> (browser/email-gateway recall and FPR) differ by only 0.1–0.3 percentage points. Both
+> algorithms find essentially the same trade-off surface; NSGA-II simply finds it more
+> *reliably* on a per-run basis.
+>
+> **This is reported as a negative result, not adjusted after the fact.** A
+> mechanistically-motivated hypothesis that fails, and is reported as such, is stronger
+> evidence of rigour than a hypothesis quietly tuned until it succeeds — see
+> `docs/06-evaluation-protocol.md` §8. SPEA2 remains the project's primary algorithm
+> because it was chosen and justified *before* this result was known, and its output is
+> what the deployment recommendations are drawn from; NSGA-II's stronger showing here is
+> disclosed as a limitation of that choice, not concealed.
 
 ### Algorithms deliberately excluded
 
