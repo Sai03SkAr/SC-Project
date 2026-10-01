@@ -149,9 +149,6 @@
   table.cmp tr.hl td { background: var(--tint); }
   .newpage ul { margin-bottom: 5px; }
   .newpage li { margin-bottom: 3px; }
-  table.plan { font-size: 9.4pt; }
-  table.plan th { padding: 4px 6px; }
-  table.plan td { padding: 4px 6px; }
   .tnote { font-size: 9.2pt; color: var(--muted); margin-top: -4px; }
 </style>
 
@@ -165,7 +162,7 @@
   <div class="meta">
     <span><strong>Algorithm:</strong> SPEA2</span>
     <span><strong>Dataset:</strong> Vrbančič Phishing Dataset</span>
-    <span><strong>Status:</strong> Initial report</span>
+    <span><strong>Status:</strong> Complete</span>
   </div>
 
   <div class="objectives">
@@ -476,57 +473,75 @@ f₃ = FP / (FP + TN)      (from the same confusion matrix)</div>
 
   <h2>7. Comparison of Algorithms</h2>
 
-  <p>To show that SPEA2 is a sound choice, it will not be evaluated alone. Each method below selects
-  a feature subset, which is then used to retrain the same Random Forest classifier as the baseline.
-  All methods are compared against each other and against the unreduced baseline on the sealed test
-  set, using the same metrics.</p>
+  <p>Each method's feature subset retrains the same Random Forest as the baseline. Every row is
+  measured <strong>once, on the sealed 20% test set (11,729 websites)</strong>.</p>
 
-  <table class="plan">
-    <caption>Table 4 — Planned comparison of methods</caption>
+  <table class="cmp">
+    <caption>Table 4 — Comparison of methods on the sealed test set</caption>
     <thead>
-      <tr><th style="width:23%">Method</th><th>Features</th><th>Detection time</th><th>Recall</th><th>False alarms</th><th style="width:24%">Notes</th></tr>
+      <tr><th style="width:21%">Method</th><th>Features</th><th>Cost</th><th>Accuracy</th><th>Recall</th><th>FPR</th><th style="width:27%">Notes</th></tr>
     </thead>
     <tbody>
-      <tr><td>All features (baseline)</td><td>111</td><td>≈ 1,320 ms</td><td>To be measured</td><td>To be measured</td><td>Reference point</td></tr>
-      <tr><td><strong>SPEA2</strong>-selected features</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>Primary method; full Pareto front</td></tr>
-      <tr><td>NSGA-II-selected features</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>Multi-objective comparison</td></tr>
-      <tr><td>PSO-selected features (weighted sum)</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>Single-objective swarm baseline</td></tr>
-      <tr><td>PCA components</td><td>To be measured</td><td>≈ 1,320 ms</td><td>To be measured</td><td>To be measured</td><td>Classical baseline; needs all inputs</td></tr>
-      <tr><td>Mutual-information filter</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>To be measured</td><td>Classical filter baseline</td></tr>
+      <tr><td>All features (baseline)</td><td class="n">111</td><td class="n">1,320 ms</td><td class="n">95.71%</td><td class="n">96.39%</td><td class="n">5.04%</td><td>Reference point</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> (gateway)</td><td class="n"><strong>37</strong></td><td class="n"><strong>490 ms</strong></td><td class="n"><strong>95.85%</strong></td><td class="n"><strong>96.52%</strong></td><td class="n"><strong>4.89%</strong></td><td>Primary; full Pareto front</td></tr>
+      <tr><td>SPEA2 (no lookups)</td><td class="n">48</td><td class="n">0.01 ms</td><td class="n">90.51%</td><td class="n">89.75%</td><td class="n">8.66%</td><td>Browser-deployable</td></tr>
+      <tr><td>NSGA-II (gateway)</td><td class="n">44</td><td class="n">440 ms</td><td class="n">95.53%</td><td class="n">96.20%</td><td class="n">5.20%</td><td>Comparison; full Pareto front</td></tr>
+      <tr><td>PSO weighted (recall)</td><td class="n">60</td><td class="n">260 ms</td><td class="n">95.37%</td><td class="n">95.86%</td><td class="n">5.16%</td><td>1 point/run; weights guessed</td></tr>
+      <tr><td>PCA (95% var.)</td><td class="n">40 comp.</td><td class="n">1,320 ms</td><td class="n">94.47%</td><td class="n">95.25%</td><td class="n">6.39%</td><td>Blended; needs all 111 inputs</td></tr>
+      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">0.01 ms</td><td class="n">87.93%</td><td class="n">85.90%</td><td class="n">9.86%</td><td>Ignores interactions</td></tr>
     </tbody>
   </table>
 
-  <p>Values above are placeholders, to be filled in once the algorithms have been run; the final
-  report will replace them with the measured feature counts, detection times, recall and
-  false-alarm rates.</p>
+  <table class="cmp">
+    <caption>Table 5 — Search quality across 10 independent runs each</caption>
+    <thead>
+      <tr><th style="width:21%">Algorithm</th><th>Median hypervolume</th><th>Mean ± std</th><th>Worst run</th><th>Pareto solutions</th><th>Network-free</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SPEA2</td><td class="n">1.182</td><td class="n">1.168 ± 0.049</td><td class="n">1.023</td><td class="n">276</td><td class="n">27</td></tr>
+      <tr><td>NSGA-II</td><td class="n">1.182</td><td class="n">1.186 ± 0.009</td><td class="n">1.181</td><td class="n">329</td><td class="n">49</td></tr>
+    </tbody>
+  </table>
 
-  <h3>7.1 How the best method will be identified</h3>
+  <h3>7.1 Tuning the decision cut-off</h3>
 
-  <p>"Best" will be judged jointly across the objectives rather than by accuracy alone:</p>
+  <p>A site is flagged when the model is at least 50% sure by default; raising this cut-off trades
+  recall for fewer false alarms. Models train on 75% of the training data, the other 25% selects each
+  cut-off, and the result is measured once on the test set.</p>
 
-  <ul>
-    <li><strong>Solution quality</strong> — which method reaches the highest recall for a given
-    detection time, and for the two multi-objective algorithms, which covers more of the trade-off
-    (hypervolume).</li>
-    <li><strong>Reduction achieved</strong> — which method reaches the lowest detection time and
-    feature count while keeping recall close to the full-feature baseline.</li>
-    <li><strong>Consistency</strong> — which algorithm gives stable results across repeated runs,
-    since evolutionary methods are stochastic.</li>
-    <li><strong>Fit to the problem</strong> — SPEA2 and NSGA-II optimise all objectives directly and
-    return the whole trade-off, whereas weighted-sum PSO returns one point per run.</li>
-  </ul>
+  <table class="cmp">
+    <caption>Table 6 — False-alarm targets and their cost in recall (test set)</caption>
+    <thead>
+      <tr><th style="width:21%">False-alarm target</th><th>Cut-off</th><th>SPEA2 recall</th><th>SPEA2 FPR</th><th>All-features recall</th><th>All-features FPR</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Default</td><td class="n">50.0%</td><td class="n">96.17%</td><td class="n">5.30%</td><td class="n">95.97%</td><td class="n">5.34%</td></tr>
+      <tr class="hl"><td><strong>≤ 4% (recommended)</strong></td><td class="n"><strong>57.6%</strong></td><td class="n"><strong>95.14%</strong></td><td class="n"><strong>3.95%</strong></td><td class="n">94.81%</td><td class="n">4.12%</td></tr>
+      <tr><td>≤ 3%</td><td class="n">65.1%</td><td class="n">93.54%</td><td class="n">3.29%</td><td class="n">93.51%</td><td class="n">3.02%</td></tr>
+      <tr><td>≤ 2%</td><td class="n">74.6%</td><td class="n">90.16%</td><td class="n">2.04%</td><td class="n">90.62%</td><td class="n">1.98%</td></tr>
+    </tbody>
+  </table>
 
   <h2>8. Conclusion</h2>
 
-  <p>This project frames phishing detection as a multi-objective feature-selection problem: find the
-  smallest and fastest set of URL checks that still catches phishing websites. SPEA2 is proposed as
-  the search algorithm because the objectives conflict and the 2<sup>111</sup> possible subsets
-  cannot be searched exhaustively.</p>
+  <p>SPEA2 cut the detector from <strong>111 features to 37</strong> and detection cost from
+  <strong>1,320 ms to 490 ms (−63%)</strong> while matching the full-feature baseline on unseen data
+  (recall 96.52% against 96.39%; false alarms 4.89% against 5.04%). Both objectives are met.</p>
 
-  <p>Once the experiments are run, the project will report, with evidence: how far the 111 features
-  and the 1,320 ms detection time can be reduced; whether recall remains close to the full-feature
-  baseline after reduction; and, by direct comparison on the same data, whether SPEA2 gives a better
-  trade-off than NSGA-II, weighted-sum PSO and the classical baselines.</p>
+  <ul>
+    <li><strong>Best algorithm.</strong> In a typical run SPEA2 and NSGA-II are tied — median
+    hypervolume 1.182 each, with no significant difference over 10 runs (Mann–Whitney p = 0.97).
+    NSGA-II was more reliable, since one of SPEA2's ten runs converged poorly, while SPEA2 produced
+    the best single detector on the test set. Both beat weighted-sum PSO and the filter method.</li>
+    <li><strong>False alarms.</strong> A 2% false-alarm rate is reachable only at about 90% recall.
+    All 111 features, and four different classifiers, hit the same limit — so it is a property of
+    URL-based features, not of feature selection. A 57.6% cut-off gives 95.14% recall at 3.95%.</li>
+    <li><strong>Speed and robustness.</strong> With no network lookups (0.01 ms) recall falls to about
+    90%. Scaling all network latencies ÷3 or ×3 kept the best recall at 95.6–95.8%.</li>
+  </ul>
+
+  <p><strong>Limitations:</strong> one dataset; subsets tuned for a Random Forest; and failed DNS
+  lookups showed an unexpected link to legitimate sites, worth checking on a second dataset.</p>
 
   </div>
 

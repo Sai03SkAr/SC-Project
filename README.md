@@ -3,7 +3,8 @@
 **Course:** Soft Computing
 **Status:** Complete — all experiments run, report written
 **Last updated:** 30 September 2026
-**Report:** [`project-report.pdf`](project-report.pdf) (6 pages)
+**Initial report (for submission):** [`project-report.pdf`](project-report.pdf) — 6 pages, written as a pre-experiment plan; the comparison table has placeholders
+**Results report:** [`project-report-results.pdf`](project-report-results.pdf) — the same document with measured results on page 6
 
 ---
 
