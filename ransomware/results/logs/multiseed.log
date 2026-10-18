@@ -1,0 +1,57 @@
+MLRan: SPEA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=483 init=sparse
+  mlran spea2 seed 1: 3.9min HV=1.2775 front=100 features=1-102 static_only=59
+  mlran spea2 seed 2: 66.4min HV=1.2713 front=100 features=1-119 static_only=48
+  mlran spea2 seed 3: 3.4min HV=1.2829 front=100 features=1-158 static_only=57
+  mlran spea2 seed 4: 3.4min HV=1.2854 front=100 features=1-200 static_only=55
+  mlran spea2 seed 5: 32.1min HV=1.2860 front=100 features=1-173 static_only=53
+  mlran spea2 seed 6: 3.2min HV=1.2923 front=100 features=1-51 static_only=60
+  mlran spea2 seed 7: 3.2min HV=1.2760 front=100 features=1-79 static_only=59
+  mlran spea2 seed 8: 3.3min HV=1.2567 front=100 features=1-54 static_only=47
+  mlran spea2 seed 9: 3.3min HV=1.2830 front=100 features=1-170 static_only=58
+  mlran spea2 seed 10: 3.3min HV=1.2860 front=100 features=1-107 static_only=56
+  SPEA2 HV median=1.2829 mean=1.2797 std=0.0096
+MLRan: NSGA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=483 init=sparse
+  mlran nsga2 seed 1: 3.0min HV=1.2790 front=100 features=1-177 static_only=82
+  mlran nsga2 seed 2: 2.9min HV=1.2863 front=100 features=1-198 static_only=90
+  mlran nsga2 seed 3: 2.8min HV=1.2803 front=100 features=1-136 static_only=86
+  mlran nsga2 seed 4: 2.8min HV=1.2796 front=100 features=1-185 static_only=84
+  mlran nsga2 seed 5: 2.8min HV=1.2805 front=100 features=1-225 static_only=76
+  mlran nsga2 seed 6: 32.6min HV=1.2860 front=100 features=1-158 static_only=91
+  mlran nsga2 seed 7: 82.9min HV=1.2590 front=100 features=1-181 static_only=91
+  mlran nsga2 seed 8: 102.3min HV=1.2519 front=100 features=1-140 static_only=83
+  mlran nsga2 seed 9: 118.8min HV=1.2877 front=100 features=1-137 static_only=91
+  mlran nsga2 seed 10: 106.8min HV=1.2730 front=100 features=1-204 static_only=84
+  NSGA2 HV median=1.2799 mean=1.2763 std=0.0113
+Ransomware Dataset 2024: SPEA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=148 init=sparse
+  rd2024 spea2 seed 1: 137.2min HV=1.2987 front=100 features=1-47 static_only=75
+  rd2024 spea2 seed 2: 3.4min HV=1.2961 front=96 features=1-36 static_only=50
+  rd2024 spea2 seed 3: 3.9min HV=1.3091 front=100 features=1-35 static_only=74
+  rd2024 spea2 seed 4: 3.7min HV=1.3083 front=100 features=1-32 static_only=72
+  rd2024 spea2 seed 5: 3.5min HV=1.2912 front=96 features=1-47 static_only=50
+  rd2024 spea2 seed 6: 3.7min HV=1.3011 front=100 features=1-35 static_only=68
+  rd2024 spea2 seed 7: 3.5min HV=1.2897 front=100 features=1-46 static_only=59
+  rd2024 spea2 seed 8: 3.7min HV=1.3083 front=100 features=1-44 static_only=75
+  rd2024 spea2 seed 9: 3.5min HV=1.2974 front=100 features=1-36 static_only=71
+  rd2024 spea2 seed 10: 3.2min HV=1.2820 front=100 features=1-34 static_only=59
+  SPEA2 HV median=1.2981 mean=1.2982 std=0.0085
+Ransomware Dataset 2024: NSGA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=148 init=sparse
+  rd2024 nsga2 seed 1: 3.4min HV=1.3067 front=100 features=1-70 static_only=90
+  rd2024 nsga2 seed 2: 3.7min HV=1.2980 front=98 features=1-33 static_only=49
+  rd2024 nsga2 seed 3: 3.2min HV=1.3019 front=100 features=1-39 static_only=82
+  rd2024 nsga2 seed 4: 30.5min HV=1.2915 front=100 features=1-49 static_only=59
+  rd2024 nsga2 seed 5: 3.4min HV=1.3078 front=100 features=1-50 static_only=67
+  rd2024 nsga2 seed 6: 3.5min HV=1.3042 front=100 features=1-67 static_only=78
+  rd2024 nsga2 seed 7: 3.5min HV=1.2998 front=100 features=1-70 static_only=83
+  rd2024 nsga2 seed 8: 3.6min HV=1.3021 front=100 features=1-43 static_only=85
+  rd2024 nsga2 seed 9: 3.5min HV=1.2889 front=87 features=1-47 static_only=58
+  rd2024 nsga2 seed 10: 3.3min HV=1.2813 front=100 features=1-53 static_only=61
+  NSGA2 HV median=1.3008 mean=1.2982 std=0.0080
+MLRan: SPEA2 pop=100 gen=50 seeds=[2, 3] features=483 init=dense
+  mlran spea2 seed 2: 4.1min HV=0.1208 front=14 features=133-154 static_only=0
+  mlran spea2 seed 3: 4.1min HV=0.1208 front=15 features=142-165 static_only=0
+  SPEA2 HV median=0.1208 mean=0.1208 std=0.0000
+MLRan: NSGA2 pop=100 gen=50 seeds=[1, 2, 3] features=483 init=dense
+  mlran nsga2 seed 1: 4.1min HV=0.1208 front=14 features=139-167 static_only=0
+  mlran nsga2 seed 2: 78.4min HV=0.1208 front=19 features=134-168 static_only=0
+  mlran nsga2 seed 3: 166.6min HV=0.1208 front=9 features=124-132 static_only=0
+  NSGA2 HV median=0.1208 mean=0.1208 std=0.0000

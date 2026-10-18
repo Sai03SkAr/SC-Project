@@ -1,0 +1,20 @@
+{
+  "dataset": "mlran",
+  "algorithm": "nsga2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 9,
+  "hypervolume": 1.2877000128271239,
+  "front_size": 100,
+  "elapsed_sec": 7128.222212791443,
+  "n_evaluations": 4006,
+  "cache_hit_rate": 0.1988,
+  "n_static_only": 91,
+  "features_min": 1,
+  "features_max": 137,
+  "features_median": 5.0,
+  "fnr_min": 0.0,
+  "fpr_min": 0.0,
+  "cost_min": 50.00001
+}

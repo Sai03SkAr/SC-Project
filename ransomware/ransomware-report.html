@@ -1,0 +1,598 @@
+<title>Ransomware Detection Project Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --ink:    #16181D;
+    --body:   #24272E;
+    --muted:  #5A6070;
+    --rule:   #C8CCD6;
+    --rule-l: #E3E6EC;
+    --accent: #1F3A93;
+    --tint:   #EDF0F8;
+    --warn:   #8A5A12;
+    --warn-t: #FBF3E3;
+    --static: #2E7D5B;
+    --dyn:    #B5552B;
+  }
+
+  * { box-sizing: border-box; }
+
+  @page { size: A4; margin: 13mm 13mm; }
+
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    color: var(--body);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 12pt;
+    line-height: 1.36;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet { max-width: 760px; margin: 0 auto; padding: 14px 18px 26px; }
+  @media print { .sheet { padding-bottom: 0; } }
+
+  h1, h2, h3, h4, .ui { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: 0.85em; }
+
+  .title { border-bottom: 2px solid var(--ink); padding-bottom: 7px; margin-bottom: 4px; }
+  .course {
+    font-family: Archivo, sans-serif; font-size: 9.4pt; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+    margin: 0 0 4px;
+  }
+  h1 { font-size: 19.5pt; font-weight: 700; letter-spacing: -0.015em; line-height: 1.12; margin: 0 0 4px; }
+  .subtitle { font-size: 12.3pt; color: var(--muted); margin: 0; font-style: italic; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 2px 22px;
+    font-family: Archivo, sans-serif; font-size: 9.4pt; color: var(--muted);
+    padding: 4px 0 0; margin-bottom: 11px;
+  }
+
+  .objectives {
+    border: 1.5px solid var(--accent);
+    background: var(--tint);
+    padding: 9px 13px 10px;
+    margin: 0 0 13px;
+    break-inside: avoid;
+  }
+  .objectives .lbl {
+    font-family: Archivo, sans-serif; font-size: 9pt; font-weight: 700;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--accent);
+    display: block; margin-bottom: 5px;
+  }
+  .objectives ol { margin: 0; padding-left: 20px; }
+  .objectives li { margin-bottom: 2px; font-weight: 600; color: var(--ink); }
+  .objectives .foot { font-size: 10.4pt; color: var(--muted); margin: 6px 0 0; font-style: italic; }
+
+  h2 {
+    font-size: 14.3pt; font-weight: 700; margin: 15px 0 6px;
+    padding-bottom: 3px; border-bottom: 1px solid var(--rule);
+    break-after: avoid;
+  }
+  h3 { font-size: 11.6pt; font-weight: 600; margin: 10px 0 4px; break-after: avoid; }
+
+  p { margin: 0 0 6px; }
+  ul, ol { margin: 0 0 6px; padding-left: 18px; }
+  li { margin-bottom: 2px; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 600; color: var(--ink); }
+
+  table {
+    border-collapse: collapse; width: 100%;
+    font-family: Archivo, sans-serif; font-size: 10pt;
+    margin: 6px 0 9px; break-inside: avoid;
+  }
+  caption {
+    caption-side: top; text-align: left;
+    font-family: Archivo, sans-serif; font-size: 9pt; font-weight: 600;
+    color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;
+    padding-bottom: 3px;
+  }
+  th {
+    text-align: left; font-weight: 600; color: var(--ink);
+    padding: 4px 7px; border-bottom: 1.3px solid var(--ink);
+    border-top: 1px solid var(--rule); background: var(--tint);
+  }
+  td { padding: 3.6px 7px; border-bottom: 1px solid var(--rule-l); vertical-align: top; }
+  tr:last-child td { border-bottom: 1px solid var(--rule); }
+  td.n { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .why, .note { padding: 6px 11px; margin: 7px 0; break-inside: avoid; }
+  .why { background: var(--tint); border-left: 2.5px solid var(--accent); }
+  .note { background: var(--warn-t); border-left: 2.5px solid var(--warn); }
+  .why .lbl, .note .lbl {
+    font-family: Archivo, sans-serif; font-size: 8.8pt; font-weight: 700;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    display: block; margin-bottom: 2px;
+  }
+  .why .lbl { color: var(--accent); }
+  .note .lbl { color: var(--warn); }
+  .why p:last-child, .note p:last-child { margin-bottom: 0; }
+
+  .eq {
+    background: #F6F8FC; border: 1px solid var(--rule-l);
+    padding: 6px 10px; margin: 6px 0;
+    font-family: "JetBrains Mono", monospace; font-size: 9.6pt;
+    line-height: 1.48; white-space: pre-wrap; break-inside: avoid;
+  }
+
+  .steps { counter-reset: st; margin: 6px 0 8px; padding: 0; list-style: none; }
+  .steps > li {
+    counter-increment: st; position: relative;
+    padding-left: 22px; margin-bottom: 4px; break-inside: avoid;
+  }
+  .steps > li::before {
+    content: counter(st); position: absolute; left: 0; top: 1.5px;
+    font-family: Archivo, sans-serif; font-size: 8.4pt; font-weight: 700;
+    color: #FFFFFF; background: var(--accent);
+    width: 15px; height: 15px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps b { font-family: Archivo, sans-serif; font-size: 10.4pt; }
+
+  .tag { font-family: Archivo, sans-serif; font-size: 8.4pt; font-weight: 700; padding: 0 5px;
+         border-radius: 3px; color: #FFFFFF; white-space: nowrap; }
+  .tag.s { background: var(--static); }
+  .tag.d { background: var(--dyn); }
+
+  figure { margin: 8px 0 10px; break-inside: avoid; }
+  figure img { width: 80%; margin: 0 auto; display: block; border: 1px solid var(--rule-l); }
+  figcaption { font-family: Archivo, sans-serif; font-size: 9pt; color: var(--muted); margin-top: 3px; }
+
+  footer {
+    margin-top: 13px; padding-top: 7px; border-top: 1px solid var(--rule);
+    font-size: 9.6pt; color: var(--muted);
+  }
+  footer p { margin: 0 0 3px; }
+
+  .newpage { break-before: page; page-break-before: always; }
+  .newpage > h2:first-child { margin-top: 0; }
+  table.cmp { font-size: 9.2pt; }
+  table.cmp th { padding: 3.5px 5px; }
+  table.cmp td { padding: 3px 5px; }
+  table.cmp tr.hl td { background: var(--tint); }
+  table.cmp tr.grp td { background: #F6F8FC; font-weight: 600; color: var(--muted);
+                        font-size: 8.4pt; letter-spacing: 0.06em; text-transform: uppercase; }
+  .ok  { color: var(--static); font-weight: 700; }
+  .tnote { font-size: 9.2pt; color: var(--muted); margin-top: -4px; }
+</style>
+
+<div class="sheet">
+
+  <div class="title">
+    <p class="course">Soft Computing · Project Report</p>
+    <h1>Ransomware Detection using Multi-Objective Feature Selection</h1>
+    <p class="subtitle">Can ransomware be caught before it runs, and what does that cost in accuracy?</p>
+  </div>
+  <div class="meta">
+    <span><strong>Algorithm:</strong> SPEA2</span>
+    <span><strong>Datasets:</strong> MLRan · RD2024 · UGRansome</span>
+    <span><strong>Status:</strong> Complete (UGRansome: see 7.4)</span>
+  </div>
+
+  <div class="objectives">
+    <span class="lbl">Objectives</span>
+    <ol>
+      <li>To minimise the time required to detect ransomware, ideally before it executes</li>
+      <li>To maximise recall value</li>
+    </ol>
+    <p class="foot">As in our phishing study, the false-alarm rate is optimised alongside these two.
+    It keeps objective 2 well-posed. See Section 4.</p>
+  </div>
+
+  <!-- 1 -->
+  <h2>1. Introduction</h2>
+
+  <p>Ransomware is malicious software that encrypts a victim's files and demands payment for the
+  key. Hospitals, councils and companies have been shut down for weeks by a single infection.</p>
+
+  <p>What makes ransomware different from most malware is that <strong>the damage is done the
+  moment it runs.</strong> Encryption starts within seconds; by the time a detector has watched the
+  program misbehave, files are already lost. A security tool can judge a program in two ways:</p>
+  <ul>
+    <li><span class="tag s">STATIC</span> <strong>read the file without running it</strong>: its
+    header, its embedded text strings. This takes milliseconds, and it happens <em>before</em> the
+    program can do any harm.</li>
+    <li><span class="tag d">DYNAMIC</span> <strong>run it inside a sandbox</strong> (an isolated test
+    machine) and record what it does: files touched, registry keys changed, system calls made. This
+    sees the real behaviour but takes about two minutes per file.</li>
+  </ul>
+
+  <p>Dynamic features are usually more informative, so speed and accuracy pull against each other.
+  This project applies the method from our phishing study, <strong>SPEA2 multi-objective feature
+  selection</strong>, to three ransomware datasets. The goal is to find which features are worth
+  collecting, and in particular whether a detector that never runs the file can still catch
+  ransomware reliably.</p>
+
+  <!-- 2 -->
+  <h2>2. Datasets</h2>
+
+  <p>We use three public datasets chosen to differ in what they measure and in size (13 to 483
+  features). Only the processed feature tables are used; no malware is ever downloaded.</p>
+
+  <table>
+    <caption>Table 1 — The three datasets</caption>
+    <thead>
+      <tr><th style="width:17%">Dataset</th><th>Source</th><th>Samples used</th><th>Features</th><th style="width:25%">Task</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>MLRan</strong></td><td>Onwuegbuche et al., JNCA 2026; Zenodo 23403681 (CC-BY-4.0)</td><td class="n">4,880</td><td class="n">483</td><td>Ransomware (2,330) vs goodware (2,550)</td></tr>
+      <tr><td><strong>RD2024</strong></td><td>Hussain, <em>Ransomware Dataset 2024</em>; Zenodo 13890887 (CC-BY-4.0)</td><td class="n">15,638</td><td class="n">148</td><td>12 ransomware families (4,762) vs benign (10,876)</td></tr>
+      <tr><td><strong>UGRansome</strong></td><td>Nkongolo et al., <em>Information</em> 12(10), 2021; Kaggle</td><td class="n">≈ 149k</td><td class="n">≈ 13</td><td>Zero-day (anomaly) vs known-signature network traffic</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.1 What the features measure, and what they cost</h3>
+
+  <table>
+    <caption>Table 2 — Feature tiers and their cost</caption>
+    <thead>
+      <tr><th style="width:14%">Dataset</th><th style="width:30%"><span class="tag s">STATIC</span> ≈ 50 ms, before execution</th><th><span class="tag d">DYNAMIC</span> ≈ 120 s, sandbox run</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>MLRan</strong></td><td><strong>223</strong> text strings found inside the file (e.g. <code>getlogicaldrives</code>, <code>.aspack</code>)</td><td><strong>260</strong> behaviours: Windows API calls, registry and file operations, loaded DLLs, sandbox signatures</td></tr>
+      <tr><td><strong>RD2024</strong></td><td><strong>135</strong> PE-header fields: image base, section sizes, flags, machine type</td><td><strong>13</strong> behaviour counts: registry reads/writes, processes, files created, API calls</td></tr>
+      <tr><td><strong>UGRansome</strong></td><td colspan="2">All features come from network flows (ports, protocol, bytes, address, Bitcoin activity). There is only one tier, so cost is measured as the <strong>number of features</strong>.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The dynamic latency is the default analysis time of the Cuckoo sandbox (120 s). The static
+  figure is a generous allowance for parsing a header or extracting strings. <strong>The exact
+  numbers do not matter</strong>: with only two tiers, any static cost lower than any dynamic cost
+  gives exactly the same set of best trade-offs, so no sensitivity analysis is needed.</p>
+
+  <h3>2.2 Auditing the data before using it</h3>
+
+  <div class="note">
+    <span class="lbl">Two problems found, and fixed, before any optimisation</span>
+    <p><strong>RD2024: the sandbox's own verdict was in the data.</strong> The column
+    <code>processes_malicious</code> alone separates ransomware from benign with AUC 0.996. It is not
+    a behaviour but the sandbox's <em>judgement</em>, so using it would let the optimiser copy an
+    existing detector instead of learning one. We removed it together with the four other verdict
+    columns (<code>*_suspicious</code>, <code>files_malicious</code>, <code>network_threats</code>).
+    After this, no single feature exceeds AUC 0.95.</p>
+    <p><strong>MLRan: a third of the test set also appears in training.</strong> 320 of 975 test
+    vectors are exact copies of training vectors. We keep the authors' split, because their 483
+    features were chosen on it, but <strong>every MLRan result is also reported on the 655 unseen
+    test rows</strong>, which is the honest measure of generalisation.</p>
+  </div>
+
+  <h3>2.3 Why these three datasets</h3>
+  <ul>
+    <li><strong>MLRan and UGRansome</strong> were specified for the project. MLRan has the largest
+    search space we know of in a public ransomware set (483 features). UGRansome is small enough
+    to <em>check every possible subset</em>, which gives the true optimum to measure SPEA2 against.</li>
+    <li><strong>RD2024</strong> was our choice for the third. It is recent (2024), openly licensed,
+    covers 12 well-known families (e.g. WannaCry, LockBit, Ryuk, REvil), and has a natural static/dynamic split. Its
+    static features (header fields) are a different <em>kind</em> from MLRan's (text strings), so the
+    method is tested on two independent feature types.</li>
+    <li>Together they span <strong>13, 148 and 483 features</strong>. This matters: the
+    2<sup>483</sup> ≈ 10<sup>145</sup> subsets of MLRan cannot be searched by anything simple.</li>
+  </ul>
+
+  <!-- 3 -->
+  <h2>3. Aim</h2>
+
+  <div class="why">
+    <span class="lbl">The research question</span>
+    <p><strong>Can ransomware be detected from the file alone, before it runs? If so, from how few
+    features, and what does skipping the sandbox cost in missed ransomware and false alarms?</strong></p>
+  </div>
+
+  <p>As before, <strong>the classifier is the instrument, not the subject</strong>: a Random Forest is
+  held fixed and we study which inputs it needs. The output is not one detector but the full set of
+  best trade-offs, from which a deployment chooses, for example a pre-execution scanner or a
+  full sandbox pipeline.</p>
+
+  <!-- 4 -->
+  <h2>4. The Objectives in Measurable Form</h2>
+
+  <table>
+    <caption>Table 3 — The objectives as optimised (all minimised)</caption>
+    <thead>
+      <tr><th style="width:17%">Objective</th><th style="width:25%">Definition</th><th>Why it matters</th><th style="width:15%">Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>f₁ — Detection cost</strong><br><span style="color:var(--muted)">Objective 1</span></td>
+        <td>Sum of the <em>distinct</em> tiers the selected features need: 50 ms, or 120,050 ms if any dynamic feature is used. UGRansome: feature count</td>
+        <td>A static-only detector can block the file <em>before</em> it executes; one dynamic feature forces a two-minute sandbox run</td>
+        <td>Static only, if accuracy allows</td>
+      </tr>
+      <tr>
+        <td><strong>f₂ — Missed ransomware</strong><br><span style="color:var(--muted)">Objective 2</span></td>
+        <td><span class="mono">FNR = FN/(FN+TP)</span><br>= 1 − recall</td>
+        <td>A single missed sample can encrypt an organisation's files</td>
+        <td>Recall ≥ 95%</td>
+      </tr>
+      <tr>
+        <td><strong>f₃ — False alarms</strong><br><span style="color:var(--muted)">supporting</span></td>
+        <td><span class="mono">FPR = FP/(FP+TN)</span></td>
+        <td>Quarantining legitimate software breaks users' work; they then disable the tool</td>
+        <td>FPR ≤ 2%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Targets are the same as in the phishing study, so the two projects are directly comparable.
+  A tiny per-feature term (10<sup>−5</sup> ms) is added to f₁ so that, between two equally good
+  detectors in the same tier, the smaller one is preferred.</p>
+
+  <div class="note">
+    <span class="lbl">Why f₃ is essential, and how we saw it happen</span>
+    <p>Without f₃ the optimiser can label <em>every</em> file as ransomware: recall becomes 100% and
+    the detector is useless. Such "flag everything" detectors really do appear on our Pareto fronts,
+    because nothing beats their recall. Section 6.3 explains how we choose deployment points so that
+    they are never selected.</p>
+  </div>
+
+  <!-- 5 -->
+  <h2>5. Algorithm — SPEA2</h2>
+
+  <h3>5.1 How it works (recap)</h3>
+
+  <p><strong>SPEA2</strong> (Zitzler, Laumanns and Thiele, 2001) is a multi-objective evolutionary
+  algorithm. Each candidate is a string of yes/no bits, one per feature (483 bits for MLRan). A
+  population of 100 candidates evolves for 50 generations by two-point crossover and bit-flip
+  mutation; selection works as follows:</p>
+
+  <ul class="steps">
+    <li><b>Dominance.</b> A dominates B if A is no worse on all three objectives and better on at least one.</li>
+    <li><b>Strength and raw fitness.</b> Each candidate's strength is how many it dominates; its raw
+    fitness is the total strength of those dominating it. Zero means nothing beats it.</li>
+    <li><b>Density.</b> Ties are broken by distance to the k-th nearest neighbour, so sparse regions
+    of the trade-off are preferred and the front stays spread out.</li>
+    <li><b>Archive.</b> A fixed-size archive keeps the best candidates; when it overflows, the most
+    crowded are removed.</li>
+  </ul>
+
+  <p>The output is a <strong>Pareto front</strong>: detectors that cannot be improved on one
+  objective without becoming worse on another.</p>
+
+  <h3>5.2 Why SPEA2</h3>
+  <ol>
+    <li><strong>Duplicate-heavy fitness.</strong> Many different feature subsets give identical
+    scores (MLRan alone has 1,274 duplicate rows). SPEA2 gives identical candidates identical
+    fitness, and its archive truncation handles them consistently.</li>
+    <li><strong>Its overhead is invisible here.</strong> Each evaluation trains a classifier
+    (hundreds of milliseconds); SPEA2's extra bookkeeping costs microseconds.</li>
+    <li><strong>Weighted sums cannot do the job.</strong> They need arbitrary weights, return one
+    point per run, and cannot reach non-convex parts of the front. We run a weighted-sum PSO to show
+    this, and <strong>NSGA-II</strong> as the standard multi-objective comparison.</li>
+  </ol>
+
+  <h3>5.3 What we had to change for 483 features: the starting population</h3>
+
+  <p>The standard binary start switches each feature on with probability ½, so every initial
+  candidate holds about 240 of MLRan's 483 features, about 130 of them dynamic. To reach a
+  static-only detector the search must switch off <em>all</em> 260 dynamic features, but bit-flip
+  mutation changes about one bit per child. <strong>In practice, a static-only detector is
+  unreachable.</strong></p>
+
+  <p>We therefore use a <strong>sparse initial population</strong>, the usual remedy in large-scale
+  feature selection (cf. SparseEA). Each starting candidate gets its own density, drawn
+  log-uniformly between 1/n (about one feature) and ½. It uses <strong>no knowledge of which features
+  are static</strong>, and SPEA2, NSGA-II and PSO all receive exactly the same start.</p>
+
+  <table>
+    <caption>Table 4 — Effect of the starting population on MLRan (same settings otherwise)</caption>
+    <thead>
+      <tr><th style="width:24%">Start</th><th>Runs</th><th>Hypervolume</th><th>Features in final front</th><th>Static-only detectors found</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Standard (density ½)</td><td class="n">6</td><td class="n">0.121 (every run)</td><td class="n">124–176</td><td class="n">0 in every run</td></tr>
+      <tr class="hl"><td><strong>Sparse (ours)</strong></td><td class="n">20</td><td class="n">1.252–1.292</td><td class="n">1–225</td><td class="n">47–91 per run</td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">The standard-start runs (3 SPEA2 + 3 NSGA-II) are kept as an ablation. Their
+  hypervolume is identical because every solution stays in the sandbox tier.</p>
+
+  <p>This also explains a result from our phishing study, where no-lookup detectors appeared in
+  only some runs: at 111 features the effect was mild; at 483 it is total.</p>
+
+  <!-- 6 -->
+  <h2>6. Methodology</h2>
+
+  <ul class="steps">
+    <li><b>Load and audit.</b> Encode each dataset (hex fields parsed, flag lists one-hot); check
+    balance, duplicates, train/test overlap and single-feature "shortcuts" (Section 2.2).</li>
+    <li><b>Split.</b> MLRan: the authors' split (3,905 / 975). RD2024 and UGRansome: stratified 80/20.
+    The test set is then sealed.</li>
+    <li><b>Internal validation split.</b> The training data is split again 75/25. The search trains
+    on the first part and scores on the second; it never sees the test set.</li>
+    <li><b>Baselines.</b> Random Forest on all features, on static features only, and PCA (95%
+    variance) and a mutual-information filter (top 25).</li>
+    <li><b>Search.</b> SPEA2 and NSGA-II, population 100, 50 generations, <strong>10 seeds each</strong>
+    per dataset; weighted-sum PSO with four weightings.</li>
+    <li><b>Choose deployment points</b> from the pooled Pareto front, on validation data (6.3).</li>
+    <li><b>Final validation.</b> Retrain a 200-tree Random Forest on each chosen subset and evaluate
+    once on the sealed test set (MLRan also on its 655 unseen rows).</li>
+  </ul>
+
+  <h3>6.1 How one candidate is scored</h3>
+
+  <div class="eq">if no features selected  →  worst value on every objective
+
+f₁ = 50 ms (+120,000 ms if any dynamic feature) + 10⁻⁵ × n_features
+     train a 30-tree Random Forest on the selected features
+f₂ = FN / (FN + TP)      ┐ from one confusion matrix
+f₃ = FP / (FP + TN)      ┘ on the validation split</div>
+
+  <h3>6.2 Measuring search quality</h3>
+  <p><strong>Hypervolume</strong> (reference point 1.1, 1.1, 1.1 on normalised objectives; maximum
+  1.331) measures how much of the objective space a front covers. SPEA2 and NSGA-II are compared
+  over 10 seeds with a two-sided <strong>Mann–Whitney U test</strong>. Wall-clock time was unreliable
+  (the laptop slept during some runs), so search effort is reported as <strong>classifier
+  evaluations</strong>.</p>
+
+  <h3>6.3 Choosing a deployment point from the front</h3>
+  <p>For each cost tier we pick the Pareto solution with the <strong>lowest balanced error,
+  (FNR + FPR) / 2</strong>, on validation data. This gives a <em>pre-execution</em> detector
+  (best static-only) and a <em>full-analysis</em> detector (best overall).</p>
+  <div class="note">
+    <span class="lbl">A correction we made, reported openly</span>
+    <p>Our first rule, copied from the phishing study, was "highest recall in the tier". Here it
+    picked "flag everything" detectors (e.g. 94.6% recall at <strong>64% false alarms</strong>), because
+    those are Pareto-optimal on recall. Balanced error needs no hand-picked target and penalises both
+    mistakes equally. The rule uses validation data only; the test set played no part in choosing it.</p>
+  </div>
+
+  <p><strong>Tools:</strong> <span class="mono">Python 3</span> · <span class="mono">pymoo</span>
+  (SPEA2, NSGA-II, hypervolume) · <span class="mono">pyswarms</span> (binary PSO) ·
+  <span class="mono">scikit-learn</span> · <span class="mono">scipy</span> ·
+  <span class="mono">pandas</span>, <span class="mono">matplotlib</span>. Everything runs on an
+  ordinary laptop.</p>
+
+  <footer>
+    <p><strong>Datasets.</strong> F. C. Onwuegbuche et al., MLRan, Zenodo 23403681.
+    · M. Hussain, Ransomware Dataset 2024, Zenodo 13890887.
+    · M. Nkongolo, J. P. van Deventer, S. M. Kasongo, <em>UGRansome1819: A Novel Dataset for Anomaly
+    Detection and Zero-Day Threats</em>, Information 12(10):405, 2021.</p>
+    <p><strong>Algorithm.</strong> E. Zitzler, M. Laumanns, L. Thiele. <em>SPEA2: Improving the
+    Strength Pareto Evolutionary Algorithm.</em> TIK Report 103, ETH Zurich, 2001.</p>
+  </footer>
+
+  <div class="newpage">
+
+  <h2>7. Comparison of Algorithms</h2>
+
+  <p>Every row retrains the same 200-tree Random Forest on the method's features and is measured
+  <strong>once on the sealed test set</strong>. Cost is per file: 50 ms means no sandbox.</p>
+
+  <table class="cmp">
+    <caption>Table 5 — RD2024 (test set: 3,128 programs)</caption>
+    <thead>
+      <tr><th style="width:24%">Method</th><th>Features</th><th>Cost</th><th>Accuracy</th><th>Recall</th><th>FPR</th><th style="width:26%">Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr class="grp"><td colspan="7">Pre-execution (no sandbox)</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> (pre-execution)</td><td class="n"><strong>7</strong></td><td class="n"><strong>50 ms</strong></td><td class="n">97.89%</td><td class="n"><strong>96.12%</strong></td><td class="n"><strong>1.33%</strong></td><td><span class="ok">✓ both targets</span>, 7 header fields</td></tr>
+      <tr><td>NSGA-II (pre-execution)</td><td class="n">14</td><td class="n">50 ms</td><td class="n">97.51%</td><td class="n">95.80%</td><td class="n">1.75%</td><td><span class="ok">✓ both targets</span></td></tr>
+      <tr><td>All static features</td><td class="n">135</td><td class="n">50 ms</td><td class="n">98.18%</td><td class="n">95.91%</td><td class="n">0.83%</td><td><span class="ok">✓ both targets</span>, 19× more features</td></tr>
+      <tr><td>PSO weighted (balanced)</td><td class="n">68</td><td class="n">50 ms</td><td class="n">98.27%</td><td class="n">96.54%</td><td class="n">0.97%</td><td><span class="ok">✓ both targets</span>, 10× SPEA2's features</td></tr>
+      <tr class="grp"><td colspan="7">Full analysis (sandbox)</td></tr>
+      <tr><td>All features (baseline)</td><td class="n">148</td><td class="n">120 s</td><td class="n">99.17%</td><td class="n">98.74%</td><td class="n">0.64%</td><td>Reference point</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> (full analysis)</td><td class="n"><strong>47</strong></td><td class="n">120 s</td><td class="n">99.17%</td><td class="n">98.43%</td><td class="n"><strong>0.51%</strong></td><td>Same accuracy, ⅓ of the features</td></tr>
+      <tr><td>NSGA-II (full analysis)</td><td class="n">70</td><td class="n">120 s</td><td class="n">99.30%</td><td class="n">98.64%</td><td class="n">0.41%</td><td>Comparison</td></tr>
+      <tr><td>PSO weighted (any weights)</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No weighting reached this tier</td></tr>
+      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">120 s</td><td class="n">99.10%</td><td class="n">98.43%</td><td class="n">0.60%</td><td>Strong, but 8 of its 25 need the sandbox</td></tr>
+      <tr><td>PCA (95% var.)</td><td class="n">148 in</td><td class="n">120 s</td><td class="n">98.24%</td><td class="n">95.91%</td><td class="n">0.74%</td><td>Components need every input</td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">Only 27 RD2024 test rows appear in training; unseen-row results differ by ≤ 0.05 points.</p>
+
+  <table class="cmp">
+    <caption>Table 6 — MLRan (test set: 975 programs; "unseen" = the 655 not duplicated in training)</caption>
+    <thead>
+      <tr><th style="width:22%">Method</th><th>Features</th><th>Cost</th><th>Recall</th><th>FPR</th><th>Unseen recall</th><th>Unseen FPR</th><th style="width:20%">Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr class="grp"><td colspan="8">Pre-execution (no sandbox)</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> (pre-execution)</td><td class="n"><strong>73</strong></td><td class="n"><strong>50 ms</strong></td><td class="n"><strong>93.33%</strong></td><td class="n">4.90%</td><td class="n"><strong>94.85%</strong></td><td class="n">8.74%</td><td>Best static detector</td></tr>
+      <tr><td>NSGA-II (pre-execution)</td><td class="n">89</td><td class="n">50 ms</td><td class="n">91.18%</td><td class="n">5.29%</td><td class="n">91.60%</td><td class="n">9.44%</td><td>Comparison</td></tr>
+      <tr><td>All static features</td><td class="n">223</td><td class="n">50 ms</td><td class="n">90.97%</td><td class="n">4.71%</td><td class="n">91.60%</td><td class="n">8.39%</td><td>No selection</td></tr>
+      <tr><td>PSO weighted (balanced)</td><td class="n">3</td><td class="n">50 ms</td><td class="n">96.77%</td><td class="n">94.71%</td><td class="n">96.21%</td><td class="n">91.26%</td><td>Flags almost everything</td></tr>
+      <tr class="grp"><td colspan="8">Full analysis (sandbox)</td></tr>
+      <tr><td>All features (baseline)</td><td class="n">483</td><td class="n">120 s</td><td class="n">96.99%</td><td class="n">3.33%</td><td class="n">96.21%</td><td class="n">5.94%</td><td>Reference point</td></tr>
+      <tr><td>SPEA2 (full analysis)</td><td class="n">79</td><td class="n">120 s</td><td class="n">95.48%</td><td class="n">5.10%</td><td class="n">94.31%</td><td class="n">9.09%</td><td>Over-fitted validation (7.3)</td></tr>
+      <tr class="hl"><td><strong>NSGA-II</strong> (full analysis)</td><td class="n"><strong>158</strong></td><td class="n">120 s</td><td class="n"><strong>98.06%</strong></td><td class="n"><strong>3.33%</strong></td><td class="n"><strong>97.56%</strong></td><td class="n"><strong>5.94%</strong></td><td>Beats baseline, ⅓ features</td></tr>
+      <tr><td>PSO weighted (recall)</td><td class="n">240</td><td class="n">120 s</td><td class="n">96.34%</td><td class="n">3.53%</td><td class="n">95.39%</td><td class="n">6.29%</td><td>1 point per run</td></tr>
+      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">120 s</td><td class="n">92.69%</td><td class="n">13.33%</td><td class="n">90.79%</td><td class="n">15.03%</td><td>All 25 are sandbox features</td></tr>
+      <tr><td>PCA (95% var.)</td><td class="n">483 in</td><td class="n">120 s</td><td class="n">98.49%</td><td class="n">3.33%</td><td class="n">98.10%</td><td class="n">5.94%</td><td>Needs every input</td></tr>
+    </tbody>
+  </table>
+
+  <table class="cmp">
+    <caption>Table 7 — Search quality across 10 independent runs each</caption>
+    <thead>
+      <tr><th style="width:18%">Dataset</th><th>Algorithm</th><th>Median HV</th><th>Mean ± std</th><th>Worst run</th><th>Pooled front</th><th>Static-only</th><th>Evaluations / run</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="2">RD2024</td><td>SPEA2</td><td class="n">1.298</td><td class="n">1.298 ± 0.009</td><td class="n">1.282</td><td class="n">225</td><td class="n">158</td><td class="n">4,287</td></tr>
+      <tr><td>NSGA-II</td><td class="n">1.301</td><td class="n">1.298 ± 0.008</td><td class="n">1.281</td><td class="n">203</td><td class="n">144</td><td class="n">4,297</td></tr>
+      <tr><td rowspan="2">MLRan</td><td>SPEA2</td><td class="n">1.283</td><td class="n">1.280 ± 0.010</td><td class="n">1.257</td><td class="n">265</td><td class="n">170</td><td class="n">4,572</td></tr>
+      <tr><td>NSGA-II</td><td class="n">1.280</td><td class="n">1.276 ± 0.011</td><td class="n">1.252</td><td class="n">214</td><td class="n">177</td><td class="n">3,896</td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">Mann–Whitney U, SPEA2 vs NSGA-II hypervolume: RD2024 p = 1.00; MLRan p = 0.68. No significant difference on either.</p>
+
+  <figure>
+    <img src="results/figures/rd2024_f2_tradeoff.png" alt="RD2024 SPEA2 Pareto front: recall against false-positive rate, static-only detectors in green and sandbox detectors in orange">
+    <figcaption>Figure 1. RD2024, SPEA2 pooled Pareto front (validation data). Green: static-only detectors
+    (50 ms). Orange: detectors that need the sandbox. Circles mark the two chosen deployment points. Detectors above 10% FPR (the flag-everything tail) are off the chart.</figcaption>
+  </figure>
+
+  <h3>7.1 Weighted-sum PSO</h3>
+  <p>PSO ran four weightings of the three objectives from the same sparse start.</p>
+  <ul>
+    <li><strong>Weights did not steer it.</strong> On RD2024 all four weightings, from
+    "cost first" to "false alarms first", ended at almost the same static-only detector (56–71
+    features). There was never a sandbox option to choose from, whereas one SPEA2 run returns about 100 trade-offs.</li>
+    <li><strong>It cannot stay sparse.</strong> Binary PSO redraws every bit each iteration with
+    probability sigmoid(velocity), which keeps about half the features switched on. On MLRan, where 260 dynamic
+    bits must all be off, the swarm never saw a good static detector again. The "balanced" and "cost"
+    weightings returned a 3-feature detector that flags 95% of benign software. It is cheap, so the
+    weighted score preferred it.</li>
+    <li><strong>Where it worked, it used far more features</strong>: 68 against SPEA2's 7 on RD2024, at
+    similar accuracy.</li>
+  </ul>
+
+  <h3>7.2 What the selected features are</h3>
+  <p><strong>RD2024's 7-feature pre-execution detector</strong> uses <code>ImageBase</code>,
+  <code>SizeofStackCommit</code>, three properties of the <code>.rdata</code> section (size, address,
+  raw size), and two section flags. These are layout properties of how the file was built: ransomware
+  builders and packers leave a recognisable fingerprint. <code>ImageBase</code> appears in 52% of all
+  SPEA2 Pareto solutions. On MLRan the most-selected static strings include
+  <code>getlogicaldrives</code> (enumerating drives to encrypt), <code>removedirectorya</code> and
+  <code>getexitcodeprocess</code>: plausible ransomware behaviour, visible in the file before it runs.</p>
+
+  <h3>7.3 An honest caveat: small validation sets over-fit</h3>
+  <p>MLRan's validation split holds only about 500 benign programs, so one false alarm is 0.2%. Choosing the
+  best of 265 Pareto solutions on such a small set rewards luck. SPEA2's full-analysis pick scored
+  <strong>0.2% FPR in validation but 5.1% on the test set</strong>. NSGA-II's pick happened to
+  generalise better. On RD2024, with about 2,000 benign validation programs, validation and test agree closely
+  (SPEA2 pre-execution: 1.10% → 1.33%).</p>
+
+  <h3>7.4 UGRansome</h3>
+  <p>UGRansome is distributed only through Kaggle, which needs an account login, so it could not be
+  downloaded automatically. The loader (zero-day "A" vs known-signature "S" traffic, text
+  attributes frequency-encoded), audit, search and an <strong>exhaustive search over every
+  feature subset</strong> are implemented and tested. With about 13 features (about 8,000 subsets), the
+  exhaustive search gives the <em>true</em> Pareto front. This lets us measure how much of the optimum
+  SPEA2 and NSGA-II actually recover (share of the true front, and inverted generational distance).
+  Results will be added once the file is placed in <code>data/ugransome/</code>.</p>
+
+  <h2>8. Conclusion</h2>
+  <p><strong>Yes, ransomware can be caught before it runs</strong>, at least in RD2024. SPEA2 found a
+  detector that reads <strong>7 PE-header fields in about 50 ms</strong>, never executes the file, and
+  reaches <strong>96.12% recall at 1.33% false alarms</strong> on unseen test data. Both targets
+  are met. Compared with the full 148-feature sandbox pipeline (98.74% / 0.64%), skipping the sandbox
+  costs 2.6 points of recall and 0.7 points of false alarms, and makes detection about 2,400 times faster.</p>
+
+  <ul>
+    <li><strong>On MLRan, static analysis falls short.</strong> The best static-only detector (SPEA2, 73
+    strings) reaches 93.33% recall at 4.90% FPR; on the 655 genuinely unseen samples, 94.85% at 8.74%.
+    That is 2.4 points of recall better than using all 223 strings, but below target. Reaching
+    ≥ 95% requires the sandbox. NSGA-II's 158-feature detector (98.06% / 3.33%) beat the 483-feature
+    baseline with a third of the features.</li>
+    <li><strong>Best algorithm.</strong> SPEA2 and NSGA-II are statistically tied in search quality
+    (Mann–Whitney p = 0.68 on MLRan, 1.00 on RD2024), as in the phishing study. SPEA2 produced the best,
+    and the most compact, pre-execution detector on both datasets; NSGA-II produced the best
+    full-analysis detector on MLRan. Both clearly beat weighted-sum PSO, which returned one point per run
+    and on MLRan collapsed to a useless detector. The filter and PCA either needed the sandbox or all inputs.</li>
+    <li><strong>Method lesson.</strong> At 483 features, the standard random start makes
+    sandbox-free detectors unreachable (0 found in 6 runs). A sparse start, which uses no knowledge of the
+    tiers, found 47–91 per run. Large feature spaces need this.</li>
+  </ul>
+
+  <p><strong>Limitations:</strong> subsets are tuned for a Random Forest. MLRan's small validation set
+  lets the final choice over-fit (7.3). Static features can be evaded by packing, so a pre-execution filter
+  complements a sandbox rather than replacing it. UGRansome results await the download.</p>
+
+  </div>
+
+</div>

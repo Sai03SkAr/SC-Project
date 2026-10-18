@@ -1,0 +1,79 @@
+{
+  "dataset": "Ransomware Dataset 2024",
+  "split": "stratified 80/20, random_state=42",
+  "rows_used": 15638,
+  "families": 12,
+  "excluded_verdict_features": [
+    "processes_malicious",
+    "processes_suspicious",
+    "files_malicious",
+    "files_suspicious",
+    "network_threats"
+  ],
+  "n_train": 12510,
+  "n_test": 3128,
+  "n_features": 148,
+  "ransomware": 4762,
+  "benign": 10876,
+  "tiers": {
+    "static": 135,
+    "dynamic": 13
+  },
+  "constant_features": 2,
+  "duplicate_rows_total": 112,
+  "test_rows_also_in_train": 27,
+  "conflicting_duplicate_vectors": 0,
+  "top_single_feature_auc": [
+    {
+      "feature": "files_text",
+      "tier": "dynamic",
+      "auc": 0.9218
+    },
+    {
+      "feature": "processes_monitored",
+      "tier": "dynamic",
+      "auc": 0.9202
+    },
+    {
+      "feature": "files_unknown",
+      "tier": "dynamic",
+      "auc": 0.9118
+    },
+    {
+      "feature": "total_procsses",
+      "tier": "dynamic",
+      "auc": 0.9074
+    },
+    {
+      "feature": "registry_total",
+      "tier": "dynamic",
+      "auc": 0.8573
+    },
+    {
+      "feature": "registry_read",
+      "tier": "dynamic",
+      "auc": 0.839
+    },
+    {
+      "feature": "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+      "tier": "static",
+      "auc": 0.7012
+    },
+    {
+      "feature": "apis",
+      "tier": "dynamic",
+      "auc": 0.6711
+    },
+    {
+      "feature": "registry_write",
+      "tier": "dynamic",
+      "auc": 0.6647
+    },
+    {
+      "feature": "rdata_VirtualAddress",
+      "tier": "static",
+      "auc": 0.6611
+    }
+  ],
+  "shortcut_features_auc_over_0.95": []
+}

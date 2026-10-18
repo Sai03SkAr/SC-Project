@@ -1,0 +1,162 @@
+{
+  "rf_all_features": {
+    "n_features": 483,
+    "train_s": 0.25571107864379883,
+    "test_all": {
+      "accuracy": 0.9682051282051282,
+      "recall": 0.9698924731182795,
+      "precision": 0.9636752136752137,
+      "fpr": 0.03333333333333333,
+      "n": 975.0,
+      "auc": 0.9953953194180898
+    },
+    "test_unseen": {
+      "accuracy": 0.9526717557251908,
+      "recall": 0.962059620596206,
+      "precision": 0.9543010752688172,
+      "fpr": 0.05944055944055944,
+      "n": 655.0,
+      "auc": 0.9897426421816665
+    },
+    "cost_ms": 120050.00483,
+    "note": ""
+  },
+  "knn_all_features": {
+    "n_features": 483,
+    "train_s": 0.012217283248901367,
+    "test_all": {
+      "accuracy": 0.9692307692307692,
+      "recall": 0.9806451612903225,
+      "precision": 0.9559748427672956,
+      "fpr": 0.041176470588235294,
+      "n": 975.0,
+      "auc": 0.9850347881087919
+    },
+    "test_unseen": {
+      "accuracy": 0.9557251908396946,
+      "recall": 0.975609756097561,
+      "precision": 0.9473684210526315,
+      "fpr": 0.06993006993006994,
+      "n": 655.0,
+      "auc": 0.9733687721492601
+    },
+    "cost_ms": 120050.00483,
+    "note": ""
+  },
+  "svm_all_features": {
+    "n_features": 483,
+    "train_s": 1.8508620262145996,
+    "test_all": {
+      "accuracy": 0.9794871794871794,
+      "recall": 0.9827956989247312,
+      "precision": 0.9744136460554371,
+      "fpr": 0.023529411764705882,
+      "n": 975.0,
+      "auc": 0.9971368332279148
+    },
+    "test_unseen": {
+      "accuracy": 0.9694656488549618,
+      "recall": 0.978319783197832,
+      "precision": 0.967828418230563,
+      "fpr": 0.04195804195804196,
+      "n": 655.0,
+      "auc": 0.9943335796994334
+    },
+    "cost_ms": 120050.00483,
+    "note": ""
+  },
+  "rf_all_static_features": {
+    "n_features": 223,
+    "train_s": 0.20500516891479492,
+    "test_all": {
+      "accuracy": 0.9323076923076923,
+      "recall": 0.9096774193548387,
+      "precision": 0.9463087248322147,
+      "fpr": 0.047058823529411764,
+      "n": 975.0,
+      "auc": 0.9873518869913556
+    },
+    "test_unseen": {
+      "accuracy": 0.916030534351145,
+      "recall": 0.9159891598915989,
+      "precision": 0.9337016574585635,
+      "fpr": 0.08391608391608392,
+      "n": 655.0,
+      "auc": 0.9819631587924271
+    },
+    "cost_ms": 50.00223,
+    "note": "pre-execution ceiling: every static feature, no sandbox"
+  },
+  "pca_95": {
+    "n_features": 483,
+    "train_s": 0.6405067443847656,
+    "test_all": {
+      "accuracy": 0.9753846153846154,
+      "recall": 0.9849462365591398,
+      "precision": 0.9642105263157895,
+      "fpr": 0.03333333333333333,
+      "n": 975.0,
+      "auc": 0.9971178578958465
+    },
+    "test_unseen": {
+      "accuracy": 0.9633587786259542,
+      "recall": 0.981029810298103,
+      "precision": 0.9551451187335093,
+      "fpr": 0.05944055944055944,
+      "n": 655.0,
+      "auc": 0.9935423654935851
+    },
+    "cost_ms": 120050.00483,
+    "note": "blended components; needs all inputs",
+    "n_components": 195
+  },
+  "mi_filter_top25": {
+    "n_features": 25,
+    "train_s": 0.1712660789489746,
+    "test_all": {
+      "accuracy": 0.8953846153846153,
+      "recall": 0.9268817204301075,
+      "precision": 0.8637274549098196,
+      "fpr": 0.13333333333333333,
+      "n": 975.0,
+      "auc": 0.9351676154332701
+    },
+    "test_unseen": {
+      "accuracy": 0.8824427480916031,
+      "recall": 0.907859078590786,
+      "precision": 0.8862433862433863,
+      "fpr": 0.15034965034965034,
+      "n": 655.0,
+      "auc": 0.9239628934750885
+    },
+    "cost_ms": 120000.00025,
+    "note": "filter; ignores feature interactions",
+    "selected": [
+      "REG:OPENED:HKEY_CURRENT_USER\\Software\\Microsoft\\CTF\\LayoutIcon\\0409\\00020409",
+      "REG:OPENED:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ed-7f9a-11ef-945b-806e6f6e6963}\\",
+      "REG:OPENED:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ee-7f9a-11ef-945b-806e6f6e6963}\\",
+      "REG:OPENED:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58f1-7f9a-11ef-945b-806e6f6e6963}\\",
+      "REG:OPENED:HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\CTF\\KnownClasses",
+      "REG:OPENED:HKEY_LOCAL_MACHINE\\Software\\Microsoft\\CTF\\TIP\\{0000897b-83df-4b96-be07-0fb58b01c4a4}\\LanguageProfile\\0x00000000\\{0001bea3-ed56-483d-a2e2-aeae25577436}",
+      "REG:OPENED:HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\S-1-5-21-4114181432-2397392814-2180606575-500",
+      "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Hotkey",
+      "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Language Hotkey",
+      "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Layout Hotkey",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ed-7f9a-11ef-945b-806e6f6e6963}\\Data",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ed-7f9a-11ef-945b-806e6f6e6963}\\Generation",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ee-7f9a-11ef-945b-806e6f6e6963}\\Data",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58ee-7f9a-11ef-945b-806e6f6e6963}\\Generation",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58f1-7f9a-11ef-945b-806e6f6e6963}\\Data",
+      "REG:READ:HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2\\CPC\\Volume\\{748d58f1-7f9a-11ef-945b-806e6f6e6963}\\Generation",
+      "REG:READ:HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\CTF\\TIP\\{0000897b-83df-4b96-be07-0fb58b01c4a4}\\LanguageProfile\\0x00000000\\{0001bea3-ed56-483d-a2e2-aeae25577436}\\Enable",
+      "REG:READ:HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\S-1-5-21-4114181432-2397392814-2180606575-500\\ProfileImagePath",
+      "REG:READ:HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\CTF\\EnableAnchorContext",
+      "FILE:OPENED:c:\\windows\\globalization\\sorting\\sortdefault.nls",
+      "SYSTEM:DLL_LOADED:c:\\windows\\system32\\ole32.dll",
+      "SYSTEM:DLL_LOADED:c:\\windows\\syswow64\\msctf.dll",
+      "SYSTEM:DLL_LOADED:comctl32.dll",
+      "SYSTEM:DLL_LOADED:dwmapi.dll",
+      "SYSTEM:DLL_LOADED:uxtheme.dll"
+    ]
+  }
+}

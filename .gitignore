@@ -12,3 +12,6 @@ data/*.csv
 
 # Large binary result artifacts - regenerate with src/run_multiseed.py, keep only summaries
 results/fronts/*.npz
+
+# Ransomware datasets - download instead (see ransomware/README.md for sources)
+ransomware/data/

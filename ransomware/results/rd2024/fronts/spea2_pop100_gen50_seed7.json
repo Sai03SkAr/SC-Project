@@ -1,0 +1,20 @@
+{
+  "dataset": "rd2024",
+  "algorithm": "spea2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 7,
+  "hypervolume": 1.2896657527735296,
+  "front_size": 100,
+  "elapsed_sec": 209.71768403053284,
+  "n_evaluations": 4269,
+  "cache_hit_rate": 0.1462,
+  "n_static_only": 59,
+  "features_min": 1,
+  "features_max": 46,
+  "features_median": 7.0,
+  "fnr_min": 0.01050420168067227,
+  "fpr_min": 0.0,
+  "cost_min": 50.00001
+}

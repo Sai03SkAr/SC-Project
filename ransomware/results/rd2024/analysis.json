@@ -1,0 +1,493 @@
+{
+  "dataset": "rd2024",
+  "algorithms": {
+    "spea2": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "hv": [
+        1.2987296547529428,
+        1.2960529048813039,
+        1.3091189578334912,
+        1.308339704399736,
+        1.2912020469997536,
+        1.3010615578170783,
+        1.2896657527735296,
+        1.3082722595142846,
+        1.2974266421811234,
+        1.2820440153432662
+      ],
+      "hv_median": 1.2980781484670332,
+      "hv_mean": 1.298191349649651,
+      "hv_std": 0.008485190735206885,
+      "hv_worst": 1.2820440153432662,
+      "pooled_front": 225,
+      "static_only_solutions": 158,
+      "features_median": 6.0,
+      "features_min": 1,
+      "tier_share": {
+        "dynamic": {
+          "available": 13,
+          "mean_selected": 1.2222222222222223
+        },
+        "static": {
+          "available": 135,
+          "mean_selected": 8.426666666666666
+        }
+      },
+      "top_features": [
+        {
+          "feature": "ImageBase",
+          "tier": "static",
+          "share": 0.5244444444444445
+        },
+        {
+          "feature": "SizeofStackCommit",
+          "tier": "static",
+          "share": 0.4177777777777778
+        },
+        {
+          "feature": "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA",
+          "tier": "static",
+          "share": 0.3377777777777778
+        },
+        {
+          "feature": "rdata_VirtualAddress",
+          "tier": "static",
+          "share": 0.3333333333333333
+        },
+        {
+          "feature": "rdata_VirtualSize",
+          "tier": "static",
+          "share": 0.3022222222222222
+        },
+        {
+          "feature": "SizeOfImage",
+          "tier": "static",
+          "share": 0.29333333333333333
+        },
+        {
+          "feature": "OperatingSystemVersion",
+          "tier": "static",
+          "share": 0.28888888888888886
+        },
+        {
+          "feature": "files_unknown",
+          "tier": "dynamic",
+          "share": 0.27111111111111114
+        },
+        {
+          "feature": "processes_monitored",
+          "tier": "dynamic",
+          "share": 0.26666666666666666
+        },
+        {
+          "feature": "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_GUI",
+          "tier": "static",
+          "share": 0.24888888888888888
+        },
+        {
+          "feature": "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI",
+          "tier": "static",
+          "share": 0.2311111111111111
+        },
+        {
+          "feature": "SizeofStackReserve",
+          "tier": "static",
+          "share": 0.2311111111111111
+        },
+        {
+          "feature": "files_text",
+          "tier": "dynamic",
+          "share": 0.2088888888888889
+        },
+        {
+          "feature": "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+          "tier": "static",
+          "share": 0.18222222222222223
+        },
+        {
+          "feature": "over_lay_number",
+          "tier": "static",
+          "share": 0.17777777777777778
+        }
+      ],
+      "profiles": {
+        "pre_execution": {
+          "n_features": 7,
+          "train_s": 0.4460909366607666,
+          "test_all": {
+            "accuracy": 0.9789002557544757,
+            "recall": 0.9611752360965372,
+            "precision": 0.9693121693121693,
+            "fpr": 0.013333333333333334,
+            "n": 3128.0,
+            "auc": 0.9925942275451991
+          },
+          "test_unseen": {
+            "accuracy": 0.9787165430506288,
+            "recall": 0.9608050847457628,
+            "precision": 0.969017094017094,
+            "fpr": 0.013444598980064905,
+            "n": 3101.0,
+            "auc": 0.9924865239700463
+          },
+          "cost_ms": 50.00007,
+          "val_recall": 0.9705882352941176,
+          "val_fpr": 0.011029411764705883,
+          "selected": [
+            "ImageBase",
+            "SizeofStackCommit",
+            "text_Characteristics:IMAGE_SCN_NO_DEFER_SPEC_EXC",
+            "rdata_VirtualSize",
+            "rdata_VirtualAddress",
+            "rdata_SizeOfRawData",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_512BYTES"
+          ]
+        },
+        "full_analysis": {
+          "n_features": 47,
+          "train_s": 0.5883839130401611,
+          "test_all": {
+            "accuracy": 0.9916879795396419,
+            "recall": 0.9842602308499475,
+            "precision": 0.9884088514225501,
+            "fpr": 0.005057471264367816,
+            "n": 3128.0,
+            "auc": 0.9991571685301106
+          },
+          "test_unseen": {
+            "accuracy": 0.9916156078684295,
+            "recall": 0.9841101694915254,
+            "precision": 0.9882978723404255,
+            "fpr": 0.005099675475197033,
+            "n": 3101.0,
+            "auc": 0.9991420326410662
+          },
+          "cost_ms": 120050.00047,
+          "val_recall": 0.9894957983193278,
+          "val_fpr": 0.00505514705882353,
+          "selected": [
+            "EntryPoint",
+            "PEType=PE32",
+            "MachineType=AMD AMD64",
+            "MachineType=Intel 386 or later, and compatibles",
+            "size_of_header",
+            "min_extra_paragraphs",
+            "over_lay_number",
+            "address_of_ne_header",
+            "SizeOfInitializedData",
+            "SectionAlignment",
+            "OperatingSystemVersion",
+            "ImageVersion",
+            "Subsystem=IMAGE_SUBSYSTEM_UNKNOWN",
+            "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_BIND",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_ISOLATION",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_SEH",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NX_COMPAT",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE",
+            "SizeofStackReserve",
+            "LoaderFlags",
+            "text_VirtualAddress",
+            "text_Characteristics:IMAGE_SCN_ALIGN_1BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_4BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_512BYTES",
+            "text_Characteristics:IMAGE_SCN_CNT_CODE",
+            "text_Characteristics:IMAGE_SCN_CNT_INITIALIZED_DATA",
+            "text_Characteristics:IMAGE_SCN_CNT_UNINITIALIZED_DATA",
+            "text_Characteristics:IMAGE_SCN_LNK_COMDAT",
+            "text_Characteristics:IMAGE_SCN_LNK_OTHER",
+            "text_Characteristics:IMAGE_SCN_MEM_PURGEABLE",
+            "text_Characteristics:IMAGE_SCN_MEM_READ",
+            "text_Characteristics:IMAGE_SCN_MEM_SHARED",
+            "rdata_VirtualAddress",
+            "rdata_PointerToLineNumbers",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_128BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_16BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_MASK",
+            "registry_write",
+            "network_connections",
+            "processes_monitored",
+            "total_procsses",
+            "files_text",
+            "files_unknown",
+            "dlls_calls"
+          ]
+        }
+      }
+    },
+    "nsga2": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "hv": [
+        1.3067010251324704,
+        1.2979535674542826,
+        1.3018598393137657,
+        1.2915272617556877,
+        1.3077558761373882,
+        1.3041594941530799,
+        1.2998235712798598,
+        1.302125256592536,
+        1.2889055378258008,
+        1.2812772277196012
+      ],
+      "hv_median": 1.3008417052968126,
+      "hv_mean": 1.2982088657364472,
+      "hv_std": 0.008049151768123994,
+      "hv_worst": 1.2812772277196012,
+      "pooled_front": 203,
+      "static_only_solutions": 144,
+      "features_median": 6.0,
+      "features_min": 1,
+      "tier_share": {
+        "dynamic": {
+          "available": 13,
+          "mean_selected": 1.251231527093596
+        },
+        "static": {
+          "available": 135,
+          "mean_selected": 7.502463054187192
+        }
+      },
+      "top_features": [
+        {
+          "feature": "SizeofStackCommit",
+          "tier": "static",
+          "share": 0.5320197044334976
+        },
+        {
+          "feature": "ImageBase",
+          "tier": "static",
+          "share": 0.46798029556650245
+        },
+        {
+          "feature": "rdata_VirtualAddress",
+          "tier": "static",
+          "share": 0.3793103448275862
+        },
+        {
+          "feature": "rdata_VirtualSize",
+          "tier": "static",
+          "share": 0.32019704433497537
+        },
+        {
+          "feature": "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA",
+          "tier": "static",
+          "share": 0.28078817733990147
+        },
+        {
+          "feature": "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI",
+          "tier": "static",
+          "share": 0.28078817733990147
+        },
+        {
+          "feature": "OperatingSystemVersion",
+          "tier": "static",
+          "share": 0.27586206896551724
+        },
+        {
+          "feature": "files_text",
+          "tier": "dynamic",
+          "share": 0.24630541871921183
+        },
+        {
+          "feature": "processes_monitored",
+          "tier": "dynamic",
+          "share": 0.24630541871921183
+        },
+        {
+          "feature": "SizeofStackReserve",
+          "tier": "static",
+          "share": 0.23645320197044334
+        },
+        {
+          "feature": "files_unknown",
+          "tier": "dynamic",
+          "share": 0.21182266009852216
+        },
+        {
+          "feature": "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+          "tier": "static",
+          "share": 0.2019704433497537
+        },
+        {
+          "feature": "SizeOfImage",
+          "tier": "static",
+          "share": 0.19704433497536947
+        },
+        {
+          "feature": "SizeOfInitializedData",
+          "tier": "static",
+          "share": 0.18226600985221675
+        },
+        {
+          "feature": "rdata_SizeOfRawData",
+          "tier": "static",
+          "share": 0.16748768472906403
+        }
+      ],
+      "profiles": {
+        "pre_execution": {
+          "n_features": 14,
+          "train_s": 0.43088293075561523,
+          "test_all": {
+            "accuracy": 0.9750639386189258,
+            "recall": 0.9580272822665268,
+            "precision": 0.9600420609884333,
+            "fpr": 0.01747126436781609,
+            "n": 3128.0,
+            "auc": 0.9884644980762505
+          },
+          "test_unseen": {
+            "accuracy": 0.9748468236052886,
+            "recall": 0.9576271186440678,
+            "precision": 0.9596602972399151,
+            "fpr": 0.01761706073249884,
+            "n": 3101.0,
+            "auc": 0.9883130799996857
+          },
+          "cost_ms": 50.00014,
+          "val_recall": 0.9705882352941176,
+          "val_fpr": 0.013786764705882353,
+          "selected": [
+            "init_sp_value",
+            "ImageBase",
+            "SizeofStackCommit",
+            "text_Characteristics:IMAGE_SCN_ALIGN_1BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_2048BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_256BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_64BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_8BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_MASK",
+            "text_Characteristics:IMAGE_SCN_CNT_CODE",
+            "text_Characteristics:IMAGE_SCN_CNT_UNINITIALIZED_DATA",
+            "text_Characteristics:IMAGE_SCN_TYPE_OVER",
+            "rdata_VirtualSize",
+            "rdata_VirtualAddress"
+          ]
+        },
+        "full_analysis": {
+          "n_features": 70,
+          "train_s": 0.6909959316253662,
+          "test_all": {
+            "accuracy": 0.9929667519181585,
+            "recall": 0.9863588667366212,
+            "precision": 0.9905163329820864,
+            "fpr": 0.004137931034482759,
+            "n": 3128.0,
+            "auc": 0.9992403902980305
+          },
+          "test_unseen": {
+            "accuracy": 0.9929055143502096,
+            "recall": 0.986228813559322,
+            "precision": 0.9904255319148936,
+            "fpr": 0.004172461752433936,
+            "n": 3101.0,
+            "auc": 0.9992267489372402
+          },
+          "cost_ms": 120050.0007,
+          "val_recall": 0.9894957983193278,
+          "val_fpr": 0.003676470588235294,
+          "selected": [
+            "EntryPoint",
+            "PEType=PE32",
+            "MachineType=AMD AMD64",
+            "MachineType=Intel 386 or later, and compatibles",
+            "size_of_header",
+            "min_extra_paragraphs",
+            "over_lay_number",
+            "address_of_ne_header",
+            "SizeOfCode",
+            "SizeOfInitializedData",
+            "SizeOfUninitializedData",
+            "AddressOfEntryPoint",
+            "BaseOfCode",
+            "SectionAlignment",
+            "OperatingSystemVersion",
+            "ImageVersion",
+            "Subsystem=IMAGE_SUBSYSTEM_UNKNOWN",
+            "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_BIND",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_ISOLATION",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NO_SEH",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_NX_COMPAT",
+            "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE",
+            "SizeofStackReserve",
+            "LoaderFlags",
+            "text_VirtualAddress",
+            "text_Characteristics:IMAGE_SCN_ALIGN_1BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_32BYTES",
+            "text_Characteristics:IMAGE_SCN_ALIGN_4BYTES",
+            "text_Characteristics:IMAGE_SCN_CNT_CODE",
+            "text_Characteristics:IMAGE_SCN_CNT_INITIALIZED_DATA",
+            "text_Characteristics:IMAGE_SCN_CNT_UNINITIALIZED_DATA",
+            "text_Characteristics:IMAGE_SCN_LNK_COMDAT",
+            "text_Characteristics:IMAGE_SCN_LNK_OTHER",
+            "text_Characteristics:IMAGE_SCN_MEM_PURGEABLE",
+            "text_Characteristics:IMAGE_SCN_MEM_READ",
+            "text_Characteristics:IMAGE_SCN_MEM_SHARED",
+            "rdata_VirtualAddress",
+            "rdata_PointerToLineNumbers",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_128BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_16BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_2048BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_2BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_32BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_4BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_512BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_64BYTES",
+            "rdata_Characteristics:IMAGE_SCN_ALIGN_MASK",
+            "rdata_Characteristics:IMAGE_SCN_CNT_CODE",
+            "rdata_Characteristics:IMAGE_SCN_GPREL",
+            "rdata_Characteristics:IMAGE_SCN_LNK_COMDAT",
+            "rdata_Characteristics:IMAGE_SCN_LNK_INFO",
+            "rdata_Characteristics:IMAGE_SCN_LNK_OTHER",
+            "rdata_Characteristics:IMAGE_SCN_LNK_REMOVE",
+            "rdata_Characteristics:IMAGE_SCN_MEM_EXECUTE",
+            "rdata_Characteristics:IMAGE_SCN_MEM_WRITE",
+            "rdata_Characteristics:IMAGE_SCN_TYPE_COPY",
+            "rdata_Characteristics:IMAGE_SCN_TYPE_GROUP",
+            "rdata_Characteristics:IMAGE_SCN_TYPE_NO_PAD",
+            "registry_write",
+            "registry_total",
+            "network_dns",
+            "network_connections",
+            "processes_monitored",
+            "total_procsses",
+            "files_text",
+            "files_unknown",
+            "dlls_calls"
+          ]
+        }
+      }
+    }
+  },
+  "mann_whitney": {
+    "U": 50.0,
+    "p": 1.0
+  }
+}

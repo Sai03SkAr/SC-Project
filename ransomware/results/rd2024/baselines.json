@@ -1,0 +1,162 @@
+{
+  "rf_all_features": {
+    "n_features": 148,
+    "train_s": 0.43867921829223633,
+    "test_all": {
+      "accuracy": 0.9916879795396419,
+      "recall": 0.9874081846799581,
+      "precision": 0.9853403141361257,
+      "fpr": 0.006436781609195402,
+      "n": 3128.0,
+      "auc": 0.999359554220791
+    },
+    "test_unseen": {
+      "accuracy": 0.9916156078684295,
+      "recall": 0.9872881355932204,
+      "precision": 0.985200845665962,
+      "fpr": 0.006490496059341678,
+      "n": 3101.0,
+      "auc": 0.9993480528511821
+    },
+    "cost_ms": 120050.00148,
+    "note": ""
+  },
+  "knn_all_features": {
+    "n_features": 148,
+    "train_s": 0.010908126831054688,
+    "test_all": {
+      "accuracy": 0.9763427109974424,
+      "recall": 0.9643231899265478,
+      "precision": 0.9582898852971846,
+      "fpr": 0.01839080459770115,
+      "n": 3128.0,
+      "auc": 0.9879926668355224
+    },
+    "test_unseen": {
+      "accuracy": 0.9761367300870687,
+      "recall": 0.9639830508474576,
+      "precision": 0.9578947368421052,
+      "fpr": 0.01854427445526194,
+      "n": 3101.0,
+      "auc": 0.9878654341796124
+    },
+    "cost_ms": 120050.00148,
+    "note": ""
+  },
+  "svm_all_features": {
+    "n_features": 148,
+    "train_s": 19.15337872505188,
+    "test_all": {
+      "accuracy": 0.9507672634271099,
+      "recall": 0.9076600209863589,
+      "precision": 0.9291084854994629,
+      "fpr": 0.030344827586206897,
+      "n": 3128.0,
+      "auc": 0.9890955361773468
+    },
+    "test_unseen": {
+      "accuracy": 0.9503386004514672,
+      "recall": 0.9067796610169492,
+      "precision": 0.928416485900217,
+      "fpr": 0.030598052851182198,
+      "n": 3101.0,
+      "auc": 0.9889404717003372
+    },
+    "cost_ms": 120050.00148,
+    "note": ""
+  },
+  "rf_all_static_features": {
+    "n_features": 135,
+    "train_s": 0.510141134262085,
+    "test_all": {
+      "accuracy": 0.9817774936061381,
+      "recall": 0.9590766002098636,
+      "precision": 0.98068669527897,
+      "fpr": 0.008275862068965517,
+      "n": 3128.0,
+      "auc": 0.9970814487824293
+    },
+    "test_unseen": {
+      "accuracy": 0.981618832634634,
+      "recall": 0.9586864406779662,
+      "precision": 0.980498374864572,
+      "fpr": 0.008344923504867872,
+      "n": 3101.0,
+      "auc": 0.9970373851787244
+    },
+    "cost_ms": 50.00135,
+    "note": "pre-execution ceiling: every static feature, no sandbox"
+  },
+  "pca_95": {
+    "n_features": 148,
+    "train_s": 1.3118140697479248,
+    "test_all": {
+      "accuracy": 0.9824168797953964,
+      "recall": 0.9590766002098636,
+      "precision": 0.9827956989247312,
+      "fpr": 0.0073563218390804595,
+      "n": 3128.0,
+      "auc": 0.9977604901641518
+    },
+    "test_unseen": {
+      "accuracy": 0.982263785875524,
+      "recall": 0.9586864406779662,
+      "precision": 0.9826275787187839,
+      "fpr": 0.007417709782104775,
+      "n": 3101.0,
+      "auc": 0.9977242010639384
+    },
+    "cost_ms": 120050.00148,
+    "note": "blended components; needs all inputs",
+    "n_components": 79
+  },
+  "mi_filter_top25": {
+    "n_features": 25,
+    "train_s": 0.6840190887451172,
+    "test_all": {
+      "accuracy": 0.9910485933503836,
+      "recall": 0.9842602308499475,
+      "precision": 0.9863301787592008,
+      "fpr": 0.005977011494252874,
+      "n": 3128.0,
+      "auc": 0.9990901086707431
+    },
+    "test_unseen": {
+      "accuracy": 0.9909706546275395,
+      "recall": 0.9841101694915254,
+      "precision": 0.9861995753715499,
+      "fpr": 0.00602688919796013,
+      "n": 3101.0,
+      "auc": 0.9990737684951634
+    },
+    "cost_ms": 120050.00025,
+    "note": "filter; ignores feature interactions",
+    "selected": [
+      "EntryPoint",
+      "address_of_ne_header",
+      "SizeOfCode",
+      "SizeOfInitializedData",
+      "AddressOfEntryPoint",
+      "BaseOfData",
+      "OperatingSystemVersion",
+      "SizeOfImage",
+      "Checksum",
+      "Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI",
+      "DllCharacteristics:IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+      "text_VirtualSize",
+      "text_SizeOfRawData",
+      "rdata_VirtualSize",
+      "rdata_VirtualAddress",
+      "rdata_SizeOfRawData",
+      "rdata_PointerToRawData",
+      "registry_read",
+      "registry_write",
+      "registry_total",
+      "processes_monitored",
+      "total_procsses",
+      "files_text",
+      "files_unknown",
+      "apis"
+    ]
+  }
+}

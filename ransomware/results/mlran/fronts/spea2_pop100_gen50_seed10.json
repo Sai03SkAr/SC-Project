@@ -1,0 +1,20 @@
+{
+  "dataset": "mlran",
+  "algorithm": "spea2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 10,
+  "hypervolume": 1.286040998272273,
+  "front_size": 100,
+  "elapsed_sec": 200.13490200042725,
+  "n_evaluations": 4601,
+  "cache_hit_rate": 0.0798,
+  "n_static_only": 56,
+  "features_min": 1,
+  "features_max": 107,
+  "features_median": 14.0,
+  "fnr_min": 0.0,
+  "fpr_min": 0.0,
+  "cost_min": 50.00001
+}

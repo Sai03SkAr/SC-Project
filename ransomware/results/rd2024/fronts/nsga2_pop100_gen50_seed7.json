@@ -1,0 +1,20 @@
+{
+  "dataset": "rd2024",
+  "algorithm": "nsga2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 7,
+  "hypervolume": 1.2998235712798598,
+  "front_size": 100,
+  "elapsed_sec": 212.2851083278656,
+  "n_evaluations": 4432,
+  "cache_hit_rate": 0.1136,
+  "n_static_only": 83,
+  "features_min": 1,
+  "features_max": 70,
+  "features_median": 7.0,
+  "fnr_min": 0.01365546218487395,
+  "fpr_min": 0.0,
+  "cost_min": 50.00001
+}

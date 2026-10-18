@@ -1,0 +1,70 @@
+{
+  "dataset": "MLRan",
+  "split": "authors' predefined split",
+  "n_train": 3905,
+  "n_test": 975,
+  "n_features": 483,
+  "ransomware": 2330,
+  "benign": 2550,
+  "tiers": {
+    "dynamic": 260,
+    "static": 223
+  },
+  "constant_features": 0,
+  "duplicate_rows_total": 1274,
+  "test_rows_also_in_train": 320,
+  "conflicting_duplicate_vectors": 0,
+  "top_single_feature_auc": [
+    {
+      "feature": "SYSTEM:DLL_LOADED:c:\\windows\\system32\\ole32.dll",
+      "tier": "dynamic",
+      "auc": 0.8859
+    },
+    {
+      "feature": "SYSTEM:DLL_LOADED:uxtheme.dll",
+      "tier": "dynamic",
+      "auc": 0.8675
+    },
+    {
+      "feature": "SYSTEM:DLL_LOADED:dwmapi.dll",
+      "tier": "dynamic",
+      "auc": 0.8327
+    },
+    {
+      "feature": "REG:OPENED:HKEY_LOCAL_MACHINE\\Software\\Microsoft\\CTF\\TIP\\{0000897b-83df-4b96-be07-0fb58b01c4a4}\\LanguageProfile\\0x00000000\\{0001bea3-ed56-483d-a2e2-aeae25577436}",
+      "tier": "dynamic",
+      "auc": 0.8129
+    },
+    {
+      "feature": "SYSTEM:DLL_LOADED:comctl32.dll",
+      "tier": "dynamic",
+      "auc": 0.8044
+    },
+    {
+      "feature": "REG:READ:HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\CTF\\TIP\\{0000897b-83df-4b96-be07-0fb58b01c4a4}\\LanguageProfile\\0x00000000\\{0001bea3-ed56-483d-a2e2-aeae25577436}\\Enable",
+      "tier": "dynamic",
+      "auc": 0.8031
+    },
+    {
+      "feature": "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Layout Hotkey",
+      "tier": "dynamic",
+      "auc": 0.7935
+    },
+    {
+      "feature": "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Language Hotkey",
+      "tier": "dynamic",
+      "auc": 0.7935
+    },
+    {
+      "feature": "REG:READ:HKEY_CURRENT_USER\\Keyboard Layout\\Toggle\\Hotkey",
+      "tier": "dynamic",
+      "auc": 0.7935
+    },
+    {
+      "feature": "REG:OPENED:HKEY_CURRENT_USER\\Software\\Microsoft\\CTF\\LayoutIcon\\0409\\00020409",
+      "tier": "dynamic",
+      "auc": 0.7922
+    }
+  ],
+  "shortcut_features_auc_over_0.95": []
+}
