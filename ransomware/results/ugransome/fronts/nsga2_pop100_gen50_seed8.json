@@ -1,0 +1,20 @@
+{
+  "dataset": "ugransome",
+  "algorithm": "nsga2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 8,
+  "hypervolume": 1.2070250847050723,
+  "front_size": 34,
+  "elapsed_sec": 122.94897484779358,
+  "n_evaluations": 1764,
+  "cache_hit_rate": 0.6453558504221955,
+  "n_static_only": 0,
+  "features_min": 1,
+  "features_max": 12,
+  "features_median": 5.5,
+  "fnr_min": 0.006696428571428571,
+  "fpr_min": 0.0,
+  "cost_min": 1.0
+}

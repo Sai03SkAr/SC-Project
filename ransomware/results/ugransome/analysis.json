@@ -1,0 +1,349 @@
+{
+  "dataset": "ugransome",
+  "algorithms": {
+    "spea2": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "hv": [
+        1.2070250847050723,
+        1.2070250847050723,
+        1.2067746403855917,
+        1.2070250847050723,
+        1.2070250847050723,
+        1.2065323601887916,
+        1.2066005331174852,
+        1.2066005331174852,
+        1.2066005331174852,
+        1.2070250847050723
+      ],
+      "hv_median": 1.206899862545332,
+      "hv_mean": 1.2068234023452198,
+      "hv_std": 0.00020963640306888854,
+      "hv_worst": 1.2065323601887916,
+      "pooled_front": 34,
+      "static_only_solutions": 0,
+      "features_median": 5.5,
+      "features_min": 1,
+      "tier_share": {},
+      "top_features": [
+        {
+          "feature": "USD",
+          "tier": "network",
+          "share": 0.8529411764705882
+        },
+        {
+          "feature": "Netflow_Bytes",
+          "tier": "network",
+          "share": 0.6764705882352942
+        },
+        {
+          "feature": "Family",
+          "tier": "network",
+          "share": 0.6764705882352942
+        },
+        {
+          "feature": "Threats",
+          "tier": "network",
+          "share": 0.6470588235294118
+        },
+        {
+          "feature": "Time",
+          "tier": "network",
+          "share": 0.5
+        },
+        {
+          "feature": "IPaddress",
+          "tier": "network",
+          "share": 0.47058823529411764
+        },
+        {
+          "feature": "ExpAddress",
+          "tier": "network",
+          "share": 0.35294117647058826
+        },
+        {
+          "feature": "Protcol",
+          "tier": "network",
+          "share": 0.35294117647058826
+        },
+        {
+          "feature": "BTC",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "SeddAddress",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "Flag",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "Port",
+          "tier": "network",
+          "share": 0.14705882352941177
+        },
+        {
+          "feature": "Clusters",
+          "tier": "network",
+          "share": 0.08823529411764706
+        }
+      ],
+      "profiles": {
+        "best": {
+          "n_features": 12,
+          "train_s": 39.78108811378479,
+          "test_all": {
+            "accuracy": 0.9947680022029465,
+            "recall": 0.9937742276518267,
+            "precision": 0.9928412158197395,
+            "fpr": 0.004594757457065381,
+            "n": 21789.0,
+            "auc": 0.9998953490730215
+          },
+          "test_unseen": {
+            "accuracy": 0.9976525821596244,
+            "recall": 0.9969361300966297,
+            "precision": 0.9970536240424278,
+            "fpr": 0.0018882175226586104,
+            "n": 21726.0,
+            "auc": 0.999977219454399
+          },
+          "cost_ms": 12.0,
+          "val_recall": 0.9933035714285714,
+          "val_fpr": 0.0067791503464899065,
+          "selected": [
+            "Time",
+            "Protcol",
+            "Flag",
+            "Family",
+            "SeddAddress",
+            "ExpAddress",
+            "BTC",
+            "USD",
+            "Netflow_Bytes",
+            "IPaddress",
+            "Threats",
+            "Port"
+          ]
+        },
+        "compact": {
+          "n_features": 4,
+          "train_s": 14.590107917785645,
+          "test_all": {
+            "accuracy": 0.9892147413832668,
+            "recall": 0.9866087160812874,
+            "precision": 0.9857981220657277,
+            "fpr": 0.009114191021391986,
+            "n": 21789.0,
+            "auc": 0.9997394986035394
+          },
+          "test_unseen": {
+            "accuracy": 0.9916229402559146,
+            "recall": 0.9889229318878152,
+            "precision": 0.9896226415094339,
+            "fpr": 0.006646525679758308,
+            "n": 21726.0,
+            "auc": 0.9998369671248113
+          },
+          "cost_ms": 4.0,
+          "val_recall": 0.9861372180451128,
+          "val_fpr": 0.01016872551973486,
+          "selected": [
+            "Family",
+            "USD",
+            "Netflow_Bytes",
+            "Threats"
+          ]
+        }
+      }
+    },
+    "nsga2": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "hv": [
+        1.2070250847050723,
+        1.2070250847050723,
+        1.2070250847050723,
+        1.2069569117763788,
+        1.2070250847050723,
+        1.2069659264240882,
+        1.2070250847050723,
+        1.2070250847050723,
+        1.2069659264240882,
+        1.2070250847050723
+      ],
+      "hv_median": 1.2070250847050723,
+      "hv_mean": 1.2070064357560062,
+      "hv_std": 2.8581671770418585e-05,
+      "hv_worst": 1.2069569117763788,
+      "pooled_front": 34,
+      "static_only_solutions": 0,
+      "features_median": 5.5,
+      "features_min": 1,
+      "tier_share": {},
+      "top_features": [
+        {
+          "feature": "USD",
+          "tier": "network",
+          "share": 0.8529411764705882
+        },
+        {
+          "feature": "Netflow_Bytes",
+          "tier": "network",
+          "share": 0.6764705882352942
+        },
+        {
+          "feature": "Family",
+          "tier": "network",
+          "share": 0.6764705882352942
+        },
+        {
+          "feature": "Threats",
+          "tier": "network",
+          "share": 0.6470588235294118
+        },
+        {
+          "feature": "Time",
+          "tier": "network",
+          "share": 0.5
+        },
+        {
+          "feature": "IPaddress",
+          "tier": "network",
+          "share": 0.47058823529411764
+        },
+        {
+          "feature": "ExpAddress",
+          "tier": "network",
+          "share": 0.35294117647058826
+        },
+        {
+          "feature": "Protcol",
+          "tier": "network",
+          "share": 0.35294117647058826
+        },
+        {
+          "feature": "BTC",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "SeddAddress",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "Flag",
+          "tier": "network",
+          "share": 0.17647058823529413
+        },
+        {
+          "feature": "Port",
+          "tier": "network",
+          "share": 0.14705882352941177
+        },
+        {
+          "feature": "Clusters",
+          "tier": "network",
+          "share": 0.08823529411764706
+        }
+      ],
+      "profiles": {
+        "best": {
+          "n_features": 12,
+          "train_s": 9.890750885009766,
+          "test_all": {
+            "accuracy": 0.9947680022029465,
+            "recall": 0.9937742276518267,
+            "precision": 0.9928412158197395,
+            "fpr": 0.004594757457065381,
+            "n": 21789.0,
+            "auc": 0.9998953534970725
+          },
+          "test_unseen": {
+            "accuracy": 0.9976525821596244,
+            "recall": 0.9969361300966297,
+            "precision": 0.9970536240424278,
+            "fpr": 0.0018882175226586104,
+            "n": 21726.0,
+            "auc": 0.999977219454399
+          },
+          "cost_ms": 12.0,
+          "val_recall": 0.9933035714285714,
+          "val_fpr": 0.0067791503464899065,
+          "selected": [
+            "Time",
+            "Protcol",
+            "Flag",
+            "Family",
+            "SeddAddress",
+            "ExpAddress",
+            "BTC",
+            "USD",
+            "Netflow_Bytes",
+            "IPaddress",
+            "Threats",
+            "Port"
+          ]
+        },
+        "compact": {
+          "n_features": 4,
+          "train_s": 11.046372890472412,
+          "test_all": {
+            "accuracy": 0.9892147413832668,
+            "recall": 0.9866087160812874,
+            "precision": 0.9857981220657277,
+            "fpr": 0.009114191021391986,
+            "n": 21789.0,
+            "auc": 0.9997394986035394
+          },
+          "test_unseen": {
+            "accuracy": 0.9916229402559146,
+            "recall": 0.9889229318878152,
+            "precision": 0.9896226415094339,
+            "fpr": 0.006646525679758308,
+            "n": 21726.0,
+            "auc": 0.9998369671248113
+          },
+          "cost_ms": 4.0,
+          "val_recall": 0.9861372180451128,
+          "val_fpr": 0.01016872551973486,
+          "selected": [
+            "Family",
+            "USD",
+            "Netflow_Bytes",
+            "Threats"
+          ]
+        }
+      }
+    }
+  },
+  "mann_whitney": {
+    "U": 32.5,
+    "p": 0.1459615874169322
+  }
+}

@@ -1,0 +1,32 @@
+UGRansome: SPEA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=13 init=sparse
+  ugransome spea2 seed 1: 2.0min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome spea2 seed 2: 1.7min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome spea2 seed 3: 1.6min HV=1.2068 front=32 features=1-12 static_only=0
+  ugransome spea2 seed 4: 1.5min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome spea2 seed 5: 1.6min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome spea2 seed 6: 1.5min HV=1.2065 front=32 features=1-9 static_only=0
+  ugransome spea2 seed 7: 1.6min HV=1.2066 front=33 features=1-12 static_only=0
+  ugransome spea2 seed 8: 1.6min HV=1.2066 front=33 features=1-12 static_only=0
+  ugransome spea2 seed 9: 1.6min HV=1.2066 front=33 features=1-12 static_only=0
+  ugransome spea2 seed 10: 1.6min HV=1.2070 front=34 features=1-12 static_only=0
+  SPEA2 HV median=1.2069 mean=1.2068 std=0.0002
+UGRansome: NSGA2 pop=100 gen=50 seeds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] features=13 init=sparse
+  ugransome nsga2 seed 1: 1.9min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 2: 2.0min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 3: 2.0min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 4: 1.7min HV=1.2070 front=33 features=1-9 static_only=0
+  ugransome nsga2 seed 5: 1.9min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 6: 2.1min HV=1.2070 front=33 features=1-12 static_only=0
+  ugransome nsga2 seed 7: 2.0min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 8: 2.0min HV=1.2070 front=34 features=1-12 static_only=0
+  ugransome nsga2 seed 9: 171.6min HV=1.2070 front=33 features=1-12 static_only=0
+  ugransome nsga2 seed 10: 329.6min HV=1.2070 front=34 features=1-12 static_only=0
+  NSGA2 HV median=1.2070 mean=1.2070 std=0.0000
+balanced            2 feat cost       2.00  test recall 97.08% FPR 1.19%  (60.5 min)
+cost_dominant       1 feat cost       1.00  test recall 86.33% FPR 5.17%  (30.2 min)
+recall_dominant     2 feat cost       2.00  test recall 97.08% FPR 1.19%  (45.4 min)
+fpr_dominant        2 feat cost       2.00  test recall 97.08% FPR 1.19%  (4.2 min)
+saved results/ugransome/pso_weighted.json
+evaluated 8191 subsets in 11.9 min; true front = 34
+SPEA2: median IGD 0.0009, pooled front recovers 100% of the true Pareto set
+NSGA2: median IGD 0.0000, pooled front recovers 100% of the true Pareto set

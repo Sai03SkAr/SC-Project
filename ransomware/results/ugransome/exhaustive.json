@@ -1,0 +1,456 @@
+{
+  "n_subsets": 8191,
+  "true_front_size": 34,
+  "true_front": [
+    {
+      "features": [
+        "USD"
+      ],
+      "n": 1,
+      "fnr": 0.1493186090225564,
+      "fpr": 0.057170834588731546
+    },
+    {
+      "features": [
+        "BTC"
+      ],
+      "n": 1,
+      "fnr": 0.3287124060150376,
+      "fpr": 0.05551370894847846
+    },
+    {
+      "features": [
+        "ExpAddress"
+      ],
+      "n": 1,
+      "fnr": 0.07354323308270677,
+      "fpr": 0.3906297077432962
+    },
+    {
+      "features": [
+        "SeddAddress"
+      ],
+      "n": 1,
+      "fnr": 0.5700187969924813,
+      "fpr": 0.03818921361855981
+    },
+    {
+      "features": [
+        "Protcol"
+      ],
+      "n": 1,
+      "fnr": 1.0,
+      "fpr": 0.0
+    },
+    {
+      "features": [
+        "Time"
+      ],
+      "n": 1,
+      "fnr": 0.9304511278195489,
+      "fpr": 0.030204880988249472
+    },
+    {
+      "features": [
+        "USD",
+        "Netflow_Bytes"
+      ],
+      "n": 2,
+      "fnr": 0.031837406015037595,
+      "fpr": 0.02222054835793914
+    },
+    {
+      "features": [
+        "Flag",
+        "USD"
+      ],
+      "n": 2,
+      "fnr": 0.13486842105263158,
+      "fpr": 0.014386863513106357
+    },
+    {
+      "features": [
+        "BTC",
+        "USD",
+        "IPaddress"
+      ],
+      "n": 3,
+      "fnr": 0.023261278195488722,
+      "fpr": 0.07871346791202169
+    },
+    {
+      "features": [
+        "BTC",
+        "USD",
+        "Netflow_Bytes"
+      ],
+      "n": 3,
+      "fnr": 0.032542293233082706,
+      "fpr": 0.018379029828261523
+    },
+    {
+      "features": [
+        "Family",
+        "USD",
+        "Netflow_Bytes"
+      ],
+      "n": 3,
+      "fnr": 0.028665413533834585,
+      "fpr": 0.018529677613739078
+    },
+    {
+      "features": [
+        "Flag",
+        "Clusters",
+        "USD"
+      ],
+      "n": 3,
+      "fnr": 0.1237077067669173,
+      "fpr": 0.01039469719795119
+    },
+    {
+      "features": [
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "Threats"
+      ],
+      "n": 4,
+      "fnr": 0.013862781954887217,
+      "fpr": 0.01016872551973486
+    },
+    {
+      "features": [
+        "Family",
+        "Clusters",
+        "USD",
+        "Threats"
+      ],
+      "n": 4,
+      "fnr": 0.10338345864661654,
+      "fpr": 0.009867429948779753
+    },
+    {
+      "features": [
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "Threats"
+      ],
+      "n": 5,
+      "fnr": 0.011043233082706766,
+      "fpr": 0.01039469719795119
+    },
+    {
+      "features": [
+        "Flag",
+        "Family",
+        "Clusters",
+        "USD",
+        "Threats"
+      ],
+      "n": 5,
+      "fnr": 0.09915413533834587,
+      "fpr": 0.007005122024706237
+    },
+    {
+      "features": [
+        "Time",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "Threats"
+      ],
+      "n": 5,
+      "fnr": 0.011865601503759399,
+      "fpr": 0.009114191021391986
+    },
+    {
+      "features": [
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 6,
+      "fnr": 0.009281015037593985,
+      "fpr": 0.010093401626996084
+    },
+    {
+      "features": [
+        "Time",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 6,
+      "fnr": 0.00963345864661654,
+      "fpr": 0.008586923772220548
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "Threats"
+      ],
+      "n": 6,
+      "fnr": 0.01268796992481203,
+      "fpr": 0.007607713166616451
+    },
+    {
+      "features": [
+        "Time",
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 7,
+      "fnr": 0.008341165413533835,
+      "fpr": 0.008737571557698103
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "Threats",
+        "Port"
+      ],
+      "n": 7,
+      "fnr": 0.010103383458646616,
+      "fpr": 0.007607713166616451
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 7,
+      "fnr": 0.009515977443609023,
+      "fpr": 0.00783368484483278
+    },
+    {
+      "features": [
+        "Protcol",
+        "Family",
+        "SeddAddress",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 8,
+      "fnr": 0.009281015037593985,
+      "fpr": 0.008059656523049111
+    },
+    {
+      "features": [
+        "Time",
+        "Family",
+        "SeddAddress",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 8,
+      "fnr": 0.008576127819548873,
+      "fpr": 0.008210304308526664
+    },
+    {
+      "features": [
+        "Time",
+        "Flag",
+        "Family",
+        "BTC",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 8,
+      "fnr": 0.00963345864661654,
+      "fpr": 0.007607713166616451
+    },
+    {
+      "features": [
+        "Time",
+        "Flag",
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 8,
+      "fnr": 0.007636278195488721,
+      "fpr": 0.008963543235914431
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats",
+        "Port"
+      ],
+      "n": 8,
+      "fnr": 0.009868421052631578,
+      "fpr": 0.00670382645375113
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 8,
+      "fnr": 0.009046052631578948,
+      "fpr": 0.008134980415787888
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats",
+        "Port"
+      ],
+      "n": 9,
+      "fnr": 0.007988721804511278,
+      "fpr": 0.0064778547755347995
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "ExpAddress",
+        "BTC",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 9,
+      "fnr": 0.007048872180451127,
+      "fpr": 0.007005122024706237
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "SeddAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats",
+        "Port"
+      ],
+      "n": 9,
+      "fnr": 0.008928571428571428,
+      "fpr": 0.006101235311840916
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Family",
+        "SeddAddress",
+        "ExpAddress",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats"
+      ],
+      "n": 9,
+      "fnr": 0.007166353383458646,
+      "fpr": 0.00670382645375113
+    },
+    {
+      "features": [
+        "Time",
+        "Protcol",
+        "Flag",
+        "Family",
+        "SeddAddress",
+        "ExpAddress",
+        "BTC",
+        "USD",
+        "Netflow_Bytes",
+        "IPaddress",
+        "Threats",
+        "Port"
+      ],
+      "n": 12,
+      "fnr": 0.006696428571428571,
+      "fpr": 0.0067791503464899065
+    }
+  ],
+  "spea2": {
+    "igd_per_seed": [
+      0.0,
+      0.0,
+      0.004908192052245314,
+      0.0,
+      0.0,
+      0.00856457478923931,
+      0.0017772333027218099,
+      0.0017772333027218099,
+      0.0017772333027218099,
+      0.0
+    ],
+    "igd_median": 0.0008886166513609049,
+    "pooled_recovered_share": 1.0
+  },
+  "nsga2": {
+    "igd_per_seed": [
+      0.0,
+      0.0,
+      0.0,
+      0.006787341486517499,
+      0.0,
+      3.542483388862361e-05,
+      0.0,
+      0.0,
+      3.542483388862361e-05,
+      0.0
+    ],
+    "igd_median": 0.0,
+    "pooled_recovered_share": 1.0
+  }
+}

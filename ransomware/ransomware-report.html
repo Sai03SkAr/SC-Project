@@ -171,7 +171,7 @@
   <div class="meta">
     <span><strong>Algorithm:</strong> SPEA2</span>
     <span><strong>Datasets:</strong> MLRan · RD2024 · UGRansome</span>
-    <span><strong>Status:</strong> Complete (UGRansome: see 7.4)</span>
+    <span><strong>Status:</strong> Complete</span>
   </div>
 
   <div class="objectives">
@@ -222,7 +222,7 @@
     <tbody>
       <tr><td><strong>MLRan</strong></td><td>Onwuegbuche et al., JNCA 2026; Zenodo 23403681 (CC-BY-4.0)</td><td class="n">4,880</td><td class="n">483</td><td>Ransomware (2,330) vs goodware (2,550)</td></tr>
       <tr><td><strong>RD2024</strong></td><td>Hussain, <em>Ransomware Dataset 2024</em>; Zenodo 13890887 (CC-BY-4.0)</td><td class="n">15,638</td><td class="n">148</td><td>12 ransomware families (4,762) vs benign (10,876)</td></tr>
-      <tr><td><strong>UGRansome</strong></td><td>Nkongolo et al., <em>Information</em> 12(10), 2021; Kaggle</td><td class="n">≈ 149k</td><td class="n">≈ 13</td><td>Zero-day (anomaly) vs known-signature network traffic</td></tr>
+      <tr><td><strong>UGRansome</strong></td><td>Nkongolo et al., <em>Information</em> 12(10), 2021; Kaggle</td><td class="n">108,941</td><td class="n">13</td><td>Zero-day "A" (42,561) vs known-signature "S" (66,380) network traffic</td></tr>
     </tbody>
   </table>
 
@@ -516,9 +516,11 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
       <tr><td>NSGA-II</td><td class="n">1.301</td><td class="n">1.298 ± 0.008</td><td class="n">1.281</td><td class="n">203</td><td class="n">144</td><td class="n">4,297</td></tr>
       <tr><td rowspan="2">MLRan</td><td>SPEA2</td><td class="n">1.283</td><td class="n">1.280 ± 0.010</td><td class="n">1.257</td><td class="n">265</td><td class="n">170</td><td class="n">4,572</td></tr>
       <tr><td>NSGA-II</td><td class="n">1.280</td><td class="n">1.276 ± 0.011</td><td class="n">1.252</td><td class="n">214</td><td class="n">177</td><td class="n">3,896</td></tr>
+      <tr><td rowspan="2">UGRansome</td><td>SPEA2</td><td class="n">1.207</td><td class="n">1.207 ± 0.000</td><td class="n">1.207</td><td class="n">34</td><td class="n">—</td><td class="n">1,744</td></tr>
+      <tr><td>NSGA-II</td><td class="n">1.207</td><td class="n">1.207 ± 0.000</td><td class="n">1.207</td><td class="n">34</td><td class="n">—</td><td class="n">1,934</td></tr>
     </tbody>
   </table>
-  <p class="tnote">Mann–Whitney U, SPEA2 vs NSGA-II hypervolume: RD2024 p = 1.00; MLRan p = 0.68. No significant difference on either.</p>
+  <p class="tnote">Mann–Whitney U, SPEA2 vs NSGA-II hypervolume: RD2024 p = 1.00; MLRan p = 0.68; UGRansome p = 0.15. No significant difference on any. UGRansome has no static/dynamic split.</p>
 
   <figure>
     <img src="results/figures/rd2024_f2_tradeoff.png" alt="RD2024 SPEA2 Pareto front: recall against false-positive rate, static-only detectors in green and sandbox detectors in orange">
@@ -557,14 +559,47 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
   generalise better. On RD2024, with about 2,000 benign validation programs, validation and test agree closely
   (SPEA2 pre-execution: 1.10% → 1.33%).</p>
 
-  <h3>7.4 UGRansome</h3>
-  <p>UGRansome is distributed only through Kaggle, which needs an account login, so it could not be
-  downloaded automatically. The loader (zero-day "A" vs known-signature "S" traffic, text
-  attributes frequency-encoded), audit, search and an <strong>exhaustive search over every
-  feature subset</strong> are implemented and tested. With about 13 features (about 8,000 subsets), the
-  exhaustive search gives the <em>true</em> Pareto front. This lets us measure how much of the optimum
-  SPEA2 and NSGA-II actually recover (share of the true front, and inverted generational distance).
-  Results will be added once the file is placed in <code>data/ugransome/</code>.</p>
+  <h3>7.4 UGRansome: measuring SPEA2 against the true optimum</h3>
+  <p>UGRansome has only 13 features, so we evaluated <strong>all 8,191 subsets</strong> with the same
+  fitness function (12 minutes) to get the <em>true</em> Pareto front: 34 detectors. The audit found no
+  shortcut feature (the strongest, <code>USD</code>, reaches AUC 0.85), only 63 test rows also present
+  in training, and 208 duplicate rows with conflicting labels: a little label noise.</p>
+
+  <table class="cmp">
+    <caption>Table 8 — UGRansome (test set: 21,789 flows; zero-day "A" vs known-signature "S")</caption>
+    <thead>
+      <tr><th style="width:27%">Method</th><th>Features</th><th>Accuracy</th><th>Recall</th><th>FPR</th><th style="width:33%">Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>All features (baseline)</td><td class="n">13</td><td class="n">99.44%</td><td class="n">99.30%</td><td class="n">0.46%</td><td>Reference point</td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> = NSGA-II (best)</td><td class="n"><strong>12</strong></td><td class="n">99.48%</td><td class="n"><strong>99.38%</strong></td><td class="n"><strong>0.46%</strong></td><td>Drops <code>Clusters</code></td></tr>
+      <tr class="hl"><td><strong>SPEA2</strong> = NSGA-II (compact)</td><td class="n"><strong>4</strong></td><td class="n">98.92%</td><td class="n">98.66%</td><td class="n">0.91%</td><td>Family, USD, Netflow_Bytes, Threats</td></tr>
+      <tr><td>Best without annotations</td><td class="n">3</td><td class="n">98.19%</td><td class="n">97.10%</td><td class="n">1.11%</td><td>BTC, USD, Netflow_Bytes (from the front)</td></tr>
+      <tr><td>PSO weighted (3 of 4 weightings)</td><td class="n">2</td><td class="n">98.13%</td><td class="n">97.08%</td><td class="n">1.19%</td><td>USD, Netflow_Bytes: one point</td></tr>
+      <tr><td>MI filter (top 6)</td><td class="n">6</td><td class="n">98.21%</td><td class="n">97.26%</td><td class="n">1.19%</td><td>Top half of 13</td></tr>
+      <tr><td>PCA (95% var.)</td><td class="n">13 in</td><td class="n">98.83%</td><td class="n">98.72%</td><td class="n">1.11%</td><td>Needs every input</td></tr>
+    </tbody>
+  </table>
+
+  <table class="cmp">
+    <caption>Table 9 — How much of the true Pareto front (34 detectors) each method found</caption>
+    <thead>
+      <tr><th style="width:20%">Algorithm</th><th>Found per run</th><th>Runs with the complete front</th><th>Median IGD</th><th>All runs pooled</th><th>Median HV</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SPEA2</td><td class="n">32–34</td><td class="n">4 / 10</td><td class="n">0.0018</td><td class="n">34 / 34 (100%)</td><td class="n">1.2069</td></tr>
+      <tr><td>NSGA-II</td><td class="n">33–34</td><td class="n">7 / 10</td><td class="n">0.0000</td><td class="n">34 / 34 (100%)</td><td class="n">1.2070</td></tr>
+      <tr><td>PSO (4 weightings)</td><td class="n">1 each</td><td class="n">—</td><td class="n">—</td><td class="n">2 / 34 (6%)</td><td class="n">—</td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">IGD = inverted generational distance from the true front (0 = covers it exactly).
+  Mann–Whitney on hypervolume: p = 0.15, not significant.</p>
+
+  <p>Both algorithms essentially <strong>solve the problem exactly</strong>: no single run missed more
+  than 2 of the 34 optimal detectors, and every miss was recovered by another seed. PSO's answers
+  are optimal but cover only 2 of the 34 trade-offs. <code>Family</code> and <code>Threats</code>
+  are analyst annotations rather than raw traffic measurements. Without them, three traffic features
+  still meet both targets.</p>
 
   <h2>8. Conclusion</h2>
   <p><strong>Yes, ransomware can be caught before it runs</strong>, at least in RD2024. SPEA2 found a
@@ -580,10 +615,13 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
     ≥ 95% requires the sandbox. NSGA-II's 158-feature detector (98.06% / 3.33%) beat the 483-feature
     baseline with a third of the features.</li>
     <li><strong>Best algorithm.</strong> SPEA2 and NSGA-II are statistically tied in search quality
-    (Mann–Whitney p = 0.68 on MLRan, 1.00 on RD2024), as in the phishing study. SPEA2 produced the best,
+    (Mann–Whitney p = 0.68 MLRan, 1.00 RD2024, 0.15 UGRansome), as in the phishing study. SPEA2 produced the best,
     and the most compact, pre-execution detector on both datasets; NSGA-II produced the best
     full-analysis detector on MLRan. Both clearly beat weighted-sum PSO, which returned one point per run
     and on MLRan collapsed to a useless detector. The filter and PCA either needed the sandbox or all inputs.</li>
+    <li><strong>Against the true optimum (UGRansome)</strong>, both algorithms recovered all 34
+    Pareto-optimal detectors once runs were pooled; per run, NSGA-II found the complete front in 7 of 10
+    runs and SPEA2 in 4 of 10. A 4-feature detector keeps 98.66% recall at 0.91% FPR.</li>
     <li><strong>Method lesson.</strong> At 483 features, the standard random start makes
     sandbox-free detectors unreachable (0 found in 6 runs). A sparse start, which uses no knowledge of the
     tiers, found 47–91 per run. Large feature spaces need this.</li>
@@ -591,7 +629,8 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
 
   <p><strong>Limitations:</strong> subsets are tuned for a Random Forest. MLRan's small validation set
   lets the final choice over-fit (7.3). Static features can be evaded by packing, so a pre-execution filter
-  complements a sandbox rather than replacing it. UGRansome results await the download.</p>
+  complements a sandbox rather than replacing it. UGRansome's labels are zero-day vs known threats,
+  not ransomware vs benign.</p>
 
   </div>
 

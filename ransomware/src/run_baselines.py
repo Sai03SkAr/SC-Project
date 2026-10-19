@@ -66,9 +66,10 @@ def main() -> int:
     out["pca_95"]["n_components"] = int(pca_clf.named_steps["pca"].n_components_)
 
     mi = mutual_info_classif(ds.X_train, ds.y_train, random_state=RANDOM_STATE)
-    top = np.zeros(ds.n_features, bool); top[np.argsort(mi)[::-1][:a.filter_k]] = True
-    record(f"mi_filter_top{a.filter_k}", top, note="filter; ignores feature interactions")
-    out[f"mi_filter_top{a.filter_k}"]["selected"] = [ds.feature_names[i] for i in np.flatnonzero(top)]
+    k = min(a.filter_k, ds.n_features // 2)   # small spaces: top half, else "top k" = everything
+    top = np.zeros(ds.n_features, bool); top[np.argsort(mi)[::-1][:k]] = True
+    record(f"mi_filter_top{k}", top, note="filter; ignores feature interactions")
+    out[f"mi_filter_top{k}"]["selected"] = [ds.feature_names[i] for i in np.flatnonzero(top)]
 
     d = ROOT / "results" / ds.name
     d.mkdir(parents=True, exist_ok=True)

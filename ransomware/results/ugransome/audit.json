@@ -1,0 +1,72 @@
+{
+  "dataset": "UGRansome",
+  "split": "stratified 80/20, random_state=42",
+  "file": "final(2).csv",
+  "task": "zero-day (A) vs known-signature (S); SS dropped",
+  "rows_used": 108941,
+  "n_train": 87152,
+  "n_test": 21789,
+  "n_features": 13,
+  "ransomware": 42561,
+  "benign": 66380,
+  "tiers": {
+    "network": 13
+  },
+  "constant_features": 0,
+  "duplicate_rows_total": 208,
+  "test_rows_also_in_train": 63,
+  "conflicting_duplicate_vectors": 208,
+  "top_single_feature_auc": [
+    {
+      "feature": "USD",
+      "tier": "network",
+      "auc": 0.8535
+    },
+    {
+      "feature": "ExpAddress",
+      "tier": "network",
+      "auc": 0.8189
+    },
+    {
+      "feature": "Clusters",
+      "tier": "network",
+      "auc": 0.7541
+    },
+    {
+      "feature": "BTC",
+      "tier": "network",
+      "auc": 0.6356
+    },
+    {
+      "feature": "Threats",
+      "tier": "network",
+      "auc": 0.6145
+    },
+    {
+      "feature": "Netflow_Bytes",
+      "tier": "network",
+      "auc": 0.6
+    },
+    {
+      "feature": "Port",
+      "tier": "network",
+      "auc": 0.5863
+    },
+    {
+      "feature": "Protcol",
+      "tier": "network",
+      "auc": 0.5684
+    },
+    {
+      "feature": "IPaddress",
+      "tier": "network",
+      "auc": 0.5515
+    },
+    {
+      "feature": "Time",
+      "tier": "network",
+      "auc": 0.5409
+    }
+  ],
+  "shortcut_features_auc_over_0.95": []
+}

@@ -24,7 +24,7 @@ the sandbox cost in accuracy?**
 |---|---|---|---|---|
 | **MLRan** | Onwuegbuche et al., JNCA 2026 — [Zenodo 23403681](https://zenodo.org/records/23403681) (CC-BY-4.0) | 4,880 | 483 binary (authors' RFE set): 223 static strings, 260 dynamic | ransomware vs goodware |
 | **RD2024** | Hussain, *Ransomware Dataset 2024* — [Zenodo 13890887](https://zenodo.org/records/13890887) (CC-BY-4.0) | 15,638 (of 21,752) | 148: 135 static PE-header, 13 dynamic | 12 ransomware families vs benign |
-| **UGRansome** | Nkongolo et al., 2021 — [Kaggle](https://www.kaggle.com/datasets/nkongolo/ugransome-dataset) (login) | — | ~13 network-traffic attributes | zero-day (A) vs known-signature (S) |
+| **UGRansome** | Nkongolo et al., 2021 — [Kaggle](https://www.kaggle.com/datasets/nkongolo/ugransome-dataset) (login) | 108,941 (of 149,043; SS dropped) | 13 network-traffic attributes | zero-day (A) vs known-signature (S) |
 
 Only processed feature tables are used — no malware samples are downloaded.
 
@@ -37,7 +37,10 @@ Only processed feature tables are used — no malware samples are downloaded.
   sandbox's own verdict, not behaviour. All verdict counts (`*_malicious`, `*_suspicious`,
   `network_threats`) are excluded. Other malware categories (RAT, Stealer, Trojan) are dropped.
 - **UGRansome:** no benign class exists; the task is zero-day vs known-signature traffic.
-  With ~13 features every subset can be evaluated, giving the true Pareto front.
+  With 13 features every subset can be evaluated, giving the true Pareto front. Text attributes
+  get category codes. No shortcut feature (max single-feature AUC 0.85); 208 duplicate rows
+  carry conflicting labels. `Family` and `Threats` are analyst annotations - the best detector
+  without them (BTC, USD, Netflow_Bytes) is in `results/ugransome/no_annotation_best.json`.
 
 ## Method decisions
 
@@ -57,8 +60,12 @@ Only processed feature tables are used — no malware samples are downloaded.
 | MLRan | SPEA2 pre-execution | 73 | 50 ms | 93.33% | 4.90% |
 | MLRan | NSGA-II full analysis | 158 | 120 s | 98.06% | 3.33% |
 | MLRan | All features (sandbox) | 483 | 120 s | 96.99% | 3.33% |
+| UGRansome | SPEA2 = NSGA-II compact | 4 | 4 features | 98.66% | 0.91% |
+| UGRansome | All features | 13 | 13 features | 99.30% | 0.46% |
 
-SPEA2 vs NSGA-II hypervolume: no significant difference (Mann–Whitney p = 0.68 MLRan, 1.00 RD2024).
+SPEA2 vs NSGA-II hypervolume: no significant difference (Mann–Whitney p = 0.68 MLRan, 1.00 RD2024,
+0.15 UGRansome). UGRansome exhaustive search (all 8,191 subsets): true front = 34 detectors; pooled
+SPEA2 and NSGA-II runs each recover all 34 (per run: SPEA2 32–34, NSGA-II 33–34).
 Full write-up: `ransomware-report.pdf`.
 
 ## Pipeline

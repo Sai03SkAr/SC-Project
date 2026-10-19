@@ -1,0 +1,20 @@
+{
+  "dataset": "ugransome",
+  "algorithm": "spea2",
+  "init": "sparse",
+  "pop_size": 100,
+  "n_gen": 50,
+  "seed": 8,
+  "hypervolume": 1.2066005331174852,
+  "front_size": 33,
+  "elapsed_sec": 98.26340293884277,
+  "n_evaluations": 1726,
+  "cache_hit_rate": 0.6529955770004021,
+  "n_static_only": 0,
+  "features_min": 1,
+  "features_max": 12,
+  "features_median": 6.0,
+  "fnr_min": 0.006696428571428571,
+  "fpr_min": 0.0,
+  "cost_min": 1.0
+}

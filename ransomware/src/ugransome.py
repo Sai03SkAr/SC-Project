@@ -8,8 +8,8 @@ or SS (synthetic signature - a mix of both). The binary task used here, matching
 dataset's stated purpose, is zero-day detection: A (1) vs S (0). SS rows are dropped as
 ambiguous.
 
-Each original attribute stays ONE feature (categorical text is ordinal/frequency encoded,
-not one-hot), so the feature space stays small enough to enumerate exhaustively.
+Each original attribute stays ONE feature (categorical text gets a category code - sorted
+labels, no use of the target - not one-hot), so the feature space stays small enough to enumerate exhaustively.
 """
 from __future__ import annotations
 
@@ -49,9 +49,9 @@ def build_ugransome(folder: Path) -> Dataset:
         num = pd.to_numeric(s, errors="coerce")
         if num.notna().mean() > 0.95:
             feats.append(num.fillna(-1).to_numpy(float))
-        else:                                   # frequency-encode text categories
-            freq = s.astype(str).map(s.astype(str).value_counts(normalize=True))
-            feats.append(freq.to_numpy(float))
+        else:                                   # category code; frequency encoding could merge
+            codes = pd.Categorical(s.astype(str).str.strip()).codes   # equally common categories
+            feats.append(codes.astype(float))
         names.append(str(c).strip())
     X = np.column_stack(feats).astype(np.float32)
     X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y,
