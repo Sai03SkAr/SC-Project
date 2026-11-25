@@ -68,6 +68,17 @@ SPEA2 vs NSGA-II hypervolume: no significant difference (Mann–Whitney p = 0.68
 SPEA2 and NSGA-II runs each recover all 34 (per run: SPEA2 32–34, NSGA-II 33–34).
 Full write-up: `ransomware-report.pdf`.
 
+## Live demo (about 30 seconds)
+
+```bash
+.venv/bin/python ransomware/demo.py                      # RD2024
+.venv/bin/python ransomware/demo.py --dataset mlran
+.venv/bin/python ransomware/demo.py --dataset ugransome
+```
+
+Runs a short SPEA2 search (population 40, 15 generations) with per-generation progress, scores the
+chosen detectors on the sealed test set, then prints the saved full 10-seed results.
+
 ## Pipeline
 
 ```bash
