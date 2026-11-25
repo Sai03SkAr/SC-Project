@@ -474,13 +474,6 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
       <tr><td>NSGA-II (pre-execution)</td><td class="n">14</td><td class="n">50 ms</td><td class="n">97.51%</td><td class="n">95.80%</td><td class="n">1.75%</td><td><span class="ok">✓ both targets</span></td></tr>
       <tr><td>All static features</td><td class="n">135</td><td class="n">50 ms</td><td class="n">98.18%</td><td class="n">95.91%</td><td class="n">0.83%</td><td><span class="ok">✓ both targets</span>, 19× more features</td></tr>
       <tr><td>PSO weighted (balanced)</td><td class="n">68</td><td class="n">50 ms</td><td class="n">98.27%</td><td class="n">96.54%</td><td class="n">0.97%</td><td><span class="ok">✓ both targets</span>, 10× SPEA2's features</td></tr>
-      <tr class="grp"><td colspan="7">Full analysis (sandbox)</td></tr>
-      <tr><td>All features (baseline)</td><td class="n">148</td><td class="n">120 s</td><td class="n">99.17%</td><td class="n">98.74%</td><td class="n">0.64%</td><td>Reference point</td></tr>
-      <tr class="hl"><td><strong>SPEA2</strong> (full analysis)</td><td class="n"><strong>47</strong></td><td class="n">120 s</td><td class="n">99.17%</td><td class="n">98.43%</td><td class="n"><strong>0.51%</strong></td><td>Same accuracy, ⅓ of the features</td></tr>
-      <tr><td>NSGA-II (full analysis)</td><td class="n">70</td><td class="n">120 s</td><td class="n">99.30%</td><td class="n">98.64%</td><td class="n">0.41%</td><td>Comparison</td></tr>
-      <tr><td>PSO weighted (any weights)</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No weighting reached this tier</td></tr>
-      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">120 s</td><td class="n">99.10%</td><td class="n">98.43%</td><td class="n">0.60%</td><td>Strong, but 8 of its 25 need the sandbox</td></tr>
-      <tr><td>PCA (95% var.)</td><td class="n">148 in</td><td class="n">120 s</td><td class="n">98.24%</td><td class="n">95.91%</td><td class="n">0.74%</td><td>Components need every input</td></tr>
     </tbody>
   </table>
   <p class="tnote">Only 27 RD2024 test rows appear in training; unseen-row results differ by ≤ 0.05 points.</p>
@@ -496,17 +489,10 @@ f₃ = FP / (FP + TN)      ┘ on the validation split</div>
       <tr><td>NSGA-II (pre-execution)</td><td class="n">89</td><td class="n">50 ms</td><td class="n">91.18%</td><td class="n">5.29%</td><td class="n">91.60%</td><td class="n">9.44%</td><td>Comparison</td></tr>
       <tr><td>All static features</td><td class="n">223</td><td class="n">50 ms</td><td class="n">90.97%</td><td class="n">4.71%</td><td class="n">91.60%</td><td class="n">8.39%</td><td>No selection</td></tr>
       <tr><td>PSO weighted (balanced)</td><td class="n">3</td><td class="n">50 ms</td><td class="n">96.77%</td><td class="n">94.71%</td><td class="n">96.21%</td><td class="n">91.26%</td><td>Flags almost everything</td></tr>
-      <tr class="grp"><td colspan="8">Full analysis (sandbox)</td></tr>
-      <tr><td>All features (baseline)</td><td class="n">483</td><td class="n">120 s</td><td class="n">96.99%</td><td class="n">3.33%</td><td class="n">96.21%</td><td class="n">5.94%</td><td>Reference point</td></tr>
-      <tr><td>SPEA2 (full analysis)</td><td class="n">79</td><td class="n">120 s</td><td class="n">95.48%</td><td class="n">5.10%</td><td class="n">94.31%</td><td class="n">9.09%</td><td>Over-fitted validation (7.3)</td></tr>
-      <tr class="hl"><td><strong>NSGA-II</strong> (full analysis)</td><td class="n"><strong>158</strong></td><td class="n">120 s</td><td class="n"><strong>98.06%</strong></td><td class="n"><strong>3.33%</strong></td><td class="n"><strong>97.56%</strong></td><td class="n"><strong>5.94%</strong></td><td>Beats baseline, ⅓ features</td></tr>
-      <tr><td>PSO weighted (recall)</td><td class="n">240</td><td class="n">120 s</td><td class="n">96.34%</td><td class="n">3.53%</td><td class="n">95.39%</td><td class="n">6.29%</td><td>1 point per run</td></tr>
-      <tr><td>MI filter (top 25)</td><td class="n">25</td><td class="n">120 s</td><td class="n">92.69%</td><td class="n">13.33%</td><td class="n">90.79%</td><td class="n">15.03%</td><td>All 25 are sandbox features</td></tr>
-      <tr><td>PCA (95% var.)</td><td class="n">483 in</td><td class="n">120 s</td><td class="n">98.49%</td><td class="n">3.33%</td><td class="n">98.10%</td><td class="n">5.94%</td><td>Needs every input</td></tr>
     </tbody>
   </table>
 
-  <table class="cmp">
+  <table class="cmp" style="break-before: page; page-break-before: always;">
     <caption>Table 7 — Search quality across 10 independent runs each</caption>
     <thead>
       <tr><th style="width:18%">Dataset</th><th>Algorithm</th><th>Median HV</th><th>Mean ± std</th><th>Worst run</th><th>Pooled front</th><th>Static-only</th><th>Evaluations / run</th></tr>
